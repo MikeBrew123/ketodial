@@ -24,6 +24,13 @@
     }
   }
 
+  /* ---------- clear invalid on input ---------- */
+  $all('.input input').forEach(function(inp){
+    inp.addEventListener('input',function(){
+      inp.closest('.input').classList.remove('invalid');
+    });
+  });
+
   /* ---------- single-select segmented groups ---------- */
   $all('[data-seg]').forEach(function(group){
     group.querySelectorAll('button').forEach(function(b){
@@ -65,29 +72,124 @@
     });
   }
 
+  /* ---------- MACRO CALCULATOR (Mifflin-St Jeor) ---------- */
+  function getFormData(){
+    var sexBtn=$('[data-seg="sex"] .on');
+    var sex=sexBtn?sexBtn.dataset.val:'female';
+    var age=parseFloat($('#age').value)||0;
+    var isMetric=($('#unitSeg .on')||{}).dataset;
+    var metric=isMetric&&isMetric.unit==='metric';
+    var weightKg,heightCm;
+    if(metric){
+      weightKg=parseFloat($('#weight').value)||0;
+      heightCm=parseFloat($('#heightCm').value)||0;
+    }else{
+      var lbs=parseFloat($('#weight').value)||0;
+      var ft=parseFloat($('#heightFt').value)||0;
+      var inches=parseFloat($('#heightIn').value)||0;
+      weightKg=lbs*0.453592;
+      heightCm=(ft*12+inches)*2.54;
+    }
+    var activity=parseFloat($('#activity').value)||1.375;
+    var goalBtn=$('[data-seg="goal"] .on');
+    var goal=goalBtn?goalBtn.dataset.val:'lose';
+    return{sex:sex,age:age,weightKg:weightKg,heightCm:heightCm,activity:activity,goal:goal,weightLbs:metric?weightKg*2.20462:(parseFloat($('#weight').value)||0)};
+  }
+
+  function computeMacros(d){
+    // Mifflin-St Jeor BMR
+    var bmr;
+    if(d.sex==='male'){
+      bmr=10*d.weightKg+6.25*d.heightCm-5*d.age+5;
+    }else{
+      bmr=10*d.weightKg+6.25*d.heightCm-5*d.age-161;
+    }
+    var tdee=Math.round(bmr*d.activity);
+    // Goal adjustment
+    var multiplier=1;
+    if(d.goal==='lose') multiplier=0.80; // 20% deficit
+    if(d.goal==='gain') multiplier=1.10; // 10% surplus
+    var calories=Math.round(tdee*multiplier);
+    // Keto ratio: 70% fat, 25% protein, 5% carbs
+    var fatCal=calories*0.70;
+    var proteinCal=calories*0.25;
+    var carbCal=calories*0.05;
+    var fatG=Math.round(fatCal/9);
+    var proteinG=Math.round(proteinCal/4);
+    var carbG=Math.round(carbCal/4);
+    var deficitPct=d.goal==='lose'?20:(d.goal==='gain'?-10:0);
+    return{calories:calories,tdee:tdee,fatG:fatG,proteinG:proteinG,carbG:carbG,deficitPct:deficitPct};
+  }
+
   /* ---------- GATE 1: free results ---------- */
   var freeBtn=$('#freeBtn');
   var freeResults=$('#freeResults');
   var step2=$('#step2');
   var gaugeShown=false;
+  var lastMacros=null;
 
-  function animateGauge(){
-    var valueArc=$('#valueArc'), needle=$('#needle'), kcal=$('#kcal'),
+  function animateGauge(m){
+    var valueArc=$('#valueArc'), needle=$('#needle'), kcalEl=$('#kcal'),
         liveDot=$('#liveDot'), liveText=$('#liveText');
-    if(valueArc) valueArc.style.strokeDashoffset=377*(1-0.62);
-    if(needle) needle.setAttribute('transform','rotate(21.6 150 168)');
-    if(kcal) kcal.textContent='1,840';
+    // Gauge range: 1000-3500 kcal
+    var pct=Math.max(0,Math.min(1,(m.calories-1000)/2500));
+    if(valueArc) valueArc.style.strokeDashoffset=377*(1-pct);
+    // Needle: -90 (left) to +90 (right), mapped from pct
+    var angle=-90+pct*180;
+    if(needle) needle.setAttribute('transform','rotate('+angle+' 150 168)');
+    if(kcalEl) kcalEl.textContent=m.calories.toLocaleString();
     if(liveDot) liveDot.style.background='#2dd4bf';
     if(liveText) liveText.textContent='Results ready';
-    var g={fat:'143 g',protein:'115 g',carbs:'23 g'};
-    Object.keys(g).forEach(function(k){var el=$('[data-g="'+k+'"]');if(el)el.textContent=g[k];});
+    // Macro grams
+    var gMap={fat:m.fatG+' g',protein:m.proteinG+' g',carbs:m.carbG+' g'};
+    Object.keys(gMap).forEach(function(k){var el=$('[data-g="'+k+'"]');if(el)el.textContent=gMap[k];});
+    // TDEE row
+    var tdeeStats=$all('.tdee-stat .v');
+    if(tdeeStats[0]) tdeeStats[0].innerHTML=m.tdee.toLocaleString()+' <small>kcal</small>';
+    if(tdeeStats[1]) tdeeStats[1].textContent=m.deficitPct>0?'−'+m.deficitPct+'%':(m.deficitPct<0?'+'+Math.abs(m.deficitPct)+'%':'0%');
+    if(tdeeStats[2]) tdeeStats[2].innerHTML=m.carbG+' <small>g</small>';
+    // Food equivalents (approximate)
+    var feqAmts=$all('.feq .lead .amt');
+    if(feqAmts[0]) feqAmts[0].textContent=m.fatG+'g';
+    if(feqAmts[1]) feqAmts[1].textContent=m.proteinG+'g';
+    if(feqAmts[2]) feqAmts[2].textContent=m.carbG+'g';
+    // Food descriptions based on actual amounts
+    var feqDescs=$all('.feq .desc');
+    if(feqDescs[0]) feqDescs[0].textContent='≈ '+Math.round(m.fatG/14)+' tbsp olive oil worth of fat across the day, or avocado + eggs + nuts.';
+    if(feqDescs[1]){
+      var oz=Math.round(m.proteinG/7);
+      feqDescs[1].textContent='≈ '+oz+' oz of meat/fish across your meals (a '+Math.round(oz/2)+' oz portion at lunch and dinner).';
+    }
+    if(feqDescs[2]) feqDescs[2].textContent='≈ '+Math.round(m.carbG/5)+' cups of leafy greens plus a small handful of berries.';
+  }
+
+  function validateStep1(){
+    var d=getFormData();
+    if(!d.age||d.age<10||d.age>120) return false;
+    if(!d.weightKg||d.weightKg<20) return false;
+    if(!d.heightCm||d.heightCm<100) return false;
+    return true;
   }
 
   if(freeBtn){
     freeBtn.addEventListener('click',function(){
+      if(!validateStep1()){
+        // Highlight empty fields
+        var fields=['#age','#weight'];
+        var metric=($('#unitSeg .on')||{}).dataset&&($('#unitSeg .on')||{}).dataset.unit==='metric';
+        if(metric) fields.push('#heightCm'); else fields.push('#heightFt');
+        fields.forEach(function(f){
+          var el=$(f);
+          if(el&&!el.value) el.closest('.input').classList.add('invalid');
+        });
+        return;
+      }
+      var d=getFormData();
+      lastMacros=computeMacros(d);
       freeResults.classList.add('show');
       step2.classList.add('show');
-      if(!gaugeShown){ setTimeout(animateGauge,180); gaugeShown=true; }
+      if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
+      else{ animateGauge(lastMacros); }
       setTimeout(function(){scrollToEl(freeResults);},120);
     });
   }

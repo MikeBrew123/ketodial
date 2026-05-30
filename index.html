@@ -342,7 +342,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
       <div class="field-grid">
         <div class="field full">
           <label>Email <span class="opt">— optional, so we can send your results</span></label>
-          <div class="input"><input type="email" class="sans" placeholder="you@email.com" /></div>
+          <div class="input"><input type="email" class="sans" placeholder="you@email.com" id="emailOpt" /></div>
         </div>
 
         <div class="field">
@@ -354,29 +354,29 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
         </div>
         <div class="field">
           <label>Age</label>
-          <div class="input"><input type="number" inputmode="numeric" placeholder="34" /><span class="suffix">yrs</span></div>
+          <div class="input"><input type="number" inputmode="numeric" placeholder="34" id="age" /><span class="suffix">yrs</span></div>
         </div>
 
         <div class="field">
           <label>Height</label>
           <div class="input split" data-unitgroup="imperial">
-            <input type="number" inputmode="numeric" placeholder="5" /><span class="suffix">ft</span>
+            <input type="number" inputmode="numeric" placeholder="5" id="heightFt" /><span class="suffix">ft</span>
             <span class="div"></span>
-            <input type="number" inputmode="numeric" placeholder="9" /><span class="suffix">in</span>
+            <input type="number" inputmode="numeric" placeholder="9" id="heightIn" /><span class="suffix">in</span>
           </div>
           <div class="input hidden" data-unitgroup="metric">
-            <input type="number" inputmode="numeric" placeholder="175" /><span class="suffix">cm</span>
+            <input type="number" inputmode="numeric" placeholder="175" id="heightCm" /><span class="suffix">cm</span>
           </div>
         </div>
         <div class="field">
           <label>Weight</label>
-          <div class="input"><input type="number" inputmode="numeric" placeholder="165" /><span class="suffix" id="weightUnit">lbs</span></div>
+          <div class="input"><input type="number" inputmode="numeric" placeholder="165" id="weight" /><span class="suffix" id="weightUnit">lbs</span></div>
         </div>
 
         <div class="field full">
           <label>Activity level <span class="hint">non-exercise + training</span></label>
           <div class="select">
-            <select>
+            <select id="activity">
               <option value="1.2">Sedentary — desk job, little exercise</option>
               <option value="1.375" selected>Lightly active — 1–3 workouts / week</option>
               <option value="1.55">Moderately active — 3–5 workouts / week</option>
