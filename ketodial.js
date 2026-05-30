@@ -170,25 +170,35 @@
 
   function validateStep1(){
     var d=getFormData();
-    if(!d.age||d.age<10||d.age>120) return false;
-    if(!d.weightKg||d.weightKg<20) return false;
-    if(!d.heightCm||d.heightCm<100) return false;
-    return true;
+    var valid=true;
+    var fields={age:d.age,weight:d.weightKg,height:d.heightCm};
+    // Check age
+    if(!d.age||d.age<10||d.age>120){$('#age').closest('.input').classList.add('invalid');valid=false;}
+    // Check weight
+    if(!d.weightKg||d.weightKg<20){$('#weight').closest('.input').classList.add('invalid');valid=false;}
+    // Check height
+    var metric=($('#unitSeg .on')||{}).dataset&&($('#unitSeg .on')||{}).dataset.unit==='metric';
+    if(metric){
+      if(!d.heightCm||d.heightCm<100){$('#heightCm').closest('.input').classList.add('invalid');valid=false;}
+    }else{
+      if(!$('#heightFt').value){$('#heightFt').closest('.input').classList.add('invalid');valid=false;}
+    }
+    return valid;
   }
+
+  // Show/hide validation message
+  var step1Msg=document.createElement('div');
+  step1Msg.style.cssText='display:none;margin-top:10px;font-size:12.5px;color:#dc2626;text-align:center;font-weight:600';
+  step1Msg.textContent='Fill in the highlighted fields to see your results.';
+  if(freeBtn) freeBtn.parentNode.insertBefore(step1Msg,freeBtn.nextSibling.nextSibling);
 
   if(freeBtn){
     freeBtn.addEventListener('click',function(){
       if(!validateStep1()){
-        // Highlight empty fields
-        var fields=['#age','#weight'];
-        var metric=($('#unitSeg .on')||{}).dataset&&($('#unitSeg .on')||{}).dataset.unit==='metric';
-        if(metric) fields.push('#heightCm'); else fields.push('#heightFt');
-        fields.forEach(function(f){
-          var el=$(f);
-          if(el&&!el.value) el.closest('.input').classList.add('invalid');
-        });
+        step1Msg.style.display='block';
         return;
       }
+      step1Msg.style.display='none';
       var d=getFormData();
       lastMacros=computeMacros(d);
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
