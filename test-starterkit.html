@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KetoDial — Keto Starter Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#e7edf3;
+  --surface:#ffffff;
+  --ink:#0f172a;
+  --ink-soft:#475569;
+  --ink-faint:#94a3b8;
+  --line:#e2e8f0;
+  --line-soft:#eef2f6;
+  --panel:#0b1620;
+  --panel-2:#0f2236;
+  --panel-line:#1e3a52;
+  --accent:#38bdf8;
+  --accent-deep:#0ea5e9;
+  --fat:#38bdf8;
+  --protein:#2dd4bf;
+  --carbs:#818cf8;
+  --green:#16a34a;
+  --amber:#d97706;
+  --red:#dc2626;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --serif:"Newsreader",Georgia,serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  padding:34px 0 60px;
+}
+.mono{font-family:var(--mono)}
+
+.page{
+  position:relative;
+  width:8.5in;
+  min-height:11in;
+  background:var(--surface);
+  margin:0 auto 26px;
+  box-shadow:0 14px 40px -10px rgba(15,23,42,.22);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.rep-head{
+  background:radial-gradient(120% 130% at 18% -30%,#15324c 0%,var(--panel) 62%);
+  color:#e2eef7;
+  padding:0.5in 0.6in 0.46in;
+  position:relative;
+  overflow:hidden;
+}
+.rep-head::before{
+  content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:linear-gradient(rgba(56,189,248,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.06) 1px,transparent 1px);
+  background-size:24px 24px;
+  -webkit-mask-image:radial-gradient(90% 90% at 30% 10%,#000,transparent);
+          mask-image:radial-gradient(90% 90% at 30% 10%,#000,transparent);
+}
+.rep-head>*{position:relative}
+.rh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.rh-brand{display:flex;align-items:center;gap:10px}
+.rh-brand .mark{width:30px;height:30px;flex:none}
+.rh-brand .word{font-weight:800;font-size:18px;letter-spacing:-.02em;color:#fff}
+.rh-brand .word b{color:var(--accent)}
+.rh-tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6da6c9}
+.rh-title-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.rh-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:10px}
+.rep-head h1{font-size:33px;font-weight:800;letter-spacing:-.03em;line-height:1.02;color:#fff}
+.rep-head h1 .lt{color:#9fc0d6;font-weight:500}
+.rh-meta{text-align:right;flex:none}
+.rh-meta .row{font-family:var(--mono);font-size:11px;color:#9fc0d6;margin-bottom:5px;letter-spacing:.02em}
+.rh-meta .row b{color:#fff;font-weight:500}
+.rh-prepared{margin-top:14px;font-size:13.5px;color:#bcd4e3}
+.rh-prepared b{color:#fff;font-weight:600}
+
+.rep-body{padding:0.46in 0.6in 0.3in;flex:1}
+.rep-body.tight{padding-top:0.34in}
+
+.rep-foot{
+  margin-top:auto;
+  padding:0.26in 0.6in;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-faint);
+}
+.rep-foot .dot{color:var(--accent-deep)}
+.rep-foot a{color:var(--ink-faint);text-decoration:none}
+
+.sec{margin-bottom:24px}
+.sec-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);font-weight:500;margin-bottom:7px}
+.sec-title{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-title .num{font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-weight:500}
+.sec-sub{font-size:13.5px;color:var(--ink-soft);margin:-8px 0 14px;line-height:1.5}
+
+.stat-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stat-grid.c4{grid-template-columns:repeat(4,1fr)}
+.stat-grid.c3{grid-template-columns:repeat(3,1fr)}
+.stat-grid.c2{grid-template-columns:repeat(2,1fr)}
+.stat{background:var(--surface);padding:13px 15px}
+.stat .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.stat .v{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.stat .v small{font-size:11px;color:var(--ink-soft);font-weight:400}
+
+.dtable{width:100%;border-collapse:collapse;font-size:12.5px}
+.dtable th{
+  text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:500;padding:9px 12px;border-bottom:1.5px solid var(--line);
+}
+.dtable td{padding:11px 12px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);vertical-align:top;line-height:1.45}
+.dtable td b,.dtable td strong{color:var(--ink);font-weight:600}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .mono{color:var(--ink);font-weight:500}
+.dtable.zebra tr:nth-child(even) td{background:#fafcfe}
+
+.mpills{display:flex;gap:7px;flex-wrap:wrap}
+.mpill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:500;padding:4px 9px;border-radius:7px;border:1px solid var(--line);color:var(--ink)}
+.mpill .d{width:8px;height:8px;border-radius:2px}
+.mpill.kcal{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.callout{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;background:#f7fbfe;font-size:13px;color:var(--ink-soft);line-height:1.55}
+.callout.warn{border-left-color:var(--amber);background:#fffaf2}
+.callout b{color:var(--ink)}
+.callout .ct{font-weight:700;color:var(--ink);font-size:13px;margin-bottom:4px;display:block}
+
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:6px;font-weight:600}
+.tag.green{background:rgba(22,163,74,.1);color:var(--green)}
+.tag.amber{background:rgba(217,119,6,.12);color:var(--amber)}
+.tag.red{background:rgba(220,38,38,.1);color:var(--red)}
+.tag.sky{background:rgba(56,189,248,.14);color:var(--accent-deep)}
+
+.minigauge{width:150px;flex:none;position:relative}
+.minigauge .num{position:absolute;left:0;right:0;top:54%;text-align:center;font-family:var(--mono);font-weight:700;font-size:22px;color:#fff;line-height:1}
+.minigauge .lab{position:absolute;left:0;right:0;top:54%;margin-top:22px;text-align:center;font-family:var(--mono);font-size:8px;letter-spacing:.16em;color:#6da6c9;text-transform:uppercase}
+
+ul.checks{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.checks li{display:flex;gap:11px;font-size:13px;color:var(--ink-soft);line-height:1.45}
+ul.checks li::before{content:"";width:16px;height:16px;border:1.5px solid var(--accent-deep);border-radius:5px;flex:none;margin-top:1px}
+ul.qs{list-style:none;display:flex;flex-direction:column;gap:11px;counter-reset:q}
+ul.qs li{display:flex;gap:12px;font-size:13.5px;color:var(--ink);line-height:1.5;align-items:flex-start}
+ul.qs li::before{counter-increment:q;content:"Q"counter(q);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent-deep);background:rgba(56,189,248,.12);padding:3px 7px;border-radius:6px;flex:none;margin-top:1px}
+
+.printbar{position:fixed;top:18px;right:18px;z-index:100;display:flex;gap:10px}
+.printbar a,.printbar button{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;
+  background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 16px;cursor:pointer;
+  box-shadow:0 8px 20px -6px rgba(15,23,42,.4);text-decoration:none;transition:background .15s;
+}
+.printbar a{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.printbar button:hover{background:#15273f}
+.printbar svg{width:15px;height:15px}
+
+@media print{
+  body{background:#fff;padding:0}
+  .page{box-shadow:none;margin:0;width:auto;min-height:auto;page-break-after:always}
+  .page:last-child{page-break-after:auto}
+  .no-print{display:none!important}
+  .avoid-break{break-inside:avoid;page-break-inside:avoid}
+}
+.avoid-break{break-inside:avoid}
+
+  .lede{font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--ink-soft);margin-bottom:24px}
+  .lede b{color:var(--ink);font-weight:500}
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .tcard{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .tcard .th{padding:12px 16px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+  .tcard .th .ph{font-family:var(--mono);font-size:10px;letter-spacing:.1em;opacity:.85}
+  .tcard .th .dy{font-family:var(--mono);font-size:13px;font-weight:700}
+  .tcard .tb{padding:14px 16px}
+  .tcard h4{font-size:14px;font-weight:700;margin-bottom:7px}
+  .tcard p{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+  .ph1{background:#0f2236}.ph2{background:var(--amber)}.ph3{background:var(--green)}
+  .elyte{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .ecard{border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;background:#fafcfe}
+  .ecard .sym{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--accent-deep);letter-spacing:-.02em}
+  .ecard .nm{font-size:14px;font-weight:700;margin:2px 0 10px}
+  .ecard .target{font-family:var(--mono);font-size:12px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:7px;padding:5px 9px;display:inline-block;margin-bottom:10px}
+  .ecard .src{font-size:12px;color:var(--ink-soft);line-height:1.5}
+  .cheat-legend{display:flex;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+  .cheat-legend .lg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-soft)}
+  .cheat-legend .sw{width:13px;height:13px;border-radius:4px}
+  .cheat{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .col h4{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:10px;padding:8px 11px;border-radius:8px}
+  .col.g h4{background:rgba(22,163,74,.1);color:var(--green)}
+  .col.a h4{background:rgba(217,119,6,.12);color:var(--amber)}
+  .col.r h4{background:rgba(220,38,38,.1);color:var(--red)}
+  .food{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 11px;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+  .food .fn{color:var(--ink)}
+  .food .fc{font-family:var(--mono);font-size:11px;font-weight:600}
+  .col.g .fc{color:var(--green)}.col.a .fc{color:var(--amber)}.col.r .fc{color:var(--red)}
+  .food .sv{font-size:9.5px;color:var(--ink-faint);font-family:var(--mono)}
+  .supp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</head>
+<body>
+
+<div class="printbar no-print">
+  <button onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+    Save as PDF
+  </button>
+</div>
+
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+  <header class="rep-head">
+    <div class="rh-top">
+      <div class="rh-brand">
+        <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20" cy="20" r="19" fill="#0b1620"/>
+  <path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/>
+  <path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="20" cy="20" r="3" fill="#e2eef7"/>
+</svg>
+        <span class="word">Keto<b>Dial</b></span>
+      </div>
+      <span class="rh-tag">First 14 Days</span>
+    </div>
+    <div class="rh-title-row">
+      <div>
+        <div class="rh-eyebrow">Keto Starter Kit</div>
+        <h1>Your first two weeks,<br /><span class="lt">dialed in.</span></h1>
+      </div>
+      <div class="rh-meta">
+        <div class="row">FOR <b>TEST999</b></div>
+        <div class="row">TARGET <b>25g net carbs</b></div>
+        <div class="row">START <b>Day 1, today</b></div>
+      </div>
+    </div>
+    <div class="rh-prepared">Everything you need to get into ketosis comfortably — what to expect, how to dodge the keto flu, and a cheat sheet you can stick on the fridge.</div>
+  </header>
+
+  <div class="rep-body">
+    <p class="lede">The first two weeks are the whole game. Your body is switching from running on sugar to running on fat — and <b>most people who quit keto quit in week one</b>, almost always for reasons that are completely preventable. Here's your map.</p>
+
+    <section class="sec">
+      <div class="sec-eyebrow">What to expect</div>
+      <div class="sec-title"><span class="num">01</span> The 14-day adaptation curve</div>
+      <div class="timeline">
+        <div class="tcard avoid-break">
+          <div class="th ph1"><span class="dy">DAYS 1–3</span><span class="ph">Switching over</span></div>
+          <div class="tb">
+            <h4>Burning through stored sugar</h4>
+            <p>Your glycogen empties and you shed water weight fast — often 2–4 lb. The scale flatters you now; that's water, not fat. Drink more than feels normal.</p>
+          </div>
+        </div>
+        <div class="tcard avoid-break">
+          <div class="th ph2"><span class="dy">DAYS 4–7</span><span class="ph">The flu window</span></div>
+          <div class="tb">
+            <h4>Where it can get rough</h4>
+            <p>Headaches, fatigue, or irritability can show up. This is the "keto flu" — and it's an <b>electrolyte</b> problem, not a sign keto is failing you. Page 2 prevents it.</p>
+          </div>
+        </div>
+        <div class="tcard avoid-break">
+          <div class="th ph3"><span class="dy">DAYS 8–14</span><span class="ph">Fat-adapted</span></div>
+          <div class="tb">
+            <h4>The lights come back on</h4>
+            <p>Energy stabilizes, cravings fade, and hunger quiets down. Many people report the clearest focus they've had in years right around here.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec avoid-break">
+      <div class="sec-eyebrow">The golden rule</div>
+      <div class="sec-title"><span class="num">02</span> Stay under your carb ceiling</div>
+      <div class="callout">
+        <span class="ct">Your number is 25g net carbs per day</span>
+        Net carbs = total carbs − fiber − sugar alcohols. Stay under this and ketosis takes care of itself. The cheat sheet on page 3 shows exactly which foods fit — keep it somewhere you'll see it.
+      </div>
+    </section>
+  </div>
+
+  <footer class="rep-foot">
+    <span>KetoDial Starter Kit <span class="dot">·</span> TEST999</span>
+    <span>Educational — not medical advice</span>
+    <span>Page 1 of 4</span>
+  </footer>
+</div>
+
+<!-- ============ PAGE 2 — KETO FLU / ELECTROLYTES / SUPPLEMENTS ============ -->
+<div class="page">
+  <div class="rep-body tight">
+    <section class="sec">
+      <div class="sec-eyebrow">Keto-flu prevention</div>
+      <div class="sec-title"><span class="num">03</span> The three minerals that decide your week</div>
+      <div class="sec-sub">As insulin drops, your kidneys flush sodium — and potassium and magnesium follow. Replace all three from day one and the keto flu mostly disappears before it starts.</div>
+      <div class="elyte">
+        <div class="ecard avoid-break">
+          <div class="sym">Na</div>
+          <div class="nm">Sodium</div>
+          <div class="target">3,000–5,000 mg/day</div>
+          <div class="src">Salt your food generously, sip broth daily, add a pinch to water. This is the single biggest lever.</div>
+        </div>
+        <div class="ecard avoid-break">
+          <div class="sym">K</div>
+          <div class="nm">Potassium</div>
+          <div class="target">~3,500 mg/day</div>
+          <div class="src">Avocado, leafy greens, salmon, mushrooms. A potassium-chloride "lite salt" helps fill the gap.</div>
+        </div>
+        <div class="ecard avoid-break">
+          <div class="sym">Mg</div>
+          <div class="nm">Magnesium</div>
+          <div class="target">300–400 mg/day</div>
+          <div class="src">Hardest to get from food. A glycinate or citrate supplement at night also helps sleep and cramps.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-eyebrow">Optional support</div>
+      <div class="sec-title"><span class="num">04</span> Supplements worth considering</div>
+      <table class="dtable zebra">
+        <thead><tr><th style="width:28%">Supplement</th><th>Why</th><th style="width:24%">Typical dose</th></tr></thead>
+        <tbody>
+          <tr><td><b>Magnesium glycinate</b></td><td>Prevents cramps and restless sleep during adaptation.</td><td class="mono">200–400 mg PM</td></tr>
+          <tr><td><b>Electrolyte powder</b><br /><span style="font-size:11px;color:var(--ink-faint)">no sugar</span></td><td>Easiest way to hit sodium &amp; potassium daily.</td><td class="mono">1 serving/day</td></tr>
+          <tr><td><b>Omega-3 (fish oil)</b></td><td>Balances the higher fat intake; supports heart health.</td><td class="mono">1–2 g EPA/DHA</td></tr>
+          <tr><td><b>Vitamin D3 + K2</b></td><td>Common baseline deficiency; K2 directs calcium.</td><td class="mono">2,000 IU D3</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn" style="margin-top:16px">
+        <span class="ct">Check with your doctor first</span>
+        You reported taking <b>Metformin 500mg, Lisinopril 10mg</b>. Potassium supplements and "lite salt" can interact with blood-pressure medications — clear the electrolyte plan with your physician before loading up. Your Doctor's Report covers this.
+      </div>
+    </section>
+  </div>
+  <footer class="rep-foot">
+    <span>KetoDial Starter Kit <span class="dot">·</span> TEST999</span>
+    <span>Educational — not medical advice</span>
+    <span>Page 2 of 4</span>
+  </footer>
+</div>
+
+<!-- ============ PAGE 3 — NET CARB CHEAT SHEET ============ -->
+<div class="page">
+  <header class="rep-head" style="padding-top:0.4in;padding-bottom:0.4in">
+    <div class="rh-top" style="margin-bottom:14px">
+      <div class="rh-brand">
+        <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20" cy="20" r="19" fill="#0b1620"/>
+  <path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/>
+  <path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="20" cy="20" r="3" fill="#e2eef7"/>
+</svg>
+        <span class="word">Keto<b>Dial</b></span>
+      </div>
+      <span class="rh-tag">Fridge-ready</span>
+    </div>
+    <div class="rh-eyebrow">The Net-Carb Cheat Sheet</div>
+    <h1 style="font-size:27px">Eat freely · go easy · save for treats</h1>
+  </header>
+  <div class="rep-body tight">
+    <div class="cheat-legend">
+      <div class="lg"><span class="sw" style="background:var(--green)"></span><b style="color:var(--ink)">Green</b> — eat freely, under ~3g</div>
+      <div class="lg"><span class="sw" style="background:var(--amber)"></span><b style="color:var(--ink)">Amber</b> — portion-aware</div>
+      <div class="lg"><span class="sw" style="background:var(--red)"></span><b style="color:var(--ink)">Red</b> — saves your day's carbs fast</div>
+      <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink-faint)">net carbs per serving</span>
+    </div>
+
+    <div class="cheat">
+      <div class="col g">
+        <h4>Eat freely</h4>
+        <div class="food"><span class="fn">Leafy greens</span><span><span class="sv">2 cups</span> <span class="fc">1g</span></span></div>
+        <div class="food"><span class="fn">Eggs</span><span><span class="sv">each</span> <span class="fc">0.4g</span></span></div>
+        <div class="food"><span class="fn">Avocado</span><span><span class="sv">½</span> <span class="fc">1g</span></span></div>
+        <div class="food"><span class="fn">Ribeye / beef</span><span><span class="sv">6 oz</span> <span class="fc">0g</span></span></div>
+        <div class="food"><span class="fn">Salmon</span><span><span class="sv">6 oz</span> <span class="fc">0g</span></span></div>
+        <div class="food"><span class="fn">Olive oil / butter</span><span><span class="sv">1 tbsp</span> <span class="fc">0g</span></span></div>
+        <div class="food"><span class="fn">Cheddar</span><span><span class="sv">1 oz</span> <span class="fc">0.5g</span></span></div>
+        <div class="food"><span class="fn">Cucumber</span><span><span class="sv">1 cup</span> <span class="fc">2g</span></span></div>
+        <div class="food"><span class="fn">Zucchini</span><span><span class="sv">1 cup</span> <span class="fc">3g</span></span></div>
+      </div>
+      <div class="col a">
+        <h4>Portion-aware</h4>
+        <div class="food"><span class="fn">Raspberries</span><span><span class="sv">½ cup</span> <span class="fc">3g</span></span></div>
+        <div class="food"><span class="fn">Almonds</span><span><span class="sv">1 oz</span> <span class="fc">3g</span></span></div>
+        <div class="food"><span class="fn">Bell pepper</span><span><span class="sv">1 cup</span> <span class="fc">4g</span></span></div>
+        <div class="food"><span class="fn">Tomato</span><span><span class="sv">medium</span> <span class="fc">3g</span></span></div>
+        <div class="food"><span class="fn">Greek yogurt</span><span><span class="sv">½ cup</span> <span class="fc">4g</span></span></div>
+        <div class="food"><span class="fn">Broccoli</span><span><span class="sv">1 cup</span> <span class="fc">4g</span></span></div>
+        <div class="food"><span class="fn">Dark choc 90%</span><span><span class="sv">2 sq</span> <span class="fc">4g</span></span></div>
+        <div class="food"><span class="fn">Onion</span><span><span class="sv">¼ cup</span> <span class="fc">3g</span></span></div>
+        <div class="food"><span class="fn">Blueberries</span><span><span class="sv">¼ cup</span> <span class="fc">4g</span></span></div>
+      </div>
+      <div class="col r">
+        <h4>Save for treats</h4>
+        <div class="food"><span class="fn">Bread</span><span><span class="sv">1 slice</span> <span class="fc">13g</span></span></div>
+        <div class="food"><span class="fn">Rice, cooked</span><span><span class="sv">1 cup</span> <span class="fc">45g</span></span></div>
+        <div class="food"><span class="fn">Pasta, cooked</span><span><span class="sv">1 cup</span> <span class="fc">43g</span></span></div>
+        <div class="food"><span class="fn">Potato</span><span><span class="sv">medium</span> <span class="fc">33g</span></span></div>
+        <div class="food"><span class="fn">Banana</span><span><span class="sv">each</span> <span class="fc">24g</span></span></div>
+        <div class="food"><span class="fn">Oats, cooked</span><span><span class="sv">1 cup</span> <span class="fc">24g</span></span></div>
+        <div class="food"><span class="fn">Apple</span><span><span class="sv">each</span> <span class="fc">21g</span></span></div>
+        <div class="food"><span class="fn">Beans</span><span><span class="sv">½ cup</span> <span class="fc">18g</span></span></div>
+        <div class="food"><span class="fn">Soda / juice</span><span><span class="sv">12 oz</span> <span class="fc">39g</span></span></div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:18px">
+      <span class="ct">How to read it</span>
+      Your daily ceiling is <b>25g net carbs</b>. A whole day of green-column eating barely touches it — that's the point. One slice of bread or half a banana spends most of your day in a single bite, which is why the red column is "treats," not "never."
+    </div>
+  </div>
+  <footer class="rep-foot">
+    <span>KetoDial Net-Carb Cheat Sheet <span class="dot">·</span> TEST999</span>
+    <span>Values are typical per-serving estimates</span>
+    <span>Page 3 of 4</span>
+  </footer>
+</div>
+
+<!-- ============ PAGE 4 — GROCERY STARTER + FIRST WEEK ============ -->
+<div class="page">
+  <div class="rep-body tight">
+    <section class="sec">
+      <div class="sec-eyebrow">Stock the kitchen</div>
+      <div class="sec-title"><span class="num">05</span> Your starter shopping list</div>
+      <div class="sec-sub">Buy these once and you can make a keto meal out of almost nothing for two weeks.</div>
+      <div class="supp-grid">
+        <div class="gcat" style="border:1px solid var(--line);border-radius:12px;padding:14px 16px">
+          <h4 style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:10px;padding-bottom:7px;border-bottom:1.5px solid var(--line)">Fridge &amp; freezer</h4>
+          <ul style="list-style:none">
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Eggs, butter, heavy cream</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Ground beef, chicken thighs, bacon</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Frozen salmon &amp; spinach</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Leafy greens, avocados, cucumber</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Cheese block, olives</li>
+          </ul>
+        </div>
+        <div class="gcat" style="border:1px solid var(--line);border-radius:12px;padding:14px 16px">
+          <h4 style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:10px;padding-bottom:7px;border-bottom:1.5px solid var(--line)">Pantry &amp; support</h4>
+          <ul style="list-style:none">
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Olive oil, sea salt, "lite salt"</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Olive-oil mayo, mustard, vinegar</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Nuts (macadamia, pecan, almond)</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Bone broth, no-sugar electrolyte mix</li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0"><span style="width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none"></span>Magnesium glycinate</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec avoid-break">
+      <div class="sec-eyebrow">Your first week, simplified</div>
+      <div class="sec-title"><span class="num">06</span> Five rules that carry you</div>
+      <ul class="checks">
+        <li><b style="color:var(--ink)">Salt everything.</b> The keto flu is almost always a sodium problem. A cup of broth a day is cheap insurance.</li>
+        <li><b style="color:var(--ink)">Eat fat to fullness, don't fear it.</b> Hunger is your gauge — you don't need to count every gram in week one.</li>
+        <li><b style="color:var(--ink)">Keep carbs under 25g.</b> Lean on the green column. When in doubt, protein + fat + greens.</li>
+        <li><b style="color:var(--ink)">Drink more water than feels normal.</b> You're flushing a lot of it early on.</li>
+        <li><b style="color:var(--ink)">Ignore the scale after day 3.</b> Early drops are water. Real fat loss shows up over weeks, not days.</li>
+      </ul>
+    </section>
+
+    <div class="callout" style="margin-top:8px">
+      <span class="ct">You've got this, TEST999</span>
+      When week-one gets hard, it's almost never willpower — it's electrolytes. Salt, hydrate, sleep, and let the cravings pass. By day 10 most people wonder what the fuss was about.
+    </div>
+  </div>
+  <footer class="rep-foot">
+    <span>KetoDial Starter Kit <span class="dot">·</span> TEST999</span>
+    <span><a href="https://ketodial.com">ketodial.com</a> — educational, not medical advice</span>
+    <span>Page 4 of 4</span>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KetoDial — 7-Day Meal Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#e7edf3;
+  --surface:#ffffff;
+  --ink:#0f172a;
+  --ink-soft:#475569;
+  --ink-faint:#94a3b8;
+  --line:#e2e8f0;
+  --line-soft:#eef2f6;
+  --panel:#0b1620;
+  --panel-2:#0f2236;
+  --panel-line:#1e3a52;
+  --accent:#38bdf8;
+  --accent-deep:#0ea5e9;
+  --fat:#38bdf8;
+  --protein:#2dd4bf;
+  --carbs:#818cf8;
+  --green:#16a34a;
+  --amber:#d97706;
+  --red:#dc2626;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --serif:"Newsreader",Georgia,serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  padding:34px 0 60px;
+}
+.mono{font-family:var(--mono)}
+
+.page{
+  position:relative;
+  width:8.5in;
+  min-height:11in;
+  background:var(--surface);
+  margin:0 auto 26px;
+  box-shadow:0 14px 40px -10px rgba(15,23,42,.22);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.rep-head{
+  background:radial-gradient(120% 130% at 18% -30%,#15324c 0%,var(--panel) 62%);
+  color:#e2eef7;
+  padding:0.5in 0.6in 0.46in;
+  position:relative;
+  overflow:hidden;
+}
+.rep-head::before{
+  content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:linear-gradient(rgba(56,189,248,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.06) 1px,transparent 1px);
+  background-size:24px 24px;
+  -webkit-mask-image:radial-gradient(90% 90% at 30% 10%,#000,transparent);
+          mask-image:radial-gradient(90% 90% at 30% 10%,#000,transparent);
+}
+.rep-head>*{position:relative}
+.rh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.rh-brand{display:flex;align-items:center;gap:10px}
+.rh-brand .mark{width:30px;height:30px;flex:none}
+.rh-brand .word{font-weight:800;font-size:18px;letter-spacing:-.02em;color:#fff}
+.rh-brand .word b{color:var(--accent)}
+.rh-tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6da6c9}
+.rh-title-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.rh-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:10px}
+.rep-head h1{font-size:33px;font-weight:800;letter-spacing:-.03em;line-height:1.02;color:#fff}
+.rep-head h1 .lt{color:#9fc0d6;font-weight:500}
+.rh-meta{text-align:right;flex:none}
+.rh-meta .row{font-family:var(--mono);font-size:11px;color:#9fc0d6;margin-bottom:5px;letter-spacing:.02em}
+.rh-meta .row b{color:#fff;font-weight:500}
+.rh-prepared{margin-top:14px;font-size:13.5px;color:#bcd4e3}
+.rh-prepared b{color:#fff;font-weight:600}
+
+.rep-body{padding:0.46in 0.6in 0.3in;flex:1}
+.rep-body.tight{padding-top:0.34in}
+
+.rep-foot{
+  margin-top:auto;
+  padding:0.26in 0.6in;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-faint);
+}
+.rep-foot .dot{color:var(--accent-deep)}
+.rep-foot a{color:var(--ink-faint);text-decoration:none}
+
+.sec{margin-bottom:24px}
+.sec-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);font-weight:500;margin-bottom:7px}
+.sec-title{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-title .num{font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-weight:500}
+.sec-sub{font-size:13.5px;color:var(--ink-soft);margin:-8px 0 14px;line-height:1.5}
+
+.stat-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stat-grid.c4{grid-template-columns:repeat(4,1fr)}
+.stat-grid.c3{grid-template-columns:repeat(3,1fr)}
+.stat-grid.c2{grid-template-columns:repeat(2,1fr)}
+.stat{background:var(--surface);padding:13px 15px}
+.stat .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.stat .v{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.stat .v small{font-size:11px;color:var(--ink-soft);font-weight:400}
+
+.dtable{width:100%;border-collapse:collapse;font-size:12.5px}
+.dtable th{
+  text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:500;padding:9px 12px;border-bottom:1.5px solid var(--line);
+}
+.dtable td{padding:11px 12px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);vertical-align:top;line-height:1.45}
+.dtable td b,.dtable td strong{color:var(--ink);font-weight:600}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .mono{color:var(--ink);font-weight:500}
+.dtable.zebra tr:nth-child(even) td{background:#fafcfe}
+
+.mpills{display:flex;gap:7px;flex-wrap:wrap}
+.mpill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:500;padding:4px 9px;border-radius:7px;border:1px solid var(--line);color:var(--ink)}
+.mpill .d{width:8px;height:8px;border-radius:2px}
+.mpill.kcal{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.callout{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;background:#f7fbfe;font-size:13px;color:var(--ink-soft);line-height:1.55}
+.callout.warn{border-left-color:var(--amber);background:#fffaf2}
+.callout b{color:var(--ink)}
+.callout .ct{font-weight:700;color:var(--ink);font-size:13px;margin-bottom:4px;display:block}
+
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:6px;font-weight:600}
+.tag.green{background:rgba(22,163,74,.1);color:var(--green)}
+.tag.amber{background:rgba(217,119,6,.12);color:var(--amber)}
+.tag.red{background:rgba(220,38,38,.1);color:var(--red)}
+.tag.sky{background:rgba(56,189,248,.14);color:var(--accent-deep)}
+
+.minigauge{width:150px;flex:none;position:relative}
+.minigauge .num{position:absolute;left:0;right:0;top:54%;text-align:center;font-family:var(--mono);font-weight:700;font-size:22px;color:#fff;line-height:1}
+.minigauge .lab{position:absolute;left:0;right:0;top:54%;margin-top:22px;text-align:center;font-family:var(--mono);font-size:8px;letter-spacing:.16em;color:#6da6c9;text-transform:uppercase}
+
+ul.checks{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.checks li{display:flex;gap:11px;font-size:13px;color:var(--ink-soft);line-height:1.45}
+ul.checks li::before{content:"";width:16px;height:16px;border:1.5px solid var(--accent-deep);border-radius:5px;flex:none;margin-top:1px}
+ul.qs{list-style:none;display:flex;flex-direction:column;gap:11px;counter-reset:q}
+ul.qs li{display:flex;gap:12px;font-size:13.5px;color:var(--ink);line-height:1.5;align-items:flex-start}
+ul.qs li::before{counter-increment:q;content:"Q"counter(q);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent-deep);background:rgba(56,189,248,.12);padding:3px 7px;border-radius:6px;flex:none;margin-top:1px}
+
+.printbar{position:fixed;top:18px;right:18px;z-index:100;display:flex;gap:10px}
+.printbar a,.printbar button{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;
+  background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 16px;cursor:pointer;
+  box-shadow:0 8px 20px -6px rgba(15,23,42,.4);text-decoration:none;transition:background .15s;
+}
+.printbar a{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.printbar button:hover{background:#15273f}
+.printbar svg{width:15px;height:15px}
+
+@media print{
+  body{background:#fff;padding:0}
+  .page{box-shadow:none;margin:0;width:auto;min-height:auto;page-break-after:always}
+  .page:last-child{page-break-after:auto}
+  .no-print{display:none!important}
+  .avoid-break{break-inside:avoid;page-break-inside:avoid}
+}
+.avoid-break{break-inside:avoid}
+
+  .targets{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--line);border-radius:14px;padding:14px 18px;background:#fafcfe;margin-bottom:22px}
+  .targets .tl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-right:4px}
+  .week-glance{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:24px}
+  .wg{border:1px solid var(--line);border-radius:10px;padding:9px 8px;text-align:center}
+  .wg .d{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
+  .wg .n{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);margin:2px 0 4px}
+  .wg .k{font-family:var(--mono);font-size:9.5px;color:var(--accent-deep)}
+
+  .day{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}
+  .day-head{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--panel);color:#e2eef7;padding:11px 16px}
+  .day-head .dl{display:flex;align-items:baseline;gap:10px}
+  .day-head .dn{font-family:var(--mono);font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+  .day-head .dd{font-size:12px;color:#9fc0d6}
+  .day-head .dt{display:flex;align-items:center;gap:6px}
+  .meal{display:grid;grid-template-columns:74px 1fr auto;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line-soft)}
+  .meal:last-child{border-bottom:none}
+  .meal .slot{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+  .meal .name{font-size:13px;font-weight:600;color:var(--ink)}
+  .meal .name small{display:block;font-weight:400;color:var(--ink-faint);font-size:11px;margin-top:1px}
+  .meal .mm{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px}
+  .meal .mm .kc{font-weight:700;color:var(--ink)}
+  .meal .mm .fp{color:var(--ink-soft)}
+  .meal .mm .fp b{font-weight:500}
+  .fF{color:var(--fat)}.fP{color:var(--protein)}.fC{color:var(--carbs)}
+  .daytot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;background:#f7fbfe;border-top:1px solid var(--line)}
+  .daytot .lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+  .stackbar{display:flex;height:7px;border-radius:4px;overflow:hidden;width:150px}
+  .grocery{display:grid;grid-template-columns:1fr 1fr;gap:22px 30px}
+  .gcat h4{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:10px;padding-bottom:7px;border-bottom:1.5px solid var(--line)}
+  .gcat ul{list-style:none}
+  .gcat li{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0}
+  .gcat li::before{content:"";width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;flex:none}
+  .gcat li .q{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+
+<div class="printbar no-print">
+  <button onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+    Save as PDF
+  </button>
+</div>
+
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+  <header class="rep-head">
+    <div class="rh-top">
+      <div class="rh-brand">
+        <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20" cy="20" r="19" fill="#0b1620"/>
+  <path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/>
+  <path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="20" cy="20" r="3" fill="#e2eef7"/>
+</svg>
+        <span class="word">Keto<b>Dial</b></span>
+      </div>
+      <span class="rh-tag">Personalized Plan</span>
+    </div>
+    <div class="rh-title-row">
+      <div>
+        <div class="rh-eyebrow">7-Day Meal Plan</div>
+        <h1>A week of keto,<br /><span class="lt">built around your macros.</span></h1>
+      </div>
+      <div class="rh-meta">
+        <div class="row">FOR <b>TEST999</b></div>
+        <div class="row">TARGET <b>2,034 kcal/d</b></div>
+        <div class="row">BUDGET <b>Moderate · dairy-light</b></div>
+      </div>
+    </div>
+    <div class="rh-prepared">Tuned to your target, your cooking time (~About 30 min/day/day) and a dairy-light preference. Swap any meal for another at the same macro count.</div>
+  </header>
+
+  <div class="rep-body">
+    <div class="targets">
+      <span class="tl">Daily targets</span>
+      <span class="mpill kcal">2,034 kcal</span>
+      <span class="mpill"><span class="d" style="background:var(--fat)"></span>Fat 158g</span>
+      <span class="mpill"><span class="d" style="background:var(--protein)"></span>Protein 127g</span>
+      <span class="mpill"><span class="d" style="background:var(--carbs)"></span>Net carbs 25g</span>
+      <span style="margin-left:auto;font-size:12px;color:var(--ink-soft)">Each day lands within ±5% of target.</span>
+    </div>
+
+    <div class="week-glance">
+      <div class="wg"><div class="d">Mon</div><div class="n">1</div><div class="k">2,079</div></div>
+      <div class="wg"><div class="d">Tue</div><div class="n">2</div><div class="k">2,058</div></div>
+      <div class="wg"><div class="d">Wed</div><div class="n">3</div><div class="k">2,102</div></div>
+      <div class="wg"><div class="d">Thu</div><div class="n">4</div><div class="k">2,067</div></div>
+      <div class="wg"><div class="d">Fri</div><div class="n">5</div><div class="k">2,090</div></div>
+      <div class="wg"><div class="d">Sat</div><div class="n">6</div><div class="k">2,046</div></div>
+      <div class="wg"><div class="d">Sun</div><div class="n">7</div><div class="k">2,085</div></div>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 01</span><span class="dd">Monday</span></div>
+        <div class="dt"><span class="mpill kcal">2,079 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Bacon &amp; avocado baked eggs<small>3 eggs · ½ avocado · 2 rashers</small></span><span class="mm"><span class="kc">542</span><span class="fp"><b class="fF">F45</b> <b class="fP">P27</b> <b class="fC">C5</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Chicken Cobb salad, ranch<small>romaine · egg · blue cheese · olive oil</small></span><span class="mm"><span class="kc">633</span><span class="fp"><b class="fF">F50</b> <b class="fP">P41</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Ribeye + garlic-butter asparagus<small>8 oz ribeye · grass-fed butter</small></span><span class="mm"><span class="kc">678</span><span class="fp"><b class="fF">F53</b> <b class="fP">P49</b> <b class="fC">C6</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Macadamia nuts<small>1 oz</small></span><span class="mm"><span class="kc">226</span><span class="fp"><b class="fF">F24</b> <b class="fP">P2</b> <b class="fC">C2</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:74%"></i><i style="background:var(--protein);width:23%"></i><i style="background:var(--carbs);width:3%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F172</b> <b class="fP">P119</b> <b class="fC">C20</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 02</span><span class="dd">Tuesday</span></div>
+        <div class="dt"><span class="mpill kcal">2,058 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Smoked salmon &amp; cream-cheese roll-ups<small>4 oz salmon · cucumber</small></span><span class="mm"><span class="kc">475</span><span class="fp"><b class="fF">F37</b> <b class="fP">P32</b> <b class="fC">C3</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Tuna-avocado lettuce boats<small>olive-oil mayo · celery</small></span><span class="mm"><span class="kc">588</span><span class="fp"><b class="fF">F47</b> <b class="fP">P36</b> <b class="fC">C6</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Pork chops + sautéed spinach<small>2 chops · olive oil · garlic</small></span><span class="mm"><span class="kc">701</span><span class="fp"><b class="fF">F55</b> <b class="fP">P50</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Olives &amp; cheddar cube<small>handful</small></span><span class="mm"><span class="kc">294</span><span class="fp"><b class="fF">F27</b> <b class="fP">P11</b> <b class="fC">C3</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:73%"></i><i style="background:var(--protein);width:25%"></i><i style="background:var(--carbs);width:2%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F166</b> <b class="fP">P129</b> <b class="fC">C19</b></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="rep-foot">
+    <span>KetoDial 7-Day Meal Plan <span class="dot">·</span> TEST999</span>
+    <span>Macros are estimates — swap freely at equal counts</span>
+    <span>Page 1 of 4</span>
+  </footer>
+</div>
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page">
+  <div class="rep-body tight">
+    <!-- DAY 3 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 03</span><span class="dd">Wednesday</span></div>
+        <div class="dt"><span class="mpill kcal">2,102 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Sausage &amp; egg muffins<small>3 muffins · cheddar</small></span><span class="mm"><span class="kc">508</span><span class="fp"><b class="fF">F42</b> <b class="fP">P29</b> <b class="fC">C2</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Big-bowl Greek salad + chicken<small>feta · cucumber · olive oil</small></span><span class="mm"><span class="kc">633</span><span class="fp"><b class="fF">F50</b> <b class="fP">P38</b> <b class="fC">C8</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Salmon + creamed spinach<small>6 oz salmon · butter</small></span><span class="mm"><span class="kc">712</span><span class="fp"><b class="fF">F56</b> <b class="fP">P47</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Pecans<small>1 oz</small></span><span class="mm"><span class="kc">249</span><span class="fp"><b class="fF">F25</b> <b class="fP">P3</b> <b class="fC">C2</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:74%"></i><i style="background:var(--protein);width:22%"></i><i style="background:var(--carbs);width:4%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F173</b> <b class="fP">P117</b> <b class="fC">C19</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- DAY 4 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 04</span><span class="dd">Thursday</span></div>
+        <div class="dt"><span class="mpill kcal">2,067 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Chia-coconut pudding<small>unsweetened · macadamia</small></span><span class="mm"><span class="kc">463</span><span class="fp"><b class="fF">F41</b> <b class="fP">P11</b> <b class="fC">C8</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Burger bowl, no bun<small>beef · avocado · lettuce · mayo</small></span><span class="mm"><span class="kc">655</span><span class="fp"><b class="fF">F52</b> <b class="fP">P41</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Roast chicken thighs + broccoli<small>skin-on · olive oil</small></span><span class="mm"><span class="kc">678</span><span class="fp"><b class="fF">F52</b> <b class="fP">P50</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Hard-boiled eggs ×2<small>salt</small></span><span class="mm"><span class="kc">271</span><span class="fp"><b class="fF">F19</b> <b class="fP">P25</b> <b class="fC">C1</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:71%"></i><i style="background:var(--protein);width:25%"></i><i style="background:var(--carbs);width:4%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F164</b> <b class="fP">P127</b> <b class="fC">C23</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- DAY 5 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 05</span><span class="dd">Friday</span></div>
+        <div class="dt"><span class="mpill kcal">2,090 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Cheese &amp; herb omelette<small>3 eggs · butter</small></span><span class="mm"><span class="kc">520</span><span class="fp"><b class="fF">F44</b> <b class="fP">P28</b> <b class="fC">C3</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Shrimp avocado salad<small>olive oil · lime</small></span><span class="mm"><span class="kc">610</span><span class="fp"><b class="fF">F49</b> <b class="fP">P37</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Beef stir-fry, zucchini noodles<small>sesame oil · ginger</small></span><span class="mm"><span class="kc">689</span><span class="fp"><b class="fF">F53</b> <b class="fP">P49</b> <b class="fC">C9</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Dark chocolate 90% ×2<small>squares</small></span><span class="mm"><span class="kc">271</span><span class="fp"><b class="fF">F25</b> <b class="fP">P5</b> <b class="fC">C6</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:74%"></i><i style="background:var(--protein);width:23%"></i><i style="background:var(--carbs);width:3%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F171</b> <b class="fP">P119</b> <b class="fC">C25</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="rep-foot">
+    <span>KetoDial 7-Day Meal Plan <span class="dot">·</span> TEST999</span>
+    <span>Macros are estimates — swap freely at equal counts</span>
+    <span>Page 2 of 4</span>
+  </footer>
+</div>
+
+<!-- ============ PAGE 3 ============ -->
+<div class="page">
+  <div class="rep-body tight">
+    <!-- DAY 6 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 06</span><span class="dd">Saturday</span></div>
+        <div class="dt"><span class="mpill kcal">2,046 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Steak &amp; eggs<small>4 oz sirloin · 2 eggs</small></span><span class="mm"><span class="kc">554</span><span class="fp"><b class="fF">F42</b> <b class="fP">P38</b> <b class="fC">C2</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Caprese plate + prosciutto<small>mozzarella · basil · olive oil</small></span><span class="mm"><span class="kc">610</span><span class="fp"><b class="fF">F50</b> <b class="fP">P35</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Lemon-butter cod + green beans<small>6 oz cod</small></span><span class="mm"><span class="kc">633</span><span class="fp"><b class="fF">F49</b> <b class="fP">P45</b> <b class="fC">C8</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Almonds<small>1 oz</small></span><span class="mm"><span class="kc">249</span><span class="fp"><b class="fF">F21</b> <b class="fP">P9</b> <b class="fC">C3</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:71%"></i><i style="background:var(--protein);width:25%"></i><i style="background:var(--carbs);width:4%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F162</b> <b class="fP">P127</b> <b class="fC">C20</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- DAY 7 -->
+    <div class="day avoid-break">
+      <div class="day-head">
+        <div class="dl"><span class="dn">DAY 07</span><span class="dd">Sunday</span></div>
+        <div class="dt"><span class="mpill kcal">2,085 kcal</span></div>
+      </div>
+      <div class="meal"><span class="slot">Breakfast</span><span class="name">Keto pancakes + butter<small>almond flour · 2 eggs</small></span><span class="mm"><span class="kc">531</span><span class="fp"><b class="fF">F45</b> <b class="fP">P23</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Lunch</span><span class="name">Chicken-bacon-ranch wrap<small>low-carb tortilla</small></span><span class="mm"><span class="kc">633</span><span class="fp"><b class="fF">F49</b> <b class="fP">P43</b> <b class="fC">C8</b></span></span></div>
+      <div class="meal"><span class="slot">Dinner</span><span class="name">Slow-roast pork shoulder + slaw<small>olive-oil slaw, no sugar</small></span><span class="mm"><span class="kc">695</span><span class="fp"><b class="fF">F55</b> <b class="fP">P49</b> <b class="fC">C7</b></span></span></div>
+      <div class="meal"><span class="slot">Snack</span><span class="name">Berries &amp; cream<small>¼ cup raspberries</small></span><span class="mm"><span class="kc">226</span><span class="fp"><b class="fF">F20</b> <b class="fP">P3</b> <b class="fC">C7</b></span></span></div>
+      <div class="daytot">
+        <span class="lab">Day total</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="stackbar"><i style="background:var(--fat);width:73%"></i><i style="background:var(--protein);width:23%"></i><i style="background:var(--carbs);width:4%"></i></div>
+          <span class="mono" style="font-size:11px;color:var(--ink-soft)"><b class="fF">F169</b> <b class="fP">P118</b> <b class="fC">C29</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:6px">
+      <span class="ct">Batch-prep shortcut for your ~About 30 min/day/day</span>
+      Sunday: hard-boil 6 eggs, roast the chicken thighs and pork shoulder, and pre-portion nuts into ¼-cup bags. That covers most lunches and snacks for the first half of the week.
+    </div>
+  </div>
+  <footer class="rep-foot">
+    <span>KetoDial 7-Day Meal Plan <span class="dot">·</span> TEST999</span>
+    <span>Macros are estimates — swap freely at equal counts</span>
+    <span>Page 3 of 4</span>
+  </footer>
+</div>
+
+<!-- ============ PAGE 4 — GROCERY ============ -->
+<div class="page">
+  <div class="rep-body tight">
+    <section class="sec">
+      <div class="sec-eyebrow">Shop once</div>
+      <div class="sec-title">Your week's grocery list</div>
+      <div class="sec-sub">Organized by aisle and sized for one person.</div>
+    </section>
+
+    <div class="grocery">
+      <div class="gcat">
+        <h4>Proteins</h4>
+        <ul>
+          <li>Ribeye / sirloin steak <span class="q">12 oz</span></li>
+          <li>Chicken thighs (skin-on) <span class="q">2 lb</span></li>
+          <li>Salmon &amp; cod fillets <span class="q">1.5 lb</span></li>
+          <li>Pork chops + shoulder <span class="q">2.5 lb</span></li>
+          <li>Bacon &amp; breakfast sausage <span class="q">1 pack ea</span></li>
+          <li>Eggs <span class="q">2 dozen</span></li>
+          <li>Shrimp · canned tuna <span class="q">as needed</span></li>
+        </ul>
+      </div>
+      <div class="gcat">
+        <h4>Fats &amp; oils</h4>
+        <ul>
+          <li>Extra-virgin olive oil <span class="q">1 bottle</span></li>
+          <li>Grass-fed butter <span class="q">1 block</span></li>
+          <li>Avocados <span class="q">5</span></li>
+          <li>Macadamias · pecans · almonds <span class="q">1 bag ea</span></li>
+          <li>Olives <span class="q">1 jar</span></li>
+          <li>Olive-oil mayo <span class="q">1 jar</span></li>
+        </ul>
+      </div>
+      <div class="gcat">
+        <h4>Produce</h4>
+        <ul>
+          <li>Romaine · spinach · mixed greens <span class="q">3 bags</span></li>
+          <li>Asparagus · broccoli · green beans <span class="q">1 ea</span></li>
+          <li>Zucchini <span class="q">3</span></li>
+          <li>Cucumber · celery <span class="q">2 ea</span></li>
+          <li>Raspberries <span class="q">1 small</span></li>
+          <li>Garlic · lemon · fresh basil <span class="q">1 ea</span></li>
+        </ul>
+      </div>
+      <div class="gcat">
+        <h4>Dairy &amp; pantry</h4>
+        <ul>
+          <li>Cheddar · feta · mozzarella <span class="q">light use</span></li>
+          <li>Cream cheese · heavy cream <span class="q">1 ea</span></li>
+          <li>Almond flour <span class="q">1 bag</span></li>
+          <li>Chia seeds · unsweetened coconut milk <span class="q">1 ea</span></li>
+          <li>90% dark chocolate <span class="q">1 bar</span></li>
+          <li>Low-carb tortillas <span class="q">1 pack</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px">
+      <span class="ct">Money-saving tip</span>
+      Buy in bulk where possible. Costco-size proteins and eggs save 30–40% vs grocery store prices, with identical macros.
+    </div>
+  </div>
+  <footer class="rep-foot">
+    <span>KetoDial 7-Day Meal Plan <span class="dot">·</span> TEST999</span>
+    <span><a href="https://ketodial.com">ketodial.com</a></span>
+    <span>Page 4 of 4</span>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -296,13 +296,16 @@
   });
   render();
 
-  /* ---------- CHECKOUT (Stripe redirect) ---------- */
+  /* ---------- CHECKOUT (Stripe Embedded) ---------- */
   var API_BASE='https://ketodial-api.iambrew.workers.dev';
+  var STRIPE_PK='pk_live_51SjRKPEVDfkpGz8wSeZfQ87US3LUHKBg2I8KP1JmWIxtiDnDh2R9ViGQlThNBWbvEbiB9vvTLpyx2HHix4zYqqKH00jsXBAIc7';
   var checkoutBtn=$('#checkoutBtn');
+  var checkoutOverlay=$('#checkoutOverlay');
+  var stripeInstance=null;
+  var embeddedCheckout=null;
 
   function collectFormData(){
     var d=getFormData();
-    // Collect step 2 fields
     var selects=$all('#step2 select');
     var dairy=selects[0]?selects[0].value:'';
     var cooking=selects[1]?selects[1].value:'';
@@ -339,9 +342,16 @@
 
       track('kd_checkout_opened',{items:items.join(',')});
 
-      // Disable button and show loading
       checkoutBtn.disabled=true;
-      checkoutBtn.textContent='Redirecting to checkout…';
+      checkoutBtn.textContent='Loading checkout…';
+
+      // Clean up previous checkout if any
+      if(embeddedCheckout){ embeddedCheckout.destroy(); embeddedCheckout=null; }
+      var container=$('#checkout-container');
+      if(container) container.innerHTML='';
+
+      // Initialize Stripe
+      if(!stripeInstance) stripeInstance=Stripe(STRIPE_PK);
 
       fetch(API_BASE+'/checkout',{
         method:'POST',
@@ -350,31 +360,46 @@
       })
       .then(function(r){return r.json();})
       .then(function(data){
-        if(data.url){
-          track('kd_stripe_redirect',{items:items.join(',')});
-          window.location.href=data.url;
+        if(data.clientSecret){
+          checkoutOverlay.classList.add('show');
+          return stripeInstance.initEmbeddedCheckout({clientSecret:data.clientSecret});
         }else{
-          alert('Checkout error: '+(data.error||'Unknown error. Please try again.'));
-          checkoutBtn.disabled=false;
-          checkoutBtn.textContent='Continue to checkout';
-          render();
+          throw new Error(data.error||'Failed to create checkout session');
         }
       })
-      .catch(function(err){
-        console.error('Checkout fetch error:',err);
-        alert('Connection error. Please check your internet and try again.');
+      .then(function(checkout){
+        embeddedCheckout=checkout;
+        checkout.mount('#checkout-container');
         checkoutBtn.disabled=false;
-        checkoutBtn.textContent='Continue to checkout';
+        render();
+      })
+      .catch(function(err){
+        console.error('Checkout error:',err);
+        checkoutOverlay.classList.remove('show');
+        alert('Checkout error: '+err.message);
+        checkoutBtn.disabled=false;
         render();
       });
     });
   }
 
-  /* ---------- SUCCESS (return from Stripe) ---------- */
+  // Close checkout modal
+  var checkoutClose=$('#checkoutClose');
+  if(checkoutClose) checkoutClose.addEventListener('click',function(){
+    checkoutOverlay.classList.remove('show');
+    if(embeddedCheckout){ embeddedCheckout.destroy(); embeddedCheckout=null; }
+  });
+  if(checkoutOverlay) checkoutOverlay.addEventListener('click',function(e){
+    if(e.target===checkoutOverlay){
+      checkoutOverlay.classList.remove('show');
+      if(embeddedCheckout){ embeddedCheckout.destroy(); embeddedCheckout=null; }
+    }
+  });
+
+  /* ---------- SUCCESS (return from Stripe embedded) ---------- */
   var successOverlay=$('#successOverlay');
   var urlParams=new URLSearchParams(window.location.search);
   if(urlParams.get('success')==='true'){
-    // Show success modal on return from Stripe
     var successEmail=$('#successEmail');
     if(successEmail) successEmail.textContent='your inbox';
     var wrap=$('#reportRows');
@@ -382,9 +407,8 @@
       wrap.innerHTML='';
       var freeRow=document.createElement('div');
       freeRow.className='rrow';
-      freeRow.innerHTML='<span class="rdot" style="background:var(--accent)"></span><span class="rnm">Macro Results</span><span class="rtag mono">FREE</span><button class="ropen">Open</button>';
+      freeRow.innerHTML='<span class="rdot" style="background:var(--accent)"></span><span class="rnm">Macro Results</span><span class="rtag mono">FREE</span>';
       wrap.appendChild(freeRow);
-      // Note: actual report PDFs will be delivered via email by the Worker webhook
       var paidRow=document.createElement('div');
       paidRow.className='rrow';
       paidRow.innerHTML='<span class="rdot" style="background:var(--protein)"></span><span class="rnm">Your reports are being generated</span><span class="rtag mono">EMAIL</span><span style="font-size:13px;color:var(--ink-soft)">Check your inbox in a few minutes</span>';
