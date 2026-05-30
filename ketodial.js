@@ -1,6 +1,11 @@
 (function(){
   "use strict";
 
+  /* ---------- analytics ---------- */
+  function track(event,params){
+    if(window.gtag) window.gtag('event',event,params||{});
+  }
+
   /* ---------- helpers ---------- */
   function $(s,ctx){return (ctx||document).querySelector(s);}
   function $all(s,ctx){return Array.prototype.slice.call((ctx||document).querySelectorAll(s));}
@@ -186,6 +191,7 @@
       }
       var d=getFormData();
       lastMacros=computeMacros(d);
+      track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
       freeResults.classList.add('show');
       step2.classList.add('show');
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
@@ -216,6 +222,7 @@
         return;
       }
       var msg=$('#reqMsg'); if(msg) msg.classList.remove('show');
+      track('kd_profile_completed',{email_provided:!!emailReq.value.trim()});
       reportPicker.classList.add('show');
       setTimeout(function(){scrollToEl(reportPicker);},120);
     });
@@ -320,7 +327,9 @@
   if(checkoutBtn){
     checkoutBtn.addEventListener('click',function(){
       if(selected.size===0) return;
-      buildSummary();
+      var total=buildSummary();
+      var items=[];selected.forEach(function(k){items.push(k);});
+      track('kd_checkout_opened',{total:total,items:items.join(',')});
       checkoutOverlay.classList.add('show');
     });
   }
@@ -361,6 +370,7 @@
       setTimeout(function(){
         checkoutOverlay.classList.remove('show');
         buildReportRows();
+        track('kd_payment_complete',{items:Array.from(selected).join(',')});
         successOverlay.classList.add('show');
         payBtn.disabled=false; payBtn.textContent=orig;
       },1400);
