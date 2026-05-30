@@ -296,89 +296,107 @@
   });
   render();
 
-  /* ---------- CHECKOUT ---------- */
-  var checkoutOverlay=$('#checkoutOverlay');
+  /* ---------- CHECKOUT (Stripe redirect) ---------- */
+  var API_BASE='https://ketodial-api.iambrew.workers.dev';
   var checkoutBtn=$('#checkoutBtn');
 
-  function buildSummary(){
-    var wrap=$('#orderSummary'); if(!wrap) return 0;
-    wrap.innerHTML='';
-    var total=0;
-    // always include free macro results
-    var free=document.createElement('div');
-    free.className='os-row';
-    free.innerHTML='<span>Macro Results <em class="os-free">FREE</em></span><span>$0.00</span>';
-    wrap.appendChild(free);
-    selected.forEach(function(k){
-      var p=PRODUCTS[k]; total+=p.price;
-      var row=document.createElement('div');
-      row.className='os-row';
-      row.innerHTML='<span>'+p.name+'</span><span>'+money(p.price)+'</span>';
-      wrap.appendChild(row);
-    });
-    var tr=document.createElement('div');
-    tr.className='os-total';
-    tr.innerHTML='<span>Total</span><span>'+money(total)+'</span>';
-    wrap.appendChild(tr);
-    var pay=$('#payBtn'); if(pay) pay.textContent='Pay '+money(total);
-    return total;
+  function collectFormData(){
+    var d=getFormData();
+    // Collect step 2 fields
+    var selects=$all('#step2 select');
+    var dairy=selects[0]?selects[0].value:'';
+    var cooking=selects[1]?selects[1].value:'';
+    var prepTime=selects[2]?selects[2].value:'';
+    var cookingFor=selects[3]?selects[3].value:'';
+    var conditions=[];$all('#step2 [data-multi]')[0]&&$all('#step2 [data-multi]')[0].querySelectorAll('.on').forEach(function(b){conditions.push(b.dataset.val);});
+    var symptoms=[];$all('#step2 [data-multi]')[1]&&$all('#step2 [data-multi]')[1].querySelectorAll('.on').forEach(function(b){symptoms.push(b.dataset.val);});
+    var diets=[];$all('#step2 [data-multi]')[2]&&$all('#step2 [data-multi]')[2].querySelectorAll('.on').forEach(function(b){diets.push(b.dataset.val);});
+    var budgetBtn=$('#step2 [data-seg="budget"] .on');
+    var meds=$('#step2 input[type="text"]')?$('#step2 input[type="text"]').value:'';
+    var challenge=$('#step2 textarea')?$('#step2 textarea').value:'';
+    return {
+      sex:d.sex,age:d.age,weightKg:Math.round(d.weightKg),heightCm:Math.round(d.heightCm),
+      goal:d.goal,activity:d.activity,
+      calories:lastMacros?lastMacros.calories:0,
+      fatG:lastMacros?lastMacros.fatG:0,
+      proteinG:lastMacros?lastMacros.proteinG:0,
+      carbG:lastMacros?lastMacros.carbG:0,
+      tdee:lastMacros?lastMacros.tdee:0,
+      dairy:dairy,cooking:cooking,prepTime:prepTime,cookingFor:cookingFor,
+      conditions:conditions,symptoms:symptoms,diets:diets,
+      budget:budgetBtn?budgetBtn.dataset.val:'',
+      meds:meds,challenge:challenge
+    };
   }
 
   if(checkoutBtn){
     checkoutBtn.addEventListener('click',function(){
       if(selected.size===0) return;
-      var total=buildSummary();
-      var items=[];selected.forEach(function(k){items.push(k);});
-      track('kd_checkout_opened',{total:total,items:items.join(',')});
-      checkoutOverlay.classList.add('show');
+      var items=Array.from(selected);
+      var email=(emailReq&&emailReq.value.trim())||($('#emailOpt')&&$('#emailOpt').value.trim())||'';
+      var name=(nameReq&&nameReq.value.trim())||'';
+      var formData=collectFormData();
+
+      track('kd_checkout_opened',{items:items.join(',')});
+
+      // Disable button and show loading
+      checkoutBtn.disabled=true;
+      checkoutBtn.textContent='Redirecting to checkout…';
+
+      fetch(API_BASE+'/checkout',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({items:items,email:email,name:name,formData:formData})
+      })
+      .then(function(r){return r.json();})
+      .then(function(data){
+        if(data.url){
+          track('kd_stripe_redirect',{items:items.join(',')});
+          window.location.href=data.url;
+        }else{
+          alert('Checkout error: '+(data.error||'Unknown error. Please try again.'));
+          checkoutBtn.disabled=false;
+          checkoutBtn.textContent='Continue to checkout';
+          render();
+        }
+      })
+      .catch(function(err){
+        console.error('Checkout fetch error:',err);
+        alert('Connection error. Please check your internet and try again.');
+        checkoutBtn.disabled=false;
+        checkoutBtn.textContent='Continue to checkout';
+        render();
+      });
     });
   }
-  var checkoutClose=$('#checkoutClose');
-  if(checkoutClose) checkoutClose.addEventListener('click',function(){checkoutOverlay.classList.remove('show');});
-  if(checkoutOverlay) checkoutOverlay.addEventListener('click',function(e){if(e.target===checkoutOverlay)checkoutOverlay.classList.remove('show');});
 
-  /* ---------- PAY → SUCCESS ---------- */
+  /* ---------- SUCCESS (return from Stripe) ---------- */
   var successOverlay=$('#successOverlay');
-  var payBtn=$('#payBtn');
-
-  function buildReportRows(){
-    var wrap=$('#reportRows'); if(!wrap) return;
-    wrap.innerHTML='';
-    var rows=[{name:'Macro Results',tag:'FREE',color:'var(--accent)'}];
-    var colors={doctor:'#f0abfc',meal:'var(--protein)',starter:'#fbbf24',essentials:'var(--accent)',protocol:'var(--accent)'};
-    selected.forEach(function(k){
-      rows.push({name:PRODUCTS[k].name,tag:'PDF',color:colors[k]||'var(--accent)'});
-    });
-    rows.forEach(function(r){
-      var el=document.createElement('div');
-      el.className='rrow';
-      el.innerHTML='<span class="rdot" style="background:'+r.color+'"></span>'+
-        '<span class="rnm">'+r.name+'</span>'+
-        '<span class="rtag mono">'+r.tag+'</span>'+
-        '<button class="ropen">Open</button>';
-      wrap.appendChild(el);
-    });
-    var em=$('#successEmail');
-    if(em && emailReq && emailReq.value.trim()) em.textContent=emailReq.value.trim();
+  var urlParams=new URLSearchParams(window.location.search);
+  if(urlParams.get('success')==='true'){
+    // Show success modal on return from Stripe
+    var successEmail=$('#successEmail');
+    if(successEmail) successEmail.textContent='your inbox';
+    var wrap=$('#reportRows');
+    if(wrap){
+      wrap.innerHTML='';
+      var freeRow=document.createElement('div');
+      freeRow.className='rrow';
+      freeRow.innerHTML='<span class="rdot" style="background:var(--accent)"></span><span class="rnm">Macro Results</span><span class="rtag mono">FREE</span><button class="ropen">Open</button>';
+      wrap.appendChild(freeRow);
+      // Note: actual report PDFs will be delivered via email by the Worker webhook
+      var paidRow=document.createElement('div');
+      paidRow.className='rrow';
+      paidRow.innerHTML='<span class="rdot" style="background:var(--protein)"></span><span class="rnm">Your reports are being generated</span><span class="rtag mono">EMAIL</span><span style="font-size:13px;color:var(--ink-soft)">Check your inbox in a few minutes</span>';
+      wrap.appendChild(paidRow);
+    }
+    track('kd_payment_complete',{session_id:urlParams.get('session_id')||''});
+    successOverlay.classList.add('show');
   }
 
-  if(payBtn){
-    payBtn.addEventListener('click',function(){
-      var orig=payBtn.textContent;
-      payBtn.disabled=true;
-      payBtn.innerHTML='<span class="pay-spin"></span> Processing…';
-      setTimeout(function(){
-        checkoutOverlay.classList.remove('show');
-        buildReportRows();
-        track('kd_payment_complete',{items:Array.from(selected).join(',')});
-        successOverlay.classList.add('show');
-        payBtn.disabled=false; payBtn.textContent=orig;
-      },1400);
-    });
-  }
   var successClose=$('#successClose'), successDone=$('#successDone');
-  if(successClose) successClose.addEventListener('click',function(){successOverlay.classList.remove('show');});
-  if(successDone) successDone.addEventListener('click',function(){successOverlay.classList.remove('show');});
-  if(successOverlay) successOverlay.addEventListener('click',function(e){if(e.target===successOverlay)successOverlay.classList.remove('show');});
+  if(successClose) successClose.addEventListener('click',function(){successOverlay.classList.remove('show');window.history.replaceState({},'','/');});
+  if(successDone) successDone.addEventListener('click',function(){successOverlay.classList.remove('show');window.history.replaceState({},'','/');});
+  if(successOverlay) successOverlay.addEventListener('click',function(e){if(e.target===successOverlay){successOverlay.classList.remove('show');window.history.replaceState({},'','/');}});
 
 })();

@@ -789,31 +789,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
   </div>
 </footer>
 
-<!-- CHECKOUT MODAL -->
-<div class="overlay" id="checkoutOverlay">
-  <div class="modal modal-wide">
-    <button class="modal-close" id="checkoutClose">×</button>
-    <div class="checkout-head">
-      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure checkout</h3>
-      <span class="badge-test">TEST MODE</span>
-    </div>
-    <div class="checkout-body">
-      <div class="order-summary" id="orderSummary"></div>
-      <div class="pay-label">Card details</div>
-      <div class="input"><input type="text" class="sans" placeholder="Card number — 4242 4242 4242 4242" /></div>
-      <div class="card-row">
-        <div class="input" style="flex:1"><input type="text" class="sans" placeholder="MM / YY" /></div>
-        <div class="input" style="flex:1"><input type="text" class="sans" placeholder="CVC" /></div>
-        <div class="input" style="flex:1"><input type="text" class="sans" placeholder="ZIP" /></div>
-      </div>
-      <button class="act-primary" id="payBtn">Pay</button>
-      <div class="stripe-note">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Payments by Stripe · this is a design prototype — no card is charged
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Checkout handled by Stripe hosted checkout (redirect) -->
 
 <!-- SUCCESS MODAL -->
 <div class="overlay" id="successOverlay">
