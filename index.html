@@ -494,7 +494,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
         </div>
 
         <div class="food-equiv">
-          <h4>What that looks like on a plate <span class="mono">illustrative</span></h4>
+          <h3>What that looks like on a plate <span class="mono">illustrative</span></h3>
           <div class="feq">
             <div class="lead"><span class="dot" style="background:var(--fat)"></span><span class="nm">Fat</span><span class="amt">143g</span></div>
             <div class="desc">≈ 1 whole avocado, 3 eggs, a palm of macadamias, and 2 tbsp olive oil across the day.</div>
@@ -604,7 +604,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
 
         <div class="field full">
           <label>Current medications <span class="opt">— optional, helps the Doctor's Report</span></label>
-          <div class="input"><input type="text" class="sans" placeholder="e.g. metformin, lisinopril…" /></div>
+          <div class="input"><input type="text" class="sans" placeholder="e.g. metformin, lisinopril…" aria-label="Current medications" /></div>
         </div>
 
         <div class="field full">
@@ -647,32 +647,32 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
       </div>
 
       <div class="report-grid">
-        <button class="report-card" data-product="doctor">
+        <div role="button" tabindex="0" class="report-card" data-product="doctor">
           <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
           <span class="rc-tag" style="color:#c026d3">Most unique</span>
           <h3>Doctor's Report</h3>
           <p class="rc-desc">A printable PDF for your physician: labs to request, medication considerations, and clinical talking points based on your conditions.</p>
           <p style="font-size:10px;color:var(--ink-faint);margin-top:6px">For discussion with your doctor, not medical advice</p>
           <div class="rc-price">$5.99</div>
-        </button>
-        <button class="report-card" data-product="meal">
+        </div>
+        <div role="button" tabindex="0" class="report-card" data-product="meal">
           <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
           <span class="rc-tag" style="color:var(--protein)">Most popular</span>
           <h3>7-Day Meal Plan</h3>
           <p class="rc-desc">A full week of keto meals built around your macros, budget, cooking skill and dairy tolerance — with a grocery list.</p>
           <div class="rc-price">$5.99</div>
-        </button>
-        <button class="report-card" data-product="starter">
+        </div>
+        <div role="button" tabindex="0" class="report-card" data-product="starter">
           <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
           <span class="rc-tag" style="color:#d97706">Best for beginners</span>
           <h3>Keto Starter Kit</h3>
           <p class="rc-desc">Your first 14 days: adaptation guide, keto-flu prevention, supplement recs, grocery list and a net-carb cheat sheet.</p>
           <div class="rc-price">$3.99</div>
-        </button>
+        </div>
       </div>
 
       <div class="bundles">
-        <button class="report-card bundle" data-product="essentials">
+        <div role="button" tabindex="0" class="report-card bundle" data-product="essentials">
           <span class="save-badge">SAVE $2</span>
           <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
           <span class="rc-tag" style="color:var(--accent-deep)">Bundle</span>
@@ -680,8 +680,8 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
           <p class="rc-desc">7-Day Meal Plan + Starter Kit. Everything you need to actually start the week strong.</p>
           <div class="rc-contains">Includes Meal Plan + Starter Kit</div>
           <div class="rc-price">$7.99</div>
-        </button>
-        <button class="report-card bundle" data-product="protocol">
+        </div>
+        <div role="button" tabindex="0" class="report-card bundle" data-product="protocol">
           <span class="save-badge">SAVE $5</span>
           <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
           <span class="rc-tag" style="color:var(--accent-deep)">Best value</span>
@@ -689,7 +689,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
           <p class="rc-desc">All three reports — Doctor's Report, Meal Plan and Starter Kit. The complete dial-in.</p>
           <div class="rc-contains">Includes all three reports</div>
           <div class="rc-price">$10.99</div>
-        </button>
+        </div>
       </div>
 
       <div class="total-bar">
