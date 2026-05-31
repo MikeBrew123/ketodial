@@ -111,6 +111,18 @@ ol.method li b{color:var(--ink);font-weight:600}
   .rc-title-row{flex-direction:column;align-items:flex-start;gap:18px}
   .rc-gauge{align-self:center}
 }
+
+/* AMAZON SHOPPING */
+.shop{margin-top:24px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fefefe}
+.shop .sh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.shop .sl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+.shop .sp{font-size:12.5px;color:var(--ink-soft);margin:8px 0 12px;line-height:1.45}
+.shop .amazon-btn{display:inline-flex;align-items:center;gap:8px;background:#FF9900;color:#111;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .15s;border:none;cursor:pointer;font-family:var(--sans)}
+.shop .amazon-btn:hover{background:#FFB84D;text-decoration:none}
+.shop .amazon-btn svg{width:16px;height:16px}
+.shop .matched{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--ink-soft);border:1px solid var(--line)}
+.shop .aff-note{font-size:10px;color:var(--ink-faint);margin-top:8px}
 </style>
 </head>
 <body>
@@ -213,6 +225,19 @@ ol.method li b{color:var(--ink);font-weight:600}
       <div class="tt">Dial-in tip</div>
       These keep in the fridge for 5 days and reheat in 30 seconds. At <b>237 cal and 17g protein per serving</b>, two cups make a solid 474-cal breakfast with 34g protein. Swap spinach for kale or add diced jalapeno for a kick.
     </div>
+
+    <div class="shop no-print">
+      <div class="sh">
+        <span class="sl">Pantry ingredients</span>
+      </div>
+      <p class="sp">Some of these ingredients might already be in your kitchen. For the ones that aren't, we matched pantry staples you can grab on Amazon.</p>
+      <div class="matched" id="matchedItems"></div>
+      <a class="amazon-btn" id="amazonCart" href="#" target="_blank" rel="noopener sponsored">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Add pantry items to Amazon cart
+      </a>
+      <p class="aff-note">Affiliate link — we may earn a small commission at no extra cost to you. 90-day cookie.</p>
+    </div>
   </div>
 
   <footer class="rc-foot">
@@ -224,5 +249,33 @@ ol.method li b{color:var(--ink);font-weight:600}
   </footer>
 </div>
 
+
+<script src="/recipes/amazon-ingredients.js"></script>
+<script>
+(function(){
+  var ingrs = document.querySelectorAll('ul.ingr li');
+  var texts = [];
+  ingrs.forEach(function(li){ texts.push(li.textContent); });
+  var matched = matchIngredients(texts);
+  var container = document.getElementById('matchedItems');
+  var btn = document.getElementById('amazonCart');
+  if (matched.length === 0) {
+    var shop = document.querySelector('.shop');
+    if (shop) shop.style.display = 'none';
+    return;
+  }
+  matched.forEach(function(m) {
+    var span = document.createElement('span');
+    span.className = 'mi';
+    span.textContent = m.name;
+    container.appendChild(span);
+  });
+  var asins = matched.map(function(m){ return m.asin; });
+  btn.href = buildCartUrl(asins);
+  btn.addEventListener('click', function(){
+    if (window.gtag) gtag('event', 'kd_amazon_cart', {items: asins.length, recipe: document.title});
+  });
+})();
+</script>
 </body>
 </html>
