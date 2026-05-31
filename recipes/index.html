@@ -111,8 +111,8 @@ header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);bac
 .feed-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
 .feed-title h2{font-size:20px;font-weight:800;letter-spacing:-.01em}
 .feed-title a{font-size:13px;font-weight:600;color:var(--accent-deep)}
-.sidebar{position:relative}
-.sidebar .sticky{position:sticky;top:90px;display:flex;flex-direction:column;gap:20px}
+.sidebar{position:relative;align-self:start}
+.sidebar .sticky{position:sticky;top:90px;display:flex;flex-direction:column;gap:20px;max-height:calc(100vh - 100px);overflow-y:auto}
 
 /* SIDEBAR WIDGETS */
 .widget{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
@@ -400,8 +400,10 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
         <h4>Most cooked</h4>
         <div class="poplist">
           <a class="pop" href="/recipes/keto-smothered-chicken-thighs.html"><span class="rank">1</span><div><div class="pt">Smothered Chicken Thighs</div><div class="pm">Dinner · 2g net · 466 kcal</div></div></a>
-          <a class="pop" href="#"><span class="rank">2</span><div><div class="pt">Creamy Keto Taco Soup</div><div class="pm">Dinner · 4g net · 288 kcal</div></div></a>
-          <a class="pop" href="#"><span class="rank">3</span><div><div class="pt">90-Second Keto Bread</div><div class="pm">Breakfast · 6g net · 408 kcal</div></div></a>
+          <a class="pop" href="/recipes/quick-keto-chocolate-mousse.html"><span class="rank">2</span><div><div class="pt">Keto Chocolate Mousse</div><div class="pm">Dessert · 5g net · 373 kcal</div></div></a>
+          <a class="pop" href="/recipes/keto-cheesecake-cupcakes.html"><span class="rank">3</span><div><div class="pt">Cheesecake Cupcakes</div><div class="pm">Dessert · 3g net · 209 kcal</div></div></a>
+          <a class="pop" href="/recipes/basic-keto-cheese-crisps.html"><span class="rank">4</span><div><div class="pt">Keto Cheese Crisps</div><div class="pm">Snack · 0g net · 139 kcal</div></div></a>
+          <a class="pop" href="/recipes/creamy-keto-taco-soup.html"><span class="rank">5</span><div><div class="pt">Creamy Keto Taco Soup</div><div class="pm">Dinner · 4g net · 288 kcal</div></div></a>
         </div>
       </div>
 
