@@ -239,7 +239,7 @@ section.guides{padding:18px 0 88px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .15s,box-shadow .2s}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.card .ph{height:168px;position:relative;background-image:repeating-linear-gradient(45deg,#e3eaf1 0 9px,#dbe4ec 9px 18px)}
+.card .ph{height:168px;position:relative;background-size:cover;background-position:center;background-color:#e3eaf1}
 .card .ph .lbl{position:absolute;left:12px;bottom:11px;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:#64829b;background:rgba(255,255,255,.7);padding:3px 7px;border-radius:5px}
 .card .body{padding:18px 20px 22px}
 .card .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
@@ -765,15 +765,15 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
     </div>
     <div class="cards">
       <a class="card" href="/blog/keto-flu-electrolyte-fix.html">
-        <div class="ph"><span class="lbl">KetoDial Guide</span></div>
+        <div class="ph" style="background-image:url(/images/keto-flu.jpg)"><span class="lbl">KetoDial Guide</span></div>
         <div class="body"><span class="kicker">Health</span><h3>Keto Flu Is Not Inevitable</h3><p>That horrible feeling in week one is a preventable electrolyte problem. Here's the clinical fix.</p></div>
       </a>
       <a class="card" href="/blog/keto-meal-prep-under-50.html">
-        <div class="ph"><span class="lbl">KetoDial Guide</span></div>
+        <div class="ph" style="background-image:url(/images/meal-prep.jpg)"><span class="lbl">KetoDial Guide</span></div>
         <div class="body"><span class="kicker">Protocol</span><h3>Keto Meal Prep: Under $50</h3><p>A full 5-day meal prep plan. Real food, real macros, 90 minutes on Sunday.</p></div>
       </a>
       <a class="card" href="/blog/keto-vs-carnivore.html">
-        <div class="ph"><span class="lbl">KetoDial Guide</span></div>
+        <div class="ph" style="background-image:url(/images/keto-vs-carnivore.jpg)"><span class="lbl">KetoDial Guide</span></div>
         <div class="body"><span class="kicker">Community</span><h3>Keto vs. Carnivore</h3><p>The real differences from someone in both communities. Who thrives on each, and why.</p></div>
       </a>
     </div>
