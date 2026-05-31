@@ -830,12 +830,16 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
         <circle cx="60" cy="60" r="48" stroke="#2dd4bf" stroke-width="9"/>
         <path d="M42 61l12 12 24-26" stroke="#2dd4bf" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <h3>Your reports are ready</h3>
-      <p>We've emailed copies to <b id="successEmail">your inbox</b></p>
+      <h3>Payment confirmed!</h3>
+      <p>Your personalized reports are being generated now.</p>
     </div>
     <div class="success-body">
+      <div style="background:#eff8ff;border:1.5px solid #bae6fd;border-radius:12px;padding:16px 18px;margin-bottom:18px;text-align:center">
+        <p style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px">Check your inbox in about 2 minutes</p>
+        <p style="font-size:13px;color:var(--ink-soft);margin:0">We're emailing your reports to <b id="successEmail">your inbox</b>. Each report opens as a printable page you can save as PDF.</p>
+      </div>
       <div class="report-rows" id="reportRows"></div>
-      <button class="success-done" id="successDone">Done</button>
+      <button class="success-done" id="successDone">Got it</button>
     </div>
   </div>
 </div>

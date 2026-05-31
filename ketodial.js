@@ -410,21 +410,35 @@
   var successOverlay=$('#successOverlay');
   var urlParams=new URLSearchParams(window.location.search);
   if(urlParams.get('success')==='true'){
+    var sessionId=urlParams.get('session_id')||'';
     var successEmail=$('#successEmail');
-    if(successEmail) successEmail.textContent='your inbox';
     var wrap=$('#reportRows');
+
+    // Build report links using the session ID
+    var reportBase=API_BASE+'/report/'+sessionId;
+    var reportTypes=[
+      {name:'Macro Results',type:'free',color:'var(--accent)',tag:'FREE'},
+      {name:"Doctor's Report",type:'doctor',color:'#f0abfc',tag:'PDF'},
+      {name:'7-Day Meal Plan',type:'meal',color:'var(--protein)',tag:'PDF'},
+      {name:'Keto Starter Kit',type:'starter',color:'#fbbf24',tag:'PDF'}
+    ];
+
     if(wrap){
       wrap.innerHTML='';
-      var freeRow=document.createElement('div');
-      freeRow.className='rrow';
-      freeRow.innerHTML='<span class="rdot" style="background:var(--accent)"></span><span class="rnm">Macro Results</span><span class="rtag mono">FREE</span>';
-      wrap.appendChild(freeRow);
-      var paidRow=document.createElement('div');
-      paidRow.className='rrow';
-      paidRow.innerHTML='<span class="rdot" style="background:var(--protein)"></span><span class="rnm">Your reports are being generated</span><span class="rtag mono">EMAIL</span><span style="font-size:13px;color:var(--ink-soft)">Check your inbox in a few minutes</span>';
-      wrap.appendChild(paidRow);
+      reportTypes.forEach(function(r){
+        var el=document.createElement('div');
+        el.className='rrow';
+        if(r.type==='free'){
+          el.innerHTML='<span class="rdot" style="background:'+r.color+'"></span><span class="rnm">'+r.name+'</span><span class="rtag mono">'+r.tag+'</span>';
+        }else{
+          el.innerHTML='<span class="rdot" style="background:'+r.color+'"></span><span class="rnm">'+r.name+'</span><span class="rtag mono">'+r.tag+'</span><a class="ropen" href="'+reportBase+'?type='+r.type+'" target="_blank">Open</a>';
+        }
+        wrap.appendChild(el);
+      });
     }
-    track('kd_payment_complete',{session_id:urlParams.get('session_id')||''});
+
+    if(successEmail) successEmail.textContent=sessionId?'the email you provided':'your inbox';
+    track('kd_payment_complete',{session_id:sessionId});
     successOverlay.classList.add('show');
   }
 
