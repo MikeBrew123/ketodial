@@ -188,12 +188,10 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
     <div class="chips" id="mealChips">
       <button class="on">All recipes</button>
       <button>Breakfast</button>
-      <button>Lunch</button>
       <button>Dinner</button>
-      <button>Snacks</button>
-      <button>Dessert</button>
+      <button>Sides</button>
     </div>
-    <span class="filter-meta" id="count">5 recipes · all under 12g net carbs</span>
+    <span class="filter-meta" id="count">18 recipes · all under 12g net carbs</span>
   </div>
 </div>
 
@@ -228,58 +226,44 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
   <main>
     <div class="feed-title"><h2>Browse recipes</h2></div>
 
-    <div class="rgrid">
-      <a class="recipe" href="/recipes/keto-smothered-chicken-thighs.html">
-        <div class="rwrap">
-          <img src="/images/recipe-smothered-chicken.jpg" alt="Keto Smothered Chicken Thighs" loading="lazy" />
-          <span class="net-tag">2g net</span>
-          <span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>60 min</span>
-        </div>
-        <div class="body"><span class="kicker">Dinner</span><h3>Smothered Chicken Thighs</h3>
-          <div class="macros"><span class="mp kcal">466 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 32</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 41</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2</span></div></div>
-      </a>
+    <div class="rgrid" id="recipeGrid">
+      <a class="recipe" data-meal="dinner" href="/recipes/keto-smothered-chicken-thighs.html"><div class="rwrap"><img src="/images/recipe-smothered-chicken.jpg" alt="Keto Smothered Chicken Thighs" loading="lazy" /><span class="net-tag">2g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>60 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Smothered Chicken Thighs</h3><div class="macros"><span class="mp kcal">466 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 32</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 41</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2</span></div></div></a>
 
-      <a class="recipe" href="/recipes/creamy-keto-taco-soup.html">
-        <div class="rwrap">
-          <img src="/images/recipe-creamy-keto-taco-soup.jpg" alt="Creamy Keto Taco Soup" loading="lazy" />
-          <span class="net-tag">4g net</span>
-          <span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span>
-        </div>
-        <div class="body"><span class="kicker">Dinner</span><h3>Creamy Keto Taco Soup</h3>
-          <div class="macros"><span class="mp kcal">288 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 24</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 13</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 4</span></div></div>
-      </a>
+      <a class="recipe" data-meal="dinner" href="/recipes/keto-chicken-parmesan.html"><div class="rwrap"><img src="/images/recipe-keto-chicken-parmesan.jpg" alt="Keto Chicken Parmesan" loading="lazy" /><span class="net-tag">5g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Keto Chicken Parmesan</h3><div class="macros"><span class="mp kcal">442 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 25</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 47</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 5</span></div></div></a>
 
-      <a class="recipe" href="/recipes/90-second-keto-bread.html">
-        <div class="rwrap">
-          <img src="/images/recipe-90-second-keto-bread.jpg" alt="90-Second Keto Bread" loading="lazy" />
-          <span class="net-tag">6g net</span>
-          <span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>7 min</span>
-        </div>
-        <div class="body"><span class="kicker">Breakfast</span><h3>90-Second Keto Bread</h3>
-          <div class="macros"><span class="mp kcal">408 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 36</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 15</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 6</span></div></div>
-      </a>
+      <a class="recipe" data-meal="breakfast" href="/recipes/90-second-keto-bread.html"><div class="rwrap"><img src="/images/recipe-90-second-keto-bread.jpg" alt="90-Second Keto Bread" loading="lazy" /><span class="net-tag">6g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>7 min</span></div><div class="body"><span class="kicker">Breakfast</span><h3>90-Second Keto Bread</h3><div class="macros"><span class="mp kcal">408 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 36</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 15</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 6</span></div></div></a>
+
+      <a class="recipe" data-meal="dinner" href="/recipes/creamy-keto-taco-soup.html"><div class="rwrap"><img src="/images/recipe-creamy-keto-taco-soup.jpg" alt="Creamy Keto Taco Soup" loading="lazy" /><span class="net-tag">4g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Creamy Keto Taco Soup</h3><div class="macros"><span class="mp kcal">288 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 24</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 13</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 4</span></div></div></a>
+
+      <a class="recipe" data-meal="dinner" href="/recipes/keto-spinach-artichoke-chicken.html"><div class="rwrap"><img src="/images/recipe-keto-spinach-artichoke-chicken.jpg" alt="Keto Spinach-Artichoke Chicken" loading="lazy" /><span class="net-tag">4g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Spinach-Artichoke Chicken</h3><div class="macros"><span class="mp kcal">554 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 33</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 56</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 4</span></div></div></a>
+
+      <a class="recipe" data-meal="breakfast" href="/recipes/bacon-spinach-egg-cups.html"><div class="rwrap"><img src="/images/recipe-bacon-spinach-egg-cups.jpg" alt="Bacon Spinach Egg Cups" loading="lazy" /><span class="net-tag">3g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>55 min</span></div><div class="body"><span class="kicker">Breakfast</span><h3>Bacon Spinach Egg Cups</h3><div class="macros"><span class="mp kcal">237 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 18</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 17</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 3</span></div></div></a>
 
       <!-- AD SLOT: in-feed native, responsive, matches recipe grid -->
 
-      <a class="recipe" href="/recipes/keto-beef-egg-roll-slaw.html">
-        <div class="rwrap">
-          <img src="/images/recipe-keto-beef-egg-roll-slaw.jpg" alt="Keto Beef Egg Roll Slaw" loading="lazy" />
-          <span class="net-tag">10g net</span>
-          <span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span>
-        </div>
-        <div class="body"><span class="kicker">Dinner</span><h3>Keto Beef Egg Roll Slaw</h3>
-          <div class="macros"><span class="mp kcal">350 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 24</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 21</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 10</span></div></div>
-      </a>
+      <a class="recipe" data-meal="dinner" href="/recipes/zucchini-lasagna.html"><div class="rwrap"><img src="/images/recipe-zucchini-lasagna.jpg" alt="Zucchini Lasagna" loading="lazy" /><span class="net-tag">12g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>80 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Zucchini Lasagna</h3><div class="macros"><span class="mp kcal">424 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 27</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 30</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 12</span></div></div></a>
 
-      <a class="recipe" href="/recipes/bacon-spinach-egg-cups.html">
-        <div class="rwrap">
-          <img src="/images/recipe-bacon-spinach-egg-cups.jpg" alt="Bacon Spinach Egg Cups" loading="lazy" />
-          <span class="net-tag">3g net</span>
-          <span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>55 min</span>
-        </div>
-        <div class="body"><span class="kicker">Breakfast</span><h3>Bacon Spinach Egg Cups</h3>
-          <div class="macros"><span class="mp kcal">237 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 18</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 17</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 3</span></div></div>
-      </a>
+      <a class="recipe" data-meal="dinner" href="/recipes/low-carb-salisbury-steak.html"><div class="rwrap"><img src="/images/recipe-low-carb-salisbury-steak.jpg" alt="Low-Carb Salisbury Steak" loading="lazy" /><span class="net-tag">7g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>49 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Salisbury Steak</h3><div class="macros"><span class="mp kcal">536 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 43</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 30</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 7</span></div></div></a>
+
+      <a class="recipe" data-meal="dinner" href="/recipes/low-carb-cream-of-mushroom-soup.html"><div class="rwrap"><img src="/images/recipe-low-carb-cream-of-mushroom-soup.jpg" alt="Cream of Mushroom Soup" loading="lazy" /><span class="net-tag">7g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>75 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Cream of Mushroom Soup</h3><div class="macros"><span class="mp kcal">443 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 44</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 6</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 7</span></div></div></a>
+
+      <a class="recipe" data-meal="side" href="/recipes/simple-cauliflower-keto-casserole.html"><div class="rwrap"><img src="/images/recipe-simple-cauliflower-keto-casserole.jpg" alt="Cauliflower Keto Casserole" loading="lazy" /><span class="net-tag">6g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>45 min</span></div><div class="body"><span class="kicker">Side</span><h3>Cauliflower Keto Casserole</h3><div class="macros"><span class="mp kcal">469 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 41</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 18</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 6</span></div></div></a>
+
+      <a class="recipe" data-meal="dinner" href="/recipes/instant-pot-bacon-ranch-chicken-thighs.html"><div class="rwrap"><img src="/images/recipe-instant-pot-bacon-ranch-chicken-thighs.jpg" alt="Instant Pot Bacon-Ranch Chicken" loading="lazy" /><span class="net-tag">2g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>45 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Instant Pot Bacon-Ranch Chicken</h3><div class="macros"><span class="mp kcal">359 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 27</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 24</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2</span></div></div></a>
+
+      <a class="recipe" data-meal="dinner" href="/recipes/low-carb-cream-of-broccoli-soup.html"><div class="rwrap"><img src="/images/recipe-low-carb-cream-of-broccoli-soup.jpg" alt="Cream of Broccoli Soup" loading="lazy" /><span class="net-tag">4g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>45 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Cream of Broccoli Soup</h3><div class="macros"><span class="mp kcal">258 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 23</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 9</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 4</span></div></div></a>
+
+      <a class="recipe" data-meal="breakfast" href="/recipes/rebekahs-keto-egg-casserole.html"><div class="rwrap"><img src="/images/recipe-rebekahs-keto-egg-casserole.jpg" alt="Keto Egg Casserole" loading="lazy" /><span class="net-tag">2g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span></div><div class="body"><span class="kicker">Breakfast</span><h3>Keto Egg &amp; Sausage Casserole</h3><div class="macros"><span class="mp kcal">374 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 31</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 21</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2</span></div></div></a>
+
+      <a class="recipe" data-meal="breakfast" href="/recipes/low-carb-cream-cheese-pancakes.html"><div class="rwrap"><img src="/images/recipe-low-carb-cream-cheese-pancakes.jpg" alt="Cream Cheese Pancakes" loading="lazy" /><span class="net-tag">2g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>20 min</span></div><div class="body"><span class="kicker">Breakfast</span><h3>Cream Cheese Pancakes</h3><div class="macros"><span class="mp kcal">202 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 20</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 4</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2</span></div></div></a>
+
+      <a class="recipe" data-meal="breakfast" href="/recipes/keto-cinnamon-granola.html"><div class="rwrap"><img src="/images/recipe-keto-cinnamon-granola.jpg" alt="Keto Cinnamon Granola" loading="lazy" /><span class="net-tag">1g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>18 min</span></div><div class="body"><span class="kicker">Breakfast</span><h3>Keto Cinnamon Granola</h3><div class="macros"><span class="mp kcal">183 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 18</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 3</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 1</span></div></div></a>
+
+      <a class="recipe" data-meal="side" href="/recipes/low-carb-zucchini-pasta.html"><div class="rwrap"><img src="/images/recipe-low-carb-zucchini-pasta.jpg" alt="Zucchini Pasta" loading="lazy" /><span class="net-tag">5g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>20 min</span></div><div class="body"><span class="kicker">Side</span><h3>Zucchini Pasta</h3><div class="macros"><span class="mp kcal">157 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 14</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 3</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 5</span></div></div></a>
+
+      <a class="recipe" data-meal="side" href="/recipes/low-carb-yellow-squash-casserole.html"><div class="rwrap"><img src="/images/recipe-low-carb-yellow-squash-casserole.jpg" alt="Yellow Squash Casserole" loading="lazy" /><span class="net-tag">4g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>55 min</span></div><div class="body"><span class="kicker">Side</span><h3>Yellow Squash Casserole</h3><div class="macros"><span class="mp kcal">228 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 20</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 9</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 4</span></div></div></a>
+
+      <a class="recipe" data-meal="dinner" href="/recipes/keto-beef-egg-roll-slaw.html"><div class="rwrap"><img src="/images/recipe-keto-beef-egg-roll-slaw.jpg" alt="Keto Beef Egg Roll Slaw" loading="lazy" /><span class="net-tag">10g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span></div><div class="body"><span class="kicker">Dinner</span><h3>Beef Egg Roll Slaw</h3><div class="macros"><span class="mp kcal">350 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 24</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 21</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 10</span></div></div></a>
     </div>
 
     <!-- AD SLOT: bottom billboard 970×90, after recipe grid -->
@@ -355,13 +339,30 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
 
 <script>
   var chips=document.getElementById('mealChips');
-  var count=document.getElementById('count');
-  var counts={'All recipes':'5 recipes · all under 12g net carbs','Breakfast':'2 breakfasts','Lunch':'0 lunches','Dinner':'3 dinners','Snacks':'0 snacks','Dessert':'0 desserts'};
+  var countEl=document.getElementById('count');
+  var grid=document.getElementById('recipeGrid');
+  var featured=document.querySelector('.featured');
+  var cards=grid.querySelectorAll('.recipe[data-meal]');
+  var filterMap={'All recipes':'all','Breakfast':'breakfast','Lunch':'lunch','Dinner':'dinner','Snacks':'snack','Sides':'side','Dessert':'dessert'};
+
+  function applyFilter(meal){
+    var visible=0;
+    cards.forEach(function(c){
+      var show=(meal==='all'||c.dataset.meal===meal);
+      c.style.display=show?'':'none';
+      if(show) visible++;
+    });
+    // Hide featured if filtering to non-dinner
+    if(featured) featured.style.display=(meal==='all'||meal==='dinner')?'':'none';
+    var label=meal==='all'?'18 recipes · all under 12g net carbs':visible+' '+(meal==='side'?'sides':meal+'s');
+    countEl.textContent=label;
+  }
+
   chips.querySelectorAll('button').forEach(function(b){
     b.addEventListener('click',function(){
       chips.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
-      count.textContent=counts[b.textContent]||'';
+      applyFilter(filterMap[b.textContent]||'all');
     });
   });
 </script>
