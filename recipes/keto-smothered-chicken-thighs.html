@@ -96,10 +96,19 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rc-foot .fb{display:flex;align-items:center;gap:7px;color:var(--ink-soft);font-weight:500}
 .rc-foot .fb b{color:var(--ink);font-weight:700}
 .rc-foot .dot{color:var(--accent-deep)}
+/* WATERMARK (free version — removed on Etsy paid cards) */
+.card::after{content:"FREE PREVIEW · ketodial.com/recipes";position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-family:var(--mono);font-size:48px;font-weight:800;letter-spacing:.08em;color:rgba(56,189,248,.06);white-space:nowrap;pointer-events:none;z-index:50;display:none}
 @media print{
   body{background:#fff;padding:0}
   .no-print{display:none!important}
   .card{box-shadow:none;border-radius:0;width:auto;min-height:auto;margin:0}
+  .card::after{display:block}
+  .rc-head{padding:0.4in 0.5in 0.36in;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rc-body{padding:0.3in 0.5in 0.2in}
+  .rc-foot{padding:0.18in 0.5in}
+  .photo img{max-height:2.4in}
+  .tip{page-break-inside:avoid}
+  .cols{page-break-inside:avoid}
   @page{size:Letter portrait;margin:0}
 }
 @media(max-width:900px){
@@ -172,10 +181,8 @@ ol.method li b{color:var(--ink);font-weight:600}
       <span class="net">Net carbs 2g</span>
     </div>
 
-    <div class="photo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-      <span class="pt">Add your finished-dish photo here</span>
-      <span class="ps">replace before printing · ~1200x620</span>
+    <div class="photo" style="height:auto;border:none;background:none;padding:0">
+      <img src="/images/recipe-smothered-chicken.jpg" alt="Keto Smothered Chicken Thighs in cast iron skillet with creamy mushroom sauce, bacon, and green onions" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
 
     <div class="cols">
