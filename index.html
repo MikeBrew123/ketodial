@@ -307,9 +307,11 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
 .rrow .ropen:hover{border-color:var(--accent-deep);background:rgba(56,189,248,.08)}
 .success-done{width:100%;height:48px;border-radius:12px;background:var(--ink);color:#fff;font-weight:700;font-size:15px}
 .success-done:hover{background:#15273f}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-nav">Skip to content</a>
 
 <!-- NAV -->
 <header class="nav">
@@ -338,7 +340,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
 </header>
 
 <!-- HERO + CALCULATOR FLOW -->
-<section class="hero" id="calc">
+<section class="hero" id="main-content">
   <div class="wrap calc-wrap">
     <div class="hero-head">
       <span class="eyebrow">Keto macro calculator</span>

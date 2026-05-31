@@ -11,6 +11,7 @@
 <meta property="og:title" content="Why We Built KetoDial (And Why Your Macros Are Probably Wrong)">
 <meta property="og:description" content="We kept getting the same email: 'I'm not ready for carnivore but I want to try keto.' So we built a tool for them.">
 <meta property="og:site_name" content="KetoDial">
+<meta property="og:image" content="https://ketodial.com/images/welcome.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&display=swap" rel="stylesheet" />
@@ -68,9 +69,11 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
 .foot-inner{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
 .foot-inner .disclaimer{font-size:12px;color:#6b8aa0;max-width:640px;line-height:1.5}
 .foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-nav">Skip to content</a>
 
 <header class="nav">
   <div class="nav-inner">
@@ -93,7 +96,7 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
   </div>
 </header>
 
-<article class="article">
+<article class="article" id="main-content">
   <div class="eyebrow">Welcome to KetoDial</div>
   <h1>Why We Built KetoDial (And Why Your Macros Are Probably Wrong)</h1>
   <div class="byline"><b>Sarah</b> · Health Coach · May 30, 2026</div>
