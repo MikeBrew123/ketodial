@@ -54,7 +54,21 @@ var INGREDIENT_ASINS = {
 };
 
 function buildCartUrl(asins) {
-  var url = 'https://www.amazon.com/gp/aws/cart/add.html?AssociateTag=' + AMAZON_TAG;
+  // Detect user's likely Amazon domain from timezone/language
+  var domain = 'www.amazon.ca'; // default to .ca for our audience
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    var lang = (navigator.language || '').toLowerCase();
+    if (tz.indexOf('America/') === 0) {
+      // US timezones: Eastern, Central, Mountain, Pacific, etc (not Toronto/Vancouver/etc)
+      var caZones = ['Toronto','Vancouver','Edmonton','Winnipeg','Halifax','St_Johns','Montreal','Regina'];
+      var isCa = caZones.some(function(z) { return tz.indexOf(z) !== -1; });
+      domain = isCa ? 'www.amazon.ca' : 'www.amazon.com';
+    } else if (tz.indexOf('Europe/London') !== -1) { domain = 'www.amazon.co.uk'; }
+    else if (tz.indexOf('Europe/') === 0) { domain = 'www.amazon.de'; }
+    else if (tz.indexOf('Australia/') === 0) { domain = 'www.amazon.com.au'; }
+  } catch(e) {}
+  var url = 'https://' + domain + '/gp/aws/cart/add.html?AssociateTag=' + AMAZON_TAG;
   asins.forEach(function(asin, i) {
     url += '&ASIN.' + (i+1) + '=' + asin + '&Quantity.' + (i+1) + '=1';
   });
