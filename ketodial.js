@@ -189,7 +189,7 @@
   // Show/hide validation message
   var step1Msg=document.createElement('div');
   step1Msg.style.cssText='display:none;margin-top:10px;font-size:12.5px;color:#dc2626;text-align:center;font-weight:600';
-  step1Msg.textContent='Fill in the highlighted fields to see your results.';
+  step1Msg.textContent='Enter your age, height, and weight to calculate your macros.';
   if(freeBtn) freeBtn.parentNode.insertBefore(step1Msg,freeBtn.nextSibling.nextSibling);
 
   if(freeBtn){
