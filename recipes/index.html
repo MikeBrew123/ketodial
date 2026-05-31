@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KetoDial Recipes — Keto Meals with Verified Macros</title>
+<meta name="description" content="Keto recipes with per-serving macros shown up front. Filter by meal type, see the numbers before you cook. Every recipe fits your keto targets.">
+<link rel="canonical" href="https://ketodial.com/recipes/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ketodial.com/recipes/">
+<meta property="og:title" content="KetoDial Recipes — Keto Meals with Verified Macros">
+<meta property="og:description" content="Keto recipes with per-serving macros shown up front. Filter by meal type, see the numbers before you cook.">
+<meta property="og:site_name" content="KetoDial">
+<meta property="og:image" content="https://ketodial.com/images/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;0,16..72,600;1,16..72,400&display=swap" rel="stylesheet" />
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y79FB48EG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0Y79FB48EG');
+</script>
+<style>
+:root{
+  --bg:#f1f5f9;--surface:#ffffff;--ink:#0f172a;--ink-soft:#475569;--ink-faint:#94a3b8;
+  --line:#e2e8f0;--line-soft:#eef2f6;--panel:#0b1620;--panel-2:#0f2236;--panel-line:#1e3a52;
+  --accent:#38bdf8;--accent-deep:#0ea5e9;--teal:#2dd4bf;--indigo:#818cf8;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--serif:"Newsreader",Georgia,serif;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -12px rgba(15,23,42,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:500}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+
+/* NAV */
+header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mark{width:34px;height:34px;flex:none}
+.brand .word{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.brand .word b{color:var(--accent-deep);font-weight:800}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);transition:color .15s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);font-weight:600}
+.nav-cta{display:flex;align-items:center;gap:14px;flex:none}
+.btn-ghost{font-size:14.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.btn-pill{background:var(--ink);color:#fff;font-weight:600;font-size:14px;padding:10px 18px;border-radius:999px;transition:transform .12s,background .15s;white-space:nowrap;display:inline-block}
+.btn-pill:hover{background:#1e2c44;transform:translateY(-1px)}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* MASTHEAD */
+.masthead{padding:46px 0 28px}
+.masthead .eyebrow{display:block;margin-bottom:14px}
+.masthead h1{font-family:var(--serif);font-size:clamp(38px,5.5vw,60px);font-weight:500;letter-spacing:-.02em;line-height:1.03;max-width:760px}
+.masthead p{font-size:18px;color:var(--ink-soft);max-width:580px;margin-top:16px;line-height:1.55}
+
+/* FILTER BAR */
+.filterbar{display:flex;align-items:center;gap:16px;padding:8px 0 26px;border-bottom:1px solid var(--line);margin-bottom:30px;flex-wrap:wrap}
+.chips{display:flex;gap:9px;flex-wrap:wrap}
+.chips button{font-size:13.5px;font-weight:600;color:var(--ink-soft);padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);transition:all .15s}
+.chips button:hover{border-color:var(--ink-faint)}
+.chips button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filter-meta{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.04em}
+
+/* FEATURED */
+.featured{display:grid;grid-template-columns:1.1fr 1fr;gap:0;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-bottom:40px;transition:box-shadow .2s}
+.featured:hover{box-shadow:var(--shadow)}
+.featured .feat-img{width:100%;height:340px;object-fit:cover;position:relative}
+.featured .feat-wrap{position:relative}
+.featured .net-tag{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:12px;font-weight:700;color:#062234;background:var(--accent);padding:6px 12px;border-radius:8px;z-index:2}
+.featured .fbody{padding:8px 40px 8px 8px}
+.featured .tagrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.featured .feat-badge{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:#fff;padding:4px 9px;border-radius:6px;font-weight:600}
+.featured .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.featured h2{font-family:var(--serif);font-size:33px;font-weight:500;line-height:1.1;letter-spacing:-.02em;margin-bottom:13px}
+.featured p{font-size:15.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px;max-width:430px}
+.featured .macros{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.featured .go{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-weight:700;font-size:14px;padding:11px 18px;border-radius:11px}
+@media(max-width:860px){.featured{grid-template-columns:1fr}.featured .feat-img{height:240px}.featured .fbody{padding:0 24px 28px}}
+
+/* RECIPE GRID */
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.recipe{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .15s,box-shadow .2s}
+.recipe:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.recipe .rimg{height:186px;object-fit:cover;width:100%;position:relative}
+.recipe .rwrap{position:relative;height:186px;overflow:hidden}
+.recipe .rwrap img{width:100%;height:100%;object-fit:cover}
+.recipe .net-tag{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:11px;font-weight:700;color:#062234;background:var(--accent);padding:5px 10px;border-radius:8px;letter-spacing:.02em;z-index:2}
+.recipe .time-tag{position:absolute;left:12px;bottom:11px;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:#fff;background:rgba(11,22,32,.72);padding:4px 9px;border-radius:6px;z-index:2}
+.recipe .time-tag svg{width:11px;height:11px}
+.recipe .body{padding:17px 19px 18px;display:flex;flex-direction:column;flex:1}
+.recipe .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--accent-deep)}
+.recipe h3{font-family:var(--serif);font-size:21px;font-weight:500;line-height:1.16;margin:8px 0 12px;letter-spacing:-.01em}
+.recipe .macros{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.mp{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;font-weight:500;padding:4px 8px;border-radius:6px;border:1px solid var(--line);color:var(--ink-soft)}
+.mp .d{width:7px;height:7px;border-radius:2px}
+.mp.kcal{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 300px;gap:40px;margin-top:42px}
+.feed-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.feed-title h2{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.feed-title a{font-size:13px;font-weight:600;color:var(--accent-deep)}
+.sidebar{position:relative}
+.sidebar .sticky{position:sticky;top:90px;display:flex;flex-direction:column;gap:20px}
+
+/* SIDEBAR WIDGETS */
+.widget{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.widget h4{font-family:var(--sans);font-size:15px;font-weight:800;letter-spacing:-.01em;margin-bottom:14px;text-transform:none}
+.calc-cta{background:radial-gradient(120% 120% at 30% -20%,#15324c,var(--panel));color:#e2eef7;border:none;position:relative;overflow:hidden}
+.calc-cta::before{content:"";position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(56,189,248,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.06) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(80% 80% at 70% 10%,#000,transparent);mask-image:radial-gradient(80% 80% at 70% 10%,#000,transparent)}
+.calc-cta>*{position:relative}
+.calc-cta .ce{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.calc-cta h4{color:#fff;font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:-.01em;text-transform:none;margin-bottom:8px}
+.calc-cta p{font-size:13px;color:#9fc0d6;line-height:1.5;margin-bottom:16px}
+.calc-cta .go{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#062234;font-weight:700;font-size:13.5px;padding:10px 16px;border-radius:10px}
+.etsy h4{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);font-weight:500;margin-bottom:12px}
+.etsy p{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:14px}
+.etsy .eb{display:inline-flex;align-items:center;gap:8px;background:#0891b2;color:#fff;font-weight:600;font-size:13.5px;padding:10px 16px;border-radius:10px}
+.poplist{display:flex;flex-direction:column;gap:2px}
+.pop{display:flex;align-items:center;gap:14px;padding:9px 6px;border-radius:10px;transition:background .12s}
+.pop:hover{background:var(--bg)}
+.pop .rank{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink-faint);width:20px;text-align:center;flex:none}
+.pop .pt{font-size:14px;font-weight:600;color:var(--ink);line-height:1.3}
+.pop .pm{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:2px}
+
+/* PLACEHOLDER for missing images */
+.ph{height:186px;background:repeating-linear-gradient(45deg,#e3eaf1 0 9px,#dbe4ec 9px 18px);position:relative}
+
+/* FOOTER */
+footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
+.foot-brand p{font-size:13.5px;color:#6b8aa0;margin-top:14px;line-height:1.5}
+.foot-col h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#4b7a96;margin-bottom:14px}
+.foot-col a{display:block;font-size:14px;color:#9fb8c9;padding:5px 0;transition:color .12s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{border-top:1px solid var(--panel-line);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot-bottom .disclaimer{font-size:12px;color:#5a7d94;max-width:640px;line-height:1.5}
+.foot-bottom .copy{font-family:var(--mono);font-size:11px;color:#4b7a96}
+
+@media(max-width:920px){.layout{grid-template-columns:1fr}.sidebar{display:none}.rgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.rgrid{grid-template-columns:1fr}.foot-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-nav">Skip to content</a>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" fill="#0b1620"/><path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/><path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="20" r="3" fill="#e2eef7"/></svg>
+      <span class="word">Keto<b>Dial</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#calc">Calculator</a>
+      <a href="/#how">How it works</a>
+      <a href="/blog/">Guides</a>
+      <a href="/recipes/" class="active">Recipes</a>
+      <a href="/blog/why-we-built-ketodial.html">About</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="/blog/">Read guides</a>
+      <a class="btn-pill" href="/#calc">Get my macros</a>
+    </div>
+  </div>
+</header>
+
+<!-- MASTHEAD -->
+<div class="wrap">
+  <div class="masthead">
+    <span class="eyebrow">KetoDial Recipes</span>
+    <h1>Recipes that land on your macros.</h1>
+    <p>Every recipe shows its per-serving macros up front — so you can see it fits your target before you cook. Filter by meal, then dial it in.</p>
+  </div>
+
+  <div class="filterbar">
+    <div class="chips" id="mealChips">
+      <button class="on">All recipes</button>
+      <button>Breakfast</button>
+      <button>Lunch</button>
+      <button>Dinner</button>
+      <button>Snacks</button>
+      <button>Dessert</button>
+    </div>
+    <span class="filter-meta" id="count">5 recipes · all under 12g net carbs</span>
+  </div>
+</div>
+
+<!-- AD SLOT: leaderboard 728×90, place between filter bar and featured recipe -->
+
+<!-- FEATURED -->
+<div class="wrap" id="main-content">
+  <a class="featured" href="/recipes/keto-smothered-chicken-thighs.html">
+    <div class="feat-wrap">
+      <img class="feat-img" src="/images/recipe-smothered-chicken.jpg" alt="Keto Smothered Chicken Thighs" loading="eager" />
+      <span class="net-tag">2g net</span>
+    </div>
+    <div class="fbody">
+      <div class="tagrow"><span class="feat-badge">Recipe of the week</span><span class="kicker">Dinner</span></div>
+      <h2>Smothered Chicken Thighs with Bacon &amp; Mushrooms</h2>
+      <p>Crispy skin-on chicken thighs in a creamy mushroom sauce, topped with bacon and green onions. A one-pan dinner with serious protein.</p>
+      <div class="macros">
+        <span class="mp kcal">466 kcal</span>
+        <span class="mp"><span class="d" style="background:var(--accent)"></span>F 32g</span>
+        <span class="mp"><span class="d" style="background:var(--teal)"></span>P 41g</span>
+        <span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2g</span>
+      </div>
+      <span class="go">View recipe card
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </div>
+  </a>
+</div>
+
+<!-- MAIN -->
+<div class="wrap layout">
+  <main>
+    <div class="feed-title"><h2>Browse recipes</h2></div>
+
+    <div class="rgrid">
+      <a class="recipe" href="/recipes/keto-smothered-chicken-thighs.html">
+        <div class="rwrap">
+          <img src="/images/recipe-smothered-chicken.jpg" alt="Keto Smothered Chicken Thighs" loading="lazy" />
+          <span class="net-tag">2g net</span>
+          <span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>60 min</span>
+        </div>
+        <div class="body"><span class="kicker">Dinner</span><h3>Smothered Chicken Thighs</h3>
+          <div class="macros"><span class="mp kcal">466 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 32</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 41</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 2</span></div></div>
+      </a>
+
+      <!-- Placeholder cards for upcoming recipes from our scraped database -->
+      <div class="recipe" style="opacity:0.5;pointer-events:none">
+        <div class="ph"><span class="net-tag">4g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span></div>
+        <div class="body"><span class="kicker">Dinner</span><h3>Creamy Keto Taco Soup</h3>
+          <div class="macros"><span class="mp kcal">288 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 24</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 13</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 4</span></div></div>
+      </div>
+
+      <div class="recipe" style="opacity:0.5;pointer-events:none">
+        <div class="ph"><span class="net-tag">6g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>7 min</span></div>
+        <div class="body"><span class="kicker">Breakfast</span><h3>90-Second Keto Bread</h3>
+          <div class="macros"><span class="mp kcal">408 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 36</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 15</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 6</span></div></div>
+      </div>
+
+      <!-- AD SLOT: in-feed native, responsive, matches recipe grid -->
+
+      <div class="recipe" style="opacity:0.5;pointer-events:none">
+        <div class="ph"><span class="net-tag">10g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>30 min</span></div>
+        <div class="body"><span class="kicker">Dinner</span><h3>Keto Beef Egg Roll Slaw</h3>
+          <div class="macros"><span class="mp kcal">350 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 24</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 21</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 10</span></div></div>
+      </div>
+
+      <div class="recipe" style="opacity:0.5;pointer-events:none">
+        <div class="ph"><span class="net-tag">3g net</span><span class="time-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>55 min</span></div>
+        <div class="body"><span class="kicker">Breakfast</span><h3>Bacon Spinach Egg Cups</h3>
+          <div class="macros"><span class="mp kcal">237 kcal</span><span class="mp"><span class="d" style="background:var(--accent)"></span>F 18</span><span class="mp"><span class="d" style="background:var(--teal)"></span>P 17</span><span class="mp"><span class="d" style="background:var(--indigo)"></span>C 3</span></div></div>
+      </div>
+    </div>
+
+    <!-- AD SLOT: bottom billboard 970×90, after recipe grid -->
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sticky">
+      <a class="widget calc-cta" href="/#calc">
+        <div class="ce">Free tool</div>
+        <h4>Cook to your numbers</h4>
+        <p>Get your daily macro target, then pick recipes that fit. About 30 seconds, no signup.</p>
+        <span class="go">Open the calculator
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <!-- AD SLOT: sidebar 300×250, between calculator CTA and Etsy widget -->
+
+      <div class="widget etsy">
+        <h4>Printable recipe cards</h4>
+        <p>Love a recipe? Every card is a print-ready PDF — put it on your fridge or gift it to a keto friend.</p>
+        <a class="eb" href="/recipes/keto-smothered-chicken-thighs.html">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+          See a sample card
+        </a>
+      </div>
+
+      <div class="widget">
+        <h4>Most cooked</h4>
+        <div class="poplist">
+          <a class="pop" href="/recipes/keto-smothered-chicken-thighs.html"><span class="rank">1</span><div><div class="pt">Smothered Chicken Thighs</div><div class="pm">Dinner · 2g net · 466 kcal</div></div></a>
+          <a class="pop" href="#"><span class="rank">2</span><div><div class="pt">Creamy Keto Taco Soup</div><div class="pm">Dinner · 4g net · 288 kcal</div></div></a>
+          <a class="pop" href="#"><span class="rank">3</span><div><div class="pt">90-Second Keto Bread</div><div class="pm">Breakfast · 6g net · 408 kcal</div></div></a>
+        </div>
+      </div>
+
+      <!-- Sponsor banners -->
+      <div class="widget" style="display:flex;flex-direction:column;gap:16px;padding:16px">
+        <a href="https://elementallabs.refr.cc" target="_blank" rel="noopener sponsored">
+          <img src="/images/lmnt-banner.avif" alt="LMNT Electrolytes" style="width:100%;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)" loading="lazy" />
+        </a>
+        <a href="https://butcherbox.pxf.io/Z6oVMR" target="_blank" rel="noopener sponsored">
+          <img src="/images/butcherbox-banner.jpg" alt="ButcherBox — Quality meat delivered" style="width:100%;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)" loading="lazy" />
+        </a>
+        <p style="font-size:11px;color:var(--ink-faint);text-align:center;margin:0">Affiliate partners</p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" fill="#0f2236"/><path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/><path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="20" r="3" fill="#e2eef7"/></svg>
+          <span class="word">Keto<b>Dial</b></span>
+        </a>
+        <p>Dial in your macros. A tool-first keto calculator that hands you a plan, not a homework assignment.</p>
+      </div>
+      <div class="foot-col"><h4>Product</h4><a href="/#calc">Calculator</a><a href="/#how">How it works</a><a href="/blog/">Macro guide</a><a href="/#reportPicker">Pricing</a></div>
+      <div class="foot-col"><h4>Learn</h4><a href="/blog/">Guides</a><a href="/recipes/">Recipes</a><a href="/blog/keto-flu-electrolyte-fix.html">Keto basics</a></div>
+      <div class="foot-col"><h4>Company</h4><a href="/blog/why-we-built-ketodial.html">About</a><a href="mailto:hello@ketodial.com">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+    </div>
+    <div class="foot-bottom">
+      <p class="disclaimer">KetoDial provides general nutrition estimates for informational purposes only and is not medical advice. Consult a qualified healthcare provider before starting any diet.</p>
+      <span class="copy">© 2026 KetoDial</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var chips=document.getElementById('mealChips');
+  var count=document.getElementById('count');
+  var counts={'All recipes':'5 recipes · all under 12g net carbs','Breakfast':'2 breakfasts','Lunch':'0 lunches','Dinner':'3 dinners','Snacks':'0 snacks','Dessert':'0 desserts'};
+  chips.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click',function(){
+      chips.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      count.textContent=counts[b.textContent]||'';
+    });
+  });
+</script>
+</body>
+</html>
