@@ -37,6 +37,30 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ketodial.com/recipes/</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url><loc>https://ketodial.com/recipes/keto-smothered-chicken-thighs.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/keto-chicken-parmesan.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/keto-spinach-artichoke-chicken.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/creamy-keto-taco-soup.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/zucchini-lasagna.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/low-carb-salisbury-steak.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/instant-pot-bacon-ranch-chicken-thighs.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/keto-beef-egg-roll-slaw.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/low-carb-cream-of-mushroom-soup.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/low-carb-cream-of-broccoli-soup.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/90-second-keto-bread.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/bacon-spinach-egg-cups.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/rebekahs-keto-egg-casserole.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/low-carb-cream-cheese-pancakes.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/keto-cinnamon-granola.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/simple-cauliflower-keto-casserole.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/low-carb-yellow-squash-casserole.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ketodial.com/recipes/low-carb-zucchini-pasta.html</loc><lastmod>2026-05-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url>
     <loc>https://ketodial.com/privacy.html</loc>
     <lastmod>2026-05-31</lastmod>
     <changefreq>yearly</changefreq>
