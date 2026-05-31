@@ -202,6 +202,21 @@
       var d=getFormData();
       lastMacros=computeMacros(d);
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
+      // Save session to Supabase via worker
+      try{
+        var emailField=$('#email');
+        fetch(API_BASE+'/session',{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            sex:d.sex,age:d.age,goal:d.goal,
+            height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
+            email:(emailField&&emailField.value.trim())||null,
+            macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee},
+            referrer:document.referrer||null,
+            device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop')
+          })
+        }).catch(function(){});
+      }catch(e){}
       freeResults.classList.add('show');
       step2.classList.add('show');
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
