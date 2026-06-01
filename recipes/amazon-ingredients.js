@@ -5,7 +5,7 @@ var AMAZON_TAG = 'carnivoreweek-20';
 var INGREDIENT_ASINS = {
   // Oils & Fats
   'olive oil': {asin: 'B07YFY5TF9', name: 'Pompeian Extra Virgin Olive Oil'},
-  'avocado oil': {asin: 'B00MWIS13M', name: 'Chosen Foods Avocado Oil'},
+
   'sesame oil': {asin: 'B00MWIS53C', name: 'La Tourangelle Toasted Sesame Oil'},
   'ghee': {asin: 'B00PGPBDYG', name: 'Fourth & Heart Ghee Butter'},
   'coconut oil': {asin: 'B003B3OOPA', name: 'Viva Naturals Organic Coconut Oil'},
