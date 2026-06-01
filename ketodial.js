@@ -205,12 +205,14 @@
       // Save session to Supabase via worker
       try{
         var emailField=$('#emailOpt');
+        var nlCheckbox=$('#newsletterOpt');
         fetch(API_BASE+'/session',{
           method:'POST',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({
             sex:d.sex,age:d.age,goal:d.goal,
             height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
             email:(emailField&&emailField.value.trim())||null,
+            newsletter_opt_in:!!(nlCheckbox&&nlCheckbox.checked&&emailField&&emailField.value.trim()),
             macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee},
             referrer:document.referrer||null,
             device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop')
