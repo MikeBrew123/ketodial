@@ -223,29 +223,7 @@ ol.method li b{color:var(--ink);font-weight:600}
     <span>Macros per serving are estimates based on USDA data <span class="dot">·</span> ketodial.com/recipes</span>
   </footer>
 </div>
-<script src="/recipes/amazon-ingredients.js"></script>
-<script>
-(function(){
-  var ingrs = document.querySelectorAll('ul.ingr li');
-  var texts = [];
-  ingrs.forEach(function(li){ texts.push(li.textContent); });
-  var matched = matchIngredients(texts);
-  var container = document.getElementById('matchedItems');
-  var btn = document.getElementById('amazonCart');
-  if (!container || !btn || matched.length === 0) return;
-  matched.forEach(function(m) {
-    var a = document.createElement('a');
-    a.className = 'mi';
-    a.href = buildProductUrl(m.asin);
-    a.target = '_blank';
-    a.rel = 'noopener sponsored';
-    a.textContent = m.name;
-    a.addEventListener('click', function(){ if(window.gtag) gtag('event','kd_amazon_item',{item:m.name,asin:m.asin,recipe:document.title}); });
-    container.appendChild(a);
-  });
-  btn.href = 'https://'+getAmazonDomain()+'/s?k=keto+pantry+staples&tag='+AMAZON_TAG;
-})();
-</script>
+
 <script src="/js/share-buttons.js" defer></script>
 </body>
 </html>

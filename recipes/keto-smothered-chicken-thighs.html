@@ -263,14 +263,11 @@ ol.method li b{color:var(--ink);font-weight:600}
 
     <div class="shop no-print">
       <div class="sh">
-        <span class="sl">Pantry ingredients</span>
+        <span class="sl">Pantry staples</span>
       </div>
-      <p class="sp">Some of these ingredients might already be in your kitchen. For the ones that aren't, we matched pantry staples you can grab on Amazon.</p>
-      <div class="matched" id="matchedItems"></div>
-      <a class="amazon-btn" id="amazonCart" href="#" target="_blank" rel="noopener sponsored">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        Browse keto staples on Amazon
-      </a>
+      <p class="sp">Need to stock up? We put every ingredient we use across all our recipes in one place.</p>
+
+      <a class="amazon-btn" href="/pantry.html" onclick="try{gtag('event','kd_pantry_link',{source:'recipe',recipe:document.title})}catch(e){}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Browse the KetoDial Pantry</a>
       <p class="aff-note">Affiliate link — we may earn a small commission at no extra cost to you. 90-day cookie.</p>
     </div>
   </div>
@@ -285,37 +282,7 @@ ol.method li b{color:var(--ink);font-weight:600}
 </div>
 
 
-<script src="/recipes/amazon-ingredients.js"></script>
-<script>
-(function(){
-  var ingrs = document.querySelectorAll('ul.ingr li');
-  var texts = [];
-  ingrs.forEach(function(li){ texts.push(li.textContent); });
-  var matched = matchIngredients(texts);
-  var container = document.getElementById('matchedItems');
-  var btn = document.getElementById('amazonCart');
-  if (matched.length === 0) {
-    var shop = document.querySelector('.shop');
-    if (shop) shop.style.display = 'none';
-    return;
-  }
-  matched.forEach(function(m) {
-    var a = document.createElement('a');
-    a.className = 'mi';
-    a.href = buildProductUrl(m.asin);
-    a.target = '_blank';
-    a.rel = 'noopener sponsored';
-    a.textContent = m.name;
-    a.addEventListener('click', function(){ if(window.gtag) gtag('event','kd_amazon_item',{item:m.name,asin:m.asin,recipe:document.title}); });
-    container.appendChild(a);
-  });
-  var asins = matched.map(function(m){ return m.asin; });
-  btn.href = 'https://'+getAmazonDomain()+'/s?k=keto+pantry+staples&tag='+AMAZON_TAG;
-  btn.addEventListener('click', function(){
-    if (window.gtag) gtag('event', 'kd_amazon_cart', {items: asins.length, recipe: document.title});
-  });
-})();
-</script>
+
 
 <div class="related no-print">
   <h2>You might also like</h2>
