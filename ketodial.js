@@ -225,7 +225,7 @@
       // Wire share buttons with actual results
       if(lastMacros){
         var m=lastMacros;
-        var txt='My keto macros: '+m.calories+' kcal, '+m.fatG+'g fat, '+m.proteinG+'g protein, '+m.carbG+'g carbs. Get yours free at KetoDial';
+        var txt='Free keto macro calculator — get your personalized targets in 30 seconds. No signup needed.';
         var u=encodeURIComponent('https://ketodial.com/#calc');
         var t=encodeURIComponent(txt);
         var fb=$('#calcShareFb'),xb=$('#calcShareX'),pb=$('#calcSharePin');
