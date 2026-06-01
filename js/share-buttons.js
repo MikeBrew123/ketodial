@@ -46,7 +46,7 @@
 
   var target = isBlog
     ? (document.querySelector('article .cta-box') || document.querySelector('article blockquote:last-of-type') || document.querySelector('article'))
-    : (document.querySelector('.rel-grid') || document.querySelector('footer'));
+    : (document.querySelector('.related') || document.querySelector('footer'));
 
   if (target && target.parentNode) {
     target.parentNode.insertBefore(bar, target);
