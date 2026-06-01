@@ -222,6 +222,17 @@
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
       else{ animateGauge(lastMacros); }
       setTimeout(function(){scrollToEl(freeResults);},120);
+      // Wire share buttons with actual results
+      if(lastMacros){
+        var m=lastMacros;
+        var txt='My keto macros: '+m.calories+' kcal, '+m.fatG+'g fat, '+m.proteinG+'g protein, '+m.carbG+'g carbs. Get yours free at KetoDial';
+        var u=encodeURIComponent('https://ketodial.com/#calc');
+        var t=encodeURIComponent(txt);
+        var fb=$('#calcShareFb'),xb=$('#calcShareX'),pb=$('#calcSharePin');
+        if(fb)fb.href='https://www.facebook.com/sharer/sharer.php?u='+u+'&quote='+t;
+        if(xb)xb.href='https://twitter.com/intent/tweet?text='+t+'&url='+u;
+        if(pb)pb.href='https://pinterest.com/pin/create/button/?url='+u+'&description='+t;
+      }
     });
   }
 
