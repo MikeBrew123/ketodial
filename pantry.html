@@ -194,13 +194,13 @@ function dom() {
   else if (tz.indexOf('Australia/') === 0) { d = 'www.amazon.com.au'; }
   return d;
 }
-function url(asin){ return 'https://'+dom()+'/dp/'+asin+'?tag='+TAG; }
+function url(name){ return 'https://'+dom()+'/s?k='+encodeURIComponent(name)+'&tag='+TAG; }
 function add(containerId, items) {
   var c = document.getElementById(containerId);
   items.forEach(function(p){
     var a = document.createElement('a');
     a.className = 'item';
-    a.href = url(p[0]);
+    a.href = url(p[1]);
     a.target = '_blank';
     a.rel = 'noopener sponsored';
     a.onclick = function(){ try{gtag('event','kd_pantry_click',{item:p[1],asin:p[0],category:containerId})}catch(e){} };

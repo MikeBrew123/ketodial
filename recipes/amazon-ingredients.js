@@ -87,8 +87,10 @@ function getAmazonDomain() {
   return domain;
 }
 
-function buildProductUrl(asin) {
-  return 'https://' + getAmazonDomain() + '/dp/' + asin + '?tag=' + AMAZON_TAG;
+function buildProductUrl(asin, name) {
+  // Use search URL instead of /dp/ — ASINs differ per region, search works everywhere
+  var q = encodeURIComponent(name || asin);
+  return 'https://' + getAmazonDomain() + '/s?k=' + q + '&tag=' + AMAZON_TAG;
 }
 
 function buildCartUrl(asins) {
