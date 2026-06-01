@@ -121,7 +121,7 @@ ol.method li b{color:var(--ink);font-weight:600}
 .shop .amazon-btn:hover{background:#FFB84D;text-decoration:none}
 .shop .amazon-btn svg{width:16px;height:16px}
 .shop .matched{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--ink-soft);border:1px solid var(--line)}
+.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--accent-deep,#0ea5e9);border:1px solid var(--line);text-decoration:none;cursor:pointer;transition:all .15s}.shop .mi:hover{background:var(--accent-deep,#0ea5e9);color:#fff;border-color:var(--accent-deep,#0ea5e9)}
 .shop .aff-note{font-size:10px;color:var(--ink-faint);margin-top:8px}
 
 /* SITE NAV */
@@ -234,12 +234,16 @@ ol.method li b{color:var(--ink);font-weight:600}
   var btn = document.getElementById('amazonCart');
   if (!container || !btn || matched.length === 0) return;
   matched.forEach(function(m) {
-    var span = document.createElement('span');
-    span.className = 'mi';
-    span.textContent = m.name;
-    container.appendChild(span);
+    var a = document.createElement('a');
+    a.className = 'mi';
+    a.href = buildProductUrl(m.asin);
+    a.target = '_blank';
+    a.rel = 'noopener sponsored';
+    a.textContent = m.name;
+    a.addEventListener('click', function(){ if(window.gtag) gtag('event','kd_amazon_item',{item:m.name,asin:m.asin,recipe:document.title}); });
+    container.appendChild(a);
   });
-  btn.href = buildCartUrl(matched.map(function(m){ return m.asin; }));
+  btn.href = 'https://'+getAmazonDomain()+'/s?k=keto+pantry+staples&tag='+AMAZON_TAG;
 })();
 </script>
 <script src="/js/share-buttons.js" defer></script>

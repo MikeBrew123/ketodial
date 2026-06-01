@@ -53,14 +53,11 @@ var INGREDIENT_ASINS = {
   'parmesan cheese': {asin: 'B000EONBEA', name: 'BelGioioso Parmesan Wedge'},
 };
 
-function buildCartUrl(asins) {
-  // Detect user's likely Amazon domain from timezone/language
-  var domain = 'www.amazon.ca'; // default to .ca for our audience
+function getAmazonDomain() {
+  var domain = 'www.amazon.ca';
   try {
     var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    var lang = (navigator.language || '').toLowerCase();
     if (tz.indexOf('America/') === 0) {
-      // US timezones: Eastern, Central, Mountain, Pacific, etc (not Toronto/Vancouver/etc)
       var caZones = ['Toronto','Vancouver','Edmonton','Winnipeg','Halifax','St_Johns','Montreal','Regina'];
       var isCa = caZones.some(function(z) { return tz.indexOf(z) !== -1; });
       domain = isCa ? 'www.amazon.ca' : 'www.amazon.com';
@@ -68,11 +65,16 @@ function buildCartUrl(asins) {
     else if (tz.indexOf('Europe/') === 0) { domain = 'www.amazon.de'; }
     else if (tz.indexOf('Australia/') === 0) { domain = 'www.amazon.com.au'; }
   } catch(e) {}
-  var url = 'https://' + domain + '/gp/aws/cart/add.html?AssociateTag=' + AMAZON_TAG;
-  asins.forEach(function(asin, i) {
-    url += '&ASIN.' + (i+1) + '=' + asin + '&Quantity.' + (i+1) + '=1';
-  });
-  return url;
+  return domain;
+}
+
+function buildProductUrl(asin) {
+  return 'https://' + getAmazonDomain() + '/dp/' + asin + '?tag=' + AMAZON_TAG;
+}
+
+function buildCartUrl(asins) {
+  // Old cart/add API is deprecated. Link to first product as fallback.
+  return buildProductUrl(asins[0]);
 }
 
 function matchIngredients(ingredientTexts) {

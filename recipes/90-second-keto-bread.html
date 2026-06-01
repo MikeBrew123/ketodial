@@ -121,7 +121,7 @@ ol.method li b{color:var(--ink);font-weight:600}
 .shop .amazon-btn:hover{background:#FFB84D;text-decoration:none}
 .shop .amazon-btn svg{width:16px;height:16px}
 .shop .matched{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--ink-soft);border:1px solid var(--line)}
+.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--accent-deep,#0ea5e9);border:1px solid var(--line);text-decoration:none;cursor:pointer;transition:all .15s}.shop .mi:hover{background:var(--accent-deep,#0ea5e9);color:#fff;border-color:var(--accent-deep,#0ea5e9)}
 .shop .aff-note{font-size:10px;color:var(--ink-faint);margin-top:8px}
 
 /* SITE NAV */
@@ -257,7 +257,7 @@ ol.method li b{color:var(--ink);font-weight:600}
       <div class="matched" id="matchedItems"></div>
       <a class="amazon-btn" id="amazonCart" href="#" target="_blank" rel="noopener sponsored">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        Shop pantry staples on Amazon
+        Browse keto staples on Amazon
       </a>
       <p class="aff-note">Affiliate link — we may earn a small commission at no extra cost to you. 90-day cookie.</p>
     </div>
@@ -288,13 +288,17 @@ ol.method li b{color:var(--ink);font-weight:600}
     return;
   }
   matched.forEach(function(m) {
-    var span = document.createElement('span');
-    span.className = 'mi';
-    span.textContent = m.name;
-    container.appendChild(span);
+    var a = document.createElement('a');
+    a.className = 'mi';
+    a.href = buildProductUrl(m.asin);
+    a.target = '_blank';
+    a.rel = 'noopener sponsored';
+    a.textContent = m.name;
+    a.addEventListener('click', function(){ if(window.gtag) gtag('event','kd_amazon_item',{item:m.name,asin:m.asin,recipe:document.title}); });
+    container.appendChild(a);
   });
   var asins = matched.map(function(m){ return m.asin; });
-  btn.href = buildCartUrl(asins);
+  btn.href = 'https://'+getAmazonDomain()+'/s?k=keto+pantry+staples&tag='+AMAZON_TAG;
   btn.addEventListener('click', function(){
     if (window.gtag) gtag('event', 'kd_amazon_cart', {items: asins.length, recipe: document.title});
   });
