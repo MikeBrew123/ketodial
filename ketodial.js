@@ -204,7 +204,7 @@
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
       // Save session to Supabase via worker
       try{
-        var emailField=$('#email');
+        var emailField=$('#emailOpt');
         fetch(API_BASE+'/session',{
           method:'POST',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({
