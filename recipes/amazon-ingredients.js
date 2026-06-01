@@ -15,12 +15,19 @@ var INGREDIENT_ASINS = {
   'baking powder': {asin: 'B000BRDFP4', name: 'Rumford Baking Powder'},
   'erythritol': {asin: 'B016S63L6S', name: 'Anthony\'s Erythritol Sweetener'},
   'stevia': {asin: 'B008YAM7BW', name: 'SweetLeaf Stevia Packets'},
+  'swerve': {asin: 'B0131GF80K', name: 'Swerve Powdered Sweetener'},
   'pork rinds': {asin: 'B07Y5T1JKZ', name: 'Epic Pork Rinds'},
+  'vanilla extract': {asin: 'B0019GZ9RC', name: 'Simply Organic Vanilla Extract'},
+  'cocoa powder': {asin: 'B001E5E2M2', name: 'Ghirardelli Unsweetened Cocoa'},
+  'almond milk': {asin: 'B084FLPFNJ', name: 'Silk Unsweetened Almond Milk'},
   
   // Canned & Jarred
   'beef broth': {asin: 'B00MWIQKUA', name: 'Pacific Foods Beef Broth'},
   'chicken broth': {asin: 'B01F4BWMZA', name: 'Pacific Foods Chicken Broth'},
+  'chicken stock': {asin: 'B01F4BWMZA', name: 'Pacific Foods Chicken Broth'},
+  'vegetable broth': {asin: 'B00MWIQHSA', name: 'Pacific Foods Vegetable Broth'},
   'diced tomatoes': {asin: 'B074H5JQF5', name: 'Muir Glen Diced Tomatoes'},
+  'tomato paste': {asin: 'B0BXYJ8PVS', name: 'Muir Glen Tomato Paste'},
   'marinara sauce': {asin: 'B000FKDJ1O', name: 'Rao\'s Marinara (low sugar)'},
   'artichoke hearts': {asin: 'B007T1BHBI', name: 'Reese Quartered Artichoke Hearts'},
   'soy sauce': {asin: 'B01DM8BOK4', name: 'San-J Tamari Soy Sauce'},
@@ -41,6 +48,11 @@ var INGREDIENT_ASINS = {
   'dried thyme': {asin: 'B0019I2FJ8', name: 'Simply Organic Thyme'},
   'nutmeg': {asin: 'B0019GKKS0', name: 'Simply Organic Nutmeg'},
   'worcestershire sauce': {asin: 'B005DPNGFG', name: 'Lea & Perrins Worcestershire'},
+  'dried parsley': {asin: 'B0019GJRHI', name: 'Simply Organic Parsley'},
+  'dry mustard': {asin: 'B0019GK5QY', name: 'Simply Organic Dry Mustard'},
+  'black pepper': {asin: 'B0019GKGMU', name: 'Simply Organic Black Pepper'},
+  'salt': {asin: 'B007B866HI', name: 'Redmond Real Salt Fine'},
+  'kosher salt': {asin: 'B007B866HI', name: 'Redmond Real Salt Fine'},
   
   // Nuts & Seeds
   'walnuts': {asin: 'B00E1XEX30', name: 'Fisher Walnut Halves'},
@@ -48,9 +60,16 @@ var INGREDIENT_ASINS = {
   'almonds': {asin: 'B01DXQYH1I', name: 'Blue Diamond Whole Almonds'},
   'shredded coconut': {asin: 'B000EDG3UQ', name: 'Bob\'s Red Mill Shredded Coconut'},
   
-  // Dairy (shelf-stable)
+  // Dairy & Cheese
   'heavy cream': {asin: 'B076TQM7JD', name: 'Organic Valley Heavy Whipping Cream'},
+  'heavy whipping cream': {asin: 'B076TQM7JD', name: 'Organic Valley Heavy Whipping Cream'},
   'parmesan cheese': {asin: 'B000EONBEA', name: 'BelGioioso Parmesan Wedge'},
+  'cream cheese': {asin: 'B00YR6LSBU', name: 'Philadelphia Original Cream Cheese'},
+  'sour cream': {asin: 'B07BQPTMSV', name: 'Daisy Pure & Natural Sour Cream'},
+  'shredded mozzarella': {asin: 'B08FH5GFBG', name: 'Galbani Shredded Mozzarella'},
+  'shredded cheddar': {asin: 'B07QX6CVH3', name: 'Tillamook Sharp Cheddar Shredded'},
+  'colby-jack': {asin: 'B08CWJ8V3W', name: 'Tillamook Colby Jack Shredded'},
+  'cottage cheese': {asin: 'B0CYG79HTP', name: 'Good Culture Cottage Cheese'},
 };
 
 function getAmazonDomain() {
