@@ -802,6 +802,75 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
   </div>
 </section>
 
+<!-- COACHING WAITLIST -->
+<section id="coaching" style="padding:60px 0;background:linear-gradient(180deg,var(--bg) 0%,#e8f4f8 100%)">
+  <div class="wrap" style="max-width:620px;text-align:center">
+    <div style="display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;background:var(--panel);color:#2dd4bf;padding:6px 16px;border-radius:999px;font-weight:600;margin-bottom:18px">Founding cohort · limited to 25 members</div>
+    <h2 style="font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:12px">Want a keto coach who<br>actually checks on you?</h2>
+    <p style="font-size:16px;color:var(--ink-soft);line-height:1.6;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto">We're preparing a small founding cohort for weekly accountability check-ins, coach-reviewed progress, and educational support. Join the interest list and we'll reach out when early access opens.</p>
+
+    <form id="coachWaitlist" style="background:#fff;border:2px solid #38bdf8;border-radius:18px;padding:24px;text-align:left">
+      <div style="display:flex;gap:10px;margin-bottom:12px">
+        <input id="cwlName" type="text" placeholder="First name" style="flex:1;height:46px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 14px;font-size:15px;outline:none;font-family:inherit" />
+        <input id="cwlEmail" type="email" placeholder="Email" required style="flex:1;height:46px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 14px;font-size:15px;outline:none;font-family:inherit" />
+      </div>
+      <div style="font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:8px">What interests you most?</div>
+      <div id="cwlChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px"></div>
+      <div id="cwlError" style="display:none;font-size:13px;color:#e8590c;background:rgba(232,89,12,.1);padding:8px 12px;border-radius:8px;margin-bottom:10px"></div>
+      <button type="submit" style="width:100%;height:48px;background:#38bdf8;color:#fff;font-size:15px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit">Join the founding cohort</button>
+      <div style="text-align:center;font-size:12px;color:#94a3b8;margin-top:8px">We'll only email you about early access. No spam.</div>
+    </form>
+
+    <div id="cwlDone" style="display:none;text-align:center;padding:40px 20px;background:#fff;border:2px solid #2dd4bf;border-radius:18px">
+      <div style="width:52px;height:52px;border-radius:50%;background:#2dd4bf;color:#06352c;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 14px">✓</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:6px">You're on the list</div>
+      <div style="font-size:14px;color:#475569;line-height:1.5">We'll reach out when early access opens. Keep an eye on your inbox.</div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const chips=['Weight loss','Blood sugar support','Energy & clarity','Body recomp','Staying consistent','Accountability'];
+  const cont=document.getElementById('cwlChips');
+  const sel=new Set();
+  chips.forEach(c=>{
+    const b=document.createElement('button');
+    b.type='button';b.textContent=c;
+    b.style.cssText='font-size:13px;font-weight:500;color:#475569;padding:8px 13px;border:1.5px solid #e2e8f0;border-radius:999px;background:#fff;cursor:pointer;font-family:inherit;transition:all .14s';
+    b.onclick=()=>{
+      if(sel.has(c)){sel.delete(c);b.style.borderColor='#e2e8f0';b.style.background='#fff';b.style.color='#475569'}
+      else{sel.add(c);b.style.borderColor='#0ea5e9';b.style.background='rgba(56,189,248,.12)';b.style.color='#0f172a'}
+    };
+    cont.appendChild(b);
+  });
+
+  document.getElementById('coachWaitlist').onsubmit=async(e)=>{
+    e.preventDefault();
+    const email=document.getElementById('cwlEmail').value.trim();
+    const name=document.getElementById('cwlName').value.trim();
+    const errEl=document.getElementById('cwlError');
+    if(!email||!email.includes('@')){errEl.textContent='Please enter a valid email';errEl.style.display='block';return}
+    errEl.style.display='none';
+    const btn=e.target.querySelector('button[type=submit]');
+    btn.textContent='Joining...';btn.disabled=true;
+    try{
+      const res=await fetch('https://coach.ketodial.com/api/waitlist',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email,first_name:name||null,interests:[...sel]})
+      });
+      if(res.ok){
+        document.getElementById('coachWaitlist').style.display='none';
+        document.getElementById('cwlDone').style.display='block';
+      }else{
+        const d=await res.json();errEl.textContent=d.error||'Something went wrong';errEl.style.display='block';
+        btn.textContent='Join the founding cohort';btn.disabled=false;
+      }
+    }catch(err){errEl.textContent='Connection error. Try again.';errEl.style.display='block';btn.textContent='Join the founding cohort';btn.disabled=false}
+  };
+})();
+</script>
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
