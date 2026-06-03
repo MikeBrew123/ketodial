@@ -11,6 +11,16 @@
   function $all(s,ctx){return Array.prototype.slice.call((ctx||document).querySelectorAll(s));}
   function money(n){return '$'+n.toFixed(2);}
   var API_BASE='https://ketodial-api.iambrew.workers.dev';
+  var sessionToken=null;
+  function updateSession(data){
+    if(!sessionToken) return;
+    try{
+      fetch(API_BASE+'/session',{
+        method:'PATCH',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(Object.assign({token:sessionToken},data))
+      }).catch(function(){});
+    }catch(e){}
+  }
   function scrollToEl(el,extra){
     var nav=70, pad=(extra||24);
     var y=el.getBoundingClientRect().top+window.scrollY-nav-pad;
@@ -218,7 +228,7 @@
             referrer:document.referrer||null,
             device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop')
           })
-        }).catch(function(){});
+        }).then(function(r){return r.json();}).then(function(j){if(j.token)sessionToken=j.token;}).catch(function(){});
       }catch(e){}
       freeResults.classList.add('show');
       step2.classList.add('show');
@@ -262,6 +272,21 @@
       }
       var msg=$('#reqMsg'); if(msg) msg.classList.remove('show');
       track('kd_profile_completed',{email_provided:!!emailReq.value.trim()});
+      updateSession({
+        step_completed:2,
+        email:emailReq.value.trim(),
+        first_name:nameReq.value.trim(),
+        conditions:$all('#step2 [data-multi]')[0]?Array.from($all('#step2 [data-multi]')[0].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
+        symptoms:$all('#step2 [data-multi]')[1]?Array.from($all('#step2 [data-multi]')[1].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
+        medications:$('#step2 input[type="text"]')?$('#step2 input[type="text"]').value:'',
+        dairy_tolerance:$all('#step2 select')[0]?$all('#step2 select')[0].value:'',
+        cooking_skill:$all('#step2 select')[1]?$all('#step2 select')[1].value:'',
+        meal_prep_time:$all('#step2 select')[2]?$all('#step2 select')[2].value:'',
+        family_situation:$all('#step2 select')[3]?$all('#step2 select')[3].value:'',
+        budget:$('#step2 [data-seg="budget"] .on')?$('#step2 [data-seg="budget"] .on').dataset.val:'',
+        biggest_challenge:$('#step2 textarea')?$('#step2 textarea').value:'',
+        previous_diets:$all('#step2 [data-multi]')[2]?Array.from($all('#step2 [data-multi]')[2].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[]
+      });
       reportPicker.classList.add('show');
       setTimeout(function(){scrollToEl(reportPicker);},120);
     });
@@ -379,6 +404,7 @@
       var formData=collectFormData();
 
       track('kd_checkout_opened',{items:items.join(',')});
+      updateSession({step_completed:3});
 
       checkoutBtn.disabled=true;
       checkoutBtn.textContent='Loading checkout…';
