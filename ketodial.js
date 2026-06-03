@@ -10,6 +10,7 @@
   function $(s,ctx){return (ctx||document).querySelector(s);}
   function $all(s,ctx){return Array.prototype.slice.call((ctx||document).querySelectorAll(s));}
   function money(n){return '$'+n.toFixed(2);}
+  var API_BASE='https://ketodial-api.iambrew.workers.dev';
   function scrollToEl(el,extra){
     var nav=70, pad=(extra||24);
     var y=el.getBoundingClientRect().top+window.scrollY-nav-pad;
@@ -335,7 +336,6 @@
   render();
 
   /* ---------- CHECKOUT (Stripe Embedded) ---------- */
-  var API_BASE='https://ketodial-api.iambrew.workers.dev';
   var STRIPE_PK='pk_live_51SjRKPEVDfkpGz8wSeZfQ87US3LUHKBg2I8KP1JmWIxtiDnDh2R9ViGQlThNBWbvEbiB9vvTLpyx2HHix4zYqqKH00jsXBAIc7';
   var checkoutBtn=$('#checkoutBtn');
   var checkoutOverlay=$('#checkoutOverlay');
