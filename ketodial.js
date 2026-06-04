@@ -245,6 +245,10 @@
       }).then(function(r){return r.json();}).then(function(j){if(j.token)sessionToken=j.token;}).catch(function(e){console.warn('KD session create failed:',e);});
       freeResults.classList.add('show');
       step2.classList.add('show');
+      var optEmail=$('#emailOpt');
+      if(optEmail&&optEmail.value.trim()&&$('#emailReq')){
+        $('#emailReq').value=optEmail.value.trim();
+      }
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
       else{ animateGauge(lastMacros); }
       setTimeout(function(){scrollToEl(freeResults);},120);
