@@ -12,6 +12,7 @@
   function money(n){return '$'+n.toFixed(2);}
   var API_BASE='https://ketodial-api.iambrew.workers.dev';
   var sessionToken=null;
+  var sessionReady=null;
   var urlParams=new URLSearchParams(window.location.search);
   var utmData={
     utm_source:urlParams.get('utm_source')||null,
@@ -21,13 +22,14 @@
     utm_term:urlParams.get('utm_term')||null
   };
   function updateSession(data){
-    if(!sessionToken) return;
-    try{
+    if(!sessionReady) return;
+    sessionReady.then(function(){
+      if(!sessionToken) return;
       fetch(API_BASE+'/session',{
         method:'PATCH',headers:{'Content-Type':'application/json'},
         body:JSON.stringify(Object.assign({token:sessionToken},data))
-      }).catch(function(){});
-    }catch(e){}
+      }).catch(function(e){console.warn('KD session update failed:',e);});
+    });
   }
   function scrollToEl(el,extra){
     var nav=70, pad=(extra||24);
@@ -222,27 +224,25 @@
       lastMacros=computeMacros(d);
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
       // Save session to Supabase via worker
-      try{
-        var emailField=$('#emailOpt');
-        var nlCheckbox=$('#newsletterOpt');
-        fetch(API_BASE+'/session',{
-          method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({
-            sex:d.sex,age:d.age,goal:d.goal,
-            height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
-            email:(emailField&&emailField.value.trim())||null,
-            newsletter_opt_in:!!(nlCheckbox&&nlCheckbox.checked&&emailField&&emailField.value.trim()),
-            macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee},
-            referrer:document.referrer||null,
-            device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop'),
-            utm_source:utmData.utm_source,
-            utm_medium:utmData.utm_medium,
-            utm_campaign:utmData.utm_campaign,
-            utm_content:utmData.utm_content,
-            utm_term:utmData.utm_term
-          })
-        }).then(function(r){return r.json();}).then(function(j){if(j.token)sessionToken=j.token;}).catch(function(){});
-      }catch(e){}
+      var emailField=$('#emailOpt');
+      var nlCheckbox=$('#newsletterOpt');
+      sessionReady=fetch(API_BASE+'/session',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          sex:d.sex,age:d.age,goal:d.goal,
+          height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
+          email:(emailField&&emailField.value.trim())||null,
+          newsletter_opt_in:!!(nlCheckbox&&nlCheckbox.checked&&emailField&&emailField.value.trim()),
+          macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee},
+          referrer:document.referrer||null,
+          device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop'),
+          utm_source:utmData.utm_source,
+          utm_medium:utmData.utm_medium,
+          utm_campaign:utmData.utm_campaign,
+          utm_content:utmData.utm_content,
+          utm_term:utmData.utm_term
+        })
+      }).then(function(r){return r.json();}).then(function(j){if(j.token)sessionToken=j.token;}).catch(function(e){console.warn('KD session create failed:',e);});
       freeResults.classList.add('show');
       step2.classList.add('show');
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
