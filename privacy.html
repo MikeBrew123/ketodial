@@ -61,6 +61,20 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
 .foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Privacy Policy",
+  "description": "How KetoDial collects, uses, and protects your data. Plain-English privacy policy for our keto macro calculator and report services.",
+  "url": "https://ketodial.com/privacy.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "KetoDial",
+    "url": "https://ketodial.com"
+  }
+}
+</script>
 </head>
 <body>
 <a href="#main-content" class="skip-nav">Skip to content</a>
@@ -90,7 +104,7 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
 <article class="article" id="main-content">
   <div class="eyebrow">Legal</div>
   <h1>Privacy Policy</h1>
-  <div class="byline">Last updated: May 30, 2026</div>
+  <div class="byline">Last updated: June 1, 2026</div>
 
   <div class="content">
     <p>This policy explains what data KetoDial (ketodial.com) collects, how we use it, and your rights. We wrote it in plain English because nobody reads legalese.</p>
@@ -109,9 +123,9 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
 
     <h2>How We Store Your Data</h2>
 
-    <p>Your form data (name, email, health inputs) is stored as metadata on your Stripe checkout session. We do not maintain a separate user database. Your reports are generated on demand from this metadata and delivered via email.</p>
+    <p>Your purchase data (name, email, health inputs) is stored as metadata on your Stripe checkout session. Your reports are generated on demand from this metadata and delivered via email.</p>
 
-    <p>This means your health information lives in our Stripe account, which is encrypted and secured under Stripe's infrastructure. We don't have a big database of user profiles sitting around.</p>
+    <p>Calculator session data (form inputs, device type, referral source) is stored in Supabase, a cloud database hosted on encrypted servers. This data is pseudonymous and not linked to your identity unless you complete a purchase.</p>
 
     <h2>How We Use Your Data</h2>
 
@@ -121,11 +135,17 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
     <li><strong>To improve the product.</strong> We may look at aggregate, anonymized patterns (like which reports are most popular, or common health conditions selected) to make KetoDial better. We don't sell this data or share individual records.</li>
     </ul>
 
-    <h2>Analytics</h2>
+    <h2>Analytics & Google Signals</h2>
 
-    <p>We use Google Analytics 4 (GA4) to understand how people use the site. GA4 collects standard information like pages visited, time on site, device type, and approximate location (country/region level). GA4 does not have access to your health inputs or report data.</p>
+    <p>We use Google Analytics 4 (GA4) with Google Signals enabled to understand how people use the site. GA4 collects standard information like pages visited, time on site, device type, and approximate location (country/region level). GA4 does not have access to your health inputs or report data.</p>
 
-    <p>You can opt out of Google Analytics by using a browser extension like <a href="https://tools.google.com/dlpage/gaoptout">Google's opt-out add-on</a> or by enabling Do Not Track in your browser settings.</p>
+    <p>With Google Signals enabled, if you are signed into your Google account and have "Ads Personalization" turned on, Google may associate your visit with your account to provide cross-device reporting and audience insights. This data is used to help us understand how visitors interact with KetoDial across devices and sessions.</p>
+
+    <p><strong>How to opt out:</strong> You can manage your data via <a href="https://myactivity.google.com/">Google's My Activity</a>, use the <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics Opt-out Browser Add-on</a>, or disable Ads Personalization in your <a href="https://adssettings.google.com/">Google Ads Settings</a>.</p>
+
+    <h2>Calculator Usage Data</h2>
+
+    <p>When you use the free calculator, we collect the inputs you provide (such as age, sex, height, weight, activity level, dietary goals, and diet type) along with pseudonymous technical data including your referral source, UTM campaign parameters, landing page URL, device type, and browser analytics identifiers. This data is stored on our servers and used for aggregate product analytics and service improvement. We retain this data for up to 26 months. This data is not linked to your name or email address unless you make a purchase.</p>
 
     <h2>Payment Processing</h2>
 
@@ -143,11 +163,19 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
     <li><strong>Google Analytics</strong> receives anonymized browsing data (not your health inputs).</li>
     </ul>
 
+    <li><strong>Supabase</strong> stores your calculator session data (form inputs, technical metadata) on encrypted servers for analytics and service delivery.</li>
+    <li><strong>Cloudflare</strong> delivers the site and may process technical data (IP address, browser headers) to protect against attacks and ensure availability.</li>
+    </ul>
+
     <p>That's the complete list. No one else gets your data.</p>
 
     <h2>Cookies</h2>
 
-    <p>We use a small number of cookies for Google Analytics and basic site functionality. We don't use advertising cookies or tracking pixels from social media platforms.</p>
+    <p>We use cookies for Google Analytics (including Google Signals for cross-device reporting) and basic site functionality. We don't use advertising cookies or tracking pixels from social media platforms. Google Signals may use data from signed-in Google users who have consented to ads personalization.</p>
+
+    <h2>Data Retention</h2>
+
+    <p>Pseudonymous calculator session data is retained for up to 26 months for analytical purposes. Report access links expire after 48 hours. Transaction records (email, amount paid, payment status) are retained as required for accounting, tax, and legal compliance.</p>
 
     <h2>Your Rights</h2>
 
