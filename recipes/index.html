@@ -64,6 +64,18 @@ header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);bac
 .masthead h1{font-family:var(--serif);font-size:clamp(38px,5.5vw,60px);font-weight:500;letter-spacing:-.02em;line-height:1.03;max-width:760px}
 .masthead p{font-size:18px;color:var(--ink-soft);max-width:580px;margin-top:16px;line-height:1.55}
 
+/* SEARCH */
+.searchbar{position:relative;margin-bottom:18px}
+.searchbar input{width:100%;font-family:var(--sans);font-size:15px;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:13px 16px 13px 44px;outline:none;transition:border-color .15s}
+.searchbar input:focus{border-color:var(--accent-deep)}
+.searchbar input::placeholder{color:var(--ink-faint);font-weight:400}
+.searchbar .search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--ink-faint);pointer-events:none}
+.searchbar .clear-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--ink-faint);cursor:pointer;display:none;background:none;border:none;padding:0}
+.searchbar .clear-btn:hover{color:var(--ink)}
+.searchbar.has-query .clear-btn{display:block}
+.no-results{display:none;text-align:center;padding:60px 20px;color:var(--ink-faint);font-size:15px}
+.no-results.show{display:block}
+
 /* FILTER BAR */
 .filterbar{display:flex;align-items:center;gap:16px;padding:8px 0 26px;border-bottom:1px solid var(--line);margin-bottom:30px;flex-wrap:wrap}
 .chips{display:flex;gap:9px;flex-wrap:wrap}
@@ -182,6 +194,12 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
     <span class="eyebrow">KetoDial Recipes</span>
     <h1>Recipes that land on your macros.</h1>
     <p>Every recipe shows its per-serving macros up front — so you can see it fits your target before you cook. Filter by meal, then dial it in.</p>
+  </div>
+
+  <div class="searchbar" id="searchbar">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="recipeSearch" placeholder="Search recipes, ingredients, or macros..." autocomplete="off" />
+    <button class="clear-btn" id="clearSearch" aria-label="Clear search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
   </div>
 
   <div class="filterbar">
@@ -490,6 +508,8 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
       </a>
     </div>
 
+    <div class="no-results" id="noResults">No recipes match your search. Try a different term.</div>
+
     <!-- AD SLOT: bottom billboard 970×90, after recipe grid -->
   </main>
 
@@ -569,25 +589,48 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
   var grid=document.getElementById('recipeGrid');
   var featured=document.querySelector('.featured');
   var cards=grid.querySelectorAll('.recipe[data-meal]');
+  var searchInput=document.getElementById('recipeSearch');
+  var searchBar=document.getElementById('searchbar');
+  var clearBtn=document.getElementById('clearSearch');
+  var noResults=document.getElementById('noResults');
   var filterMap={'All recipes':'all','Breakfast':'breakfast','Lunch':'lunch','Dinner':'dinner','Snacks':'snack','Sides':'side','Dessert':'dessert'};
+  var activeMeal='all';
 
-  function applyFilter(meal){
+  function applyFilters(){
+    var query=searchInput.value.toLowerCase().trim();
     var visible=0;
     cards.forEach(function(c){
-      var show=(meal==='all'||c.dataset.meal===meal);
+      var mealMatch=(activeMeal==='all'||c.dataset.meal===activeMeal);
+      var textMatch=true;
+      if(query){
+        var text=c.textContent.toLowerCase();
+        textMatch=text.indexOf(query)!==-1;
+      }
+      var show=mealMatch&&textMatch;
       c.style.display=show?'':'none';
       if(show) visible++;
     });
-    if(featured) featured.style.display=(meal==='all'||meal==='dinner')?'':'none';
-    var label=meal==='all'?cards.length+' recipes · all keto-friendly':visible+' '+(meal==='side'?'sides':meal+'s');
-    countEl.textContent=label;
+    if(featured) featured.style.display=(activeMeal==='all'&&!query)?'':'none';
+    searchBar.classList.toggle('has-query',query.length>0);
+    noResults.classList.toggle('show',visible===0);
+    if(query){
+      countEl.textContent=visible+' result'+(visible!==1?'s':'');
+    }else if(activeMeal==='all'){
+      countEl.textContent=cards.length+' recipes · all keto-friendly';
+    }else{
+      countEl.textContent=visible+' '+(activeMeal==='side'?'sides':activeMeal+'s');
+    }
   }
+
+  searchInput.addEventListener('input',applyFilters);
+  clearBtn.addEventListener('click',function(){searchInput.value='';applyFilters();searchInput.focus()});
 
   chips.querySelectorAll('button').forEach(function(b){
     b.addEventListener('click',function(){
       chips.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
-      applyFilter(filterMap[b.textContent]||'all');
+      activeMeal=filterMap[b.textContent]||'all';
+      applyFilters();
     });
   });
 </script>
