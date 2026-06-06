@@ -625,6 +625,8 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px;margin-top:60px
   searchInput.addEventListener('input',applyFilters);
   clearBtn.addEventListener('click',function(){searchInput.value='';applyFilters();searchInput.focus()});
 
+  applyFilters();
+
   chips.querySelectorAll('button').forEach(function(b){
     b.addEventListener('click',function(){
       chips.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
