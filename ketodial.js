@@ -213,6 +213,61 @@
   step1Msg.textContent='Enter your age, height, and weight to calculate your macros.';
   if(freeBtn) freeBtn.parentNode.insertBefore(step1Msg,freeBtn.nextSibling.nextSibling);
 
+  /* ---------- EMAIL MY PLAN ---------- */
+  var planSentTo={};
+  function sendPlanEmail(email,newsletterOptIn,isAuto){
+    var msg=$('#planEmailMsg'), btn=$('#planEmailBtn');
+    function show(text,color){if(msg){msg.style.display='block';msg.style.color=color;msg.textContent=text;}}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      if(!isAuto)show('Please enter a valid email.','#fca5a5');
+      return;
+    }
+    if(planSentTo[email]){
+      if(!isAuto)show('Already sent to this address. Check your inbox (and spam folder).','#4ade80');
+      return;
+    }
+    planSentTo[email]=true;
+    if(btn){btn.disabled=true;btn.textContent='Sending…';}
+    function doSend(){
+      return fetch(API_BASE+'/email-plan',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          token:sessionToken,
+          email:email,
+          newsletter_opt_in:!!newsletterOptIn,
+          goal:(getFormData()||{}).goal,
+          macros:lastMacros?{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee}:null,
+          utm_source:utmData.utm_source,
+          utm_medium:utmData.utm_medium,
+          utm_campaign:utmData.utm_campaign
+        })
+      }).then(function(r){return{ok:r.ok};});
+    }
+    var start=sessionReady?sessionReady.then(doSend,doSend):doSend();
+    start.then(function(res){
+      if(btn){btn.disabled=false;btn.textContent='Email me my plan';}
+      if(res&&res.ok){
+        track('kd_plan_emailed',{auto:!!isAuto,newsletter_opt_in:!!newsletterOptIn});
+        show('Sent! Check your inbox for your plan.','#4ade80');
+      }else{
+        planSentTo[email]=false;
+        show('Something went wrong sending your plan. Try again in a minute.','#fca5a5');
+      }
+    }).catch(function(){
+      planSentTo[email]=false;
+      if(btn){btn.disabled=false;btn.textContent='Email me my plan';}
+      show('Something went wrong sending your plan. Try again in a minute.','#fca5a5');
+    });
+  }
+  var planBtn=$('#planEmailBtn');
+  if(planBtn){
+    planBtn.addEventListener('click',function(){
+      var em=($('#planEmail')&&$('#planEmail').value.trim())||'';
+      var nl=$('#planNlOpt');
+      sendPlanEmail(em,!!(nl&&nl.checked),false);
+    });
+  }
+
   if(freeBtn){
     freeBtn.addEventListener('click',function(){
       if(!validateStep1()){
@@ -248,6 +303,12 @@
       var optEmail=$('#emailOpt');
       if(optEmail&&optEmail.value.trim()&&$('#emailReq')){
         $('#emailReq').value=optEmail.value.trim();
+      }
+      // Fulfill the step-1 promise: if they gave an email "so we can send your results", send them.
+      if(optEmail&&optEmail.value.trim()&&$('#planEmail')){
+        $('#planEmail').value=optEmail.value.trim();
+        var nlOptStep1=$('#newsletterOpt');
+        sendPlanEmail(optEmail.value.trim(),!!(nlOptStep1&&nlOptStep1.checked),true);
       }
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
       else{ animateGauge(lastMacros); }
