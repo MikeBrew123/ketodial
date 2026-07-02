@@ -316,7 +316,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
   "@type": "Organization",
   "name": "KetoDial",
   "url": "https://ketodial.com",
-  "logo": "https://ketodial.com/favicon.svg",
+  "logo": "https://ketodial.com/images/ketodial-logo-512.png",
   "description": "Free keto macro calculator with personalized meal plans and doctor-ready reports"
 }
 </script>
@@ -366,7 +366,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
       <a href="#how">How it works</a>
       <a href="/blog/">Guides</a>
       <a href="/recipes/">Recipes</a>
-      <a href="/blog/why-we-built-ketodial.html">About</a>
+      <a href="/about.html">About</a>
     </nav>
     <div class="nav-cta">
       <a class="btn-ghost" href="/blog/">Read guides</a>
@@ -834,6 +834,20 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
         <div class="body"><span class="kicker">Community</span><h3>Keto vs. Carnivore</h3><p>The real differences from someone in both communities. Who thrives on each, and why.</p></div>
       </a>
     </div>
+    <div class="cards" style="margin-top:20px">
+      <a class="card" href="/blog/keto-grocery-list.html">
+        <div class="ph" style="background-image:url(/images/blog/keto-grocery-list.jpg)"><span class="lbl">KetoDial Guide</span></div>
+        <div class="body"><span class="kicker">Protocol</span><h3>Keto Grocery List: 50 Foods</h3><p>50 keto foods sorted by aisle with net carb counts, protein grams, and budget tiers.</p></div>
+      </a>
+      <a class="card" href="/blog/keto-results-timeline-month-by-month.html">
+        <div class="ph" style="background-image:url(/images/blog/keto-results-timeline-month-by-month.jpg)"><span class="lbl">KetoDial Guide</span></div>
+        <div class="body"><span class="kicker">Guide</span><h3>Keto Results Timeline</h3><p>What to realistically expect month by month. Based on what people actually experience.</p></div>
+      </a>
+      <a class="card" href="/blog/keto-stall-checklist.html">
+        <div class="ph" style="background-image:url(/images/blog/keto-stall-checklist.jpg)"><span class="lbl">KetoDial Guide</span></div>
+        <div class="body"><span class="kicker">Health</span><h3>Weight Loss Stalled?</h3><p>Not losing weight on keto? Work through this 10-point checklist to find and fix the cause.</p></div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -906,6 +920,20 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
 })();
 </script>
 
+<!-- NEWSLETTER SIGNUP -->
+<section id="kd-newsletter" style="padding:60px 0 0">
+  <div class="wrap" style="max-width:640px;text-align:center">
+    <span class="eyebrow" style="display:block;margin-bottom:14px">Stay dialed in</span>
+    <h2 style="font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:10px">Weekly keto tips and recipes</h2>
+    <p style="font-size:15px;color:var(--ink-soft);margin-bottom:24px;line-height:1.55">One email a week with practical keto advice you can actually use. No spam, unsubscribe anytime.</p>
+    <form id="kd-nl-form" style="display:flex;gap:10px;max-width:440px;margin:0 auto">
+      <input type="email" id="kd-nl-email" placeholder="you@email.com" required aria-label="Email address" style="flex:1;min-width:0;height:48px;padding:0 16px;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s" onfocus="this.style.borderColor='var(--accent-deep)';this.style.boxShadow='0 0 0 4px rgba(56,189,248,.14)'" onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'" />
+      <button type="submit" id="kd-nl-btn" style="background:var(--accent-deep);color:#fff;font-family:var(--sans);font-weight:700;font-size:15px;padding:0 24px;height:48px;border-radius:12px;border:none;cursor:pointer;white-space:nowrap;transition:background .15s,transform .12s" onmouseover="this.style.background='#0284c7'" onmouseout="this.style.background='var(--accent-deep)'">Subscribe</button>
+    </form>
+    <p id="kd-nl-status" style="margin-top:12px;font-size:13px;display:none"></p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
@@ -924,9 +952,9 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
         <p>Dial in your macros. A tool-first keto calculator that hands you a plan, not a homework assignment.</p>
       </div>
       <div class="foot-col"><h4>Product</h4><a href="/#calc">Calculator</a><a href="/#how">How it works</a><a href="/blog/">Macro guide</a><a href="/#reportPicker">Pricing</a><a href="https://coach.ketodial.com">Coaching</a><a href="/pantry.html">Keto Pantry</a></div>
-      <div class="foot-col"><h4>Learn</h4><a href="/blog/">Guides</a>
-      <a href="/recipes/">Recipes</a><a href="/blog/keto-flu-electrolyte-fix.html">Keto basics</a><a href="/blog/keto-meal-prep-under-50.html">Recipes</a><a href="/blog/">Food lists</a></div>
-      <div class="foot-col"><h4>Company</h4><a href="/blog/why-we-built-ketodial.html">About</a><a href="mailto:hello@ketodial.com">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+      <div class="foot-col"><h4>Learn</h4><a href="/blog/">All Guides</a>
+      <a href="/recipes/">Recipes</a><a href="/blog/keto-flu-electrolyte-fix.html">Electrolyte Fix</a><a href="/blog/keto-grocery-list.html">Grocery List</a><a href="/blog/keto-results-timeline-month-by-month.html">Results Timeline</a><a href="/blog/keto-meal-prep-under-50.html">Meal Prep</a><a href="/blog/keto-vs-carnivore.html">Keto vs Carnivore</a></div>
+      <div class="foot-col"><h4>Company</h4><a href="/about.html">About</a><a href="mailto:hello@ketodial.com">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
     </div>
     <div class="foot-bottom">
       <p class="disclaimer">KetoDial provides general nutrition estimates for informational purposes only and is not medical advice. Consult a qualified healthcare provider before starting any diet, especially if you have a medical condition or take medication.</p>
@@ -974,7 +1002,43 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
   </div>
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/" async></script>
 <script src="ketodial.js"></script>
+<script>
+(function(){
+  var form=document.getElementById('kd-nl-form');
+  if(!form)return;
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var email=document.getElementById('kd-nl-email').value.trim();
+    var btn=document.getElementById('kd-nl-btn');
+    var status=document.getElementById('kd-nl-status');
+    if(!email)return;
+    btn.disabled=true;btn.textContent='Joining...';
+    status.style.display='none';
+    try{
+      var res=await fetch('https://carnivore-report-api-production.iambrew.workers.dev/api/v1/subscribe/newsletter',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:email,site:'kd',source:'kd-homepage'})
+      });
+      var d=await res.json();
+      if(res.ok){
+        form.style.display='none';
+        status.textContent='You\'re in! Check your inbox.';
+        status.style.color='#2dd4bf';status.style.display='block';
+        try{gtag('event','kd_newsletter_signup',{source:'homepage'})}catch(x){}
+      }else{
+        status.textContent=d.error||'Something went wrong. Try again.';
+        status.style.color='#ef4444';status.style.display='block';
+        btn.disabled=false;btn.textContent='Subscribe';
+      }
+    }catch(err){
+      status.textContent='Connection error. Try again.';
+      status.style.color='#ef4444';status.style.display='block';
+      btn.disabled=false;btn.textContent='Subscribe';
+    }
+  });
+})();
+</script>
 </body>
 </html>

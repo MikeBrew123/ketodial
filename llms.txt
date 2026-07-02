@@ -1,0 +1,32 @@
+# KetoDial
+
+> KetoDial is a free keto macro calculator and content hub. It uses the Mifflin-St Jeor equation to compute Total Daily Energy Expenditure (TDEE), then applies a keto-tuned 70% fat / 25% protein / 5% carbohydrate ratio to generate personalized daily macro targets (calories, fat grams, protein grams, net carb grams). Results are delivered instantly in the browser and available as a downloadable PDF plan. KetoDial also publishes keto guides (health, protocol, community topics) and a library of keto/low-carb recipes with full nutrition breakdowns.
+
+## Calculator
+
+- [Keto Macro Calculator](https://ketodial.com/#calc): Free tool. Enter sex, age, height, weight, activity level, and goal (imperial or metric). Returns TDEE, daily calorie target, and fat/protein/net-carb grams using Mifflin-St Jeor BMR x activity multiplier, adjusted for a keto-safe deficit or surplus.
+- [How It Works](https://ketodial.com/#how): Plain-language explanation of the 3-step process (enter stats, engine computes TDEE and ratio, get PDF plan).
+
+## Guides
+
+- [All Guides](https://ketodial.com/blog/): Full index of keto health, protocol, and community articles.
+- [Keto and Blood Sugar: First 30 Days](https://ketodial.com/blog/keto-blood-sugar-first-30-days.html): Week-by-week breakdown of glucose changes during keto adaptation, including when elevated fasting glucose is normal vs. a warning sign.
+- [Keto Bloodwork Guide](https://ketodial.com/blog/keto-cholesterol-bloodwork-guide.html): What changes on a lipid panel during keto (LDL, HDL, triglycerides), the triglyceride/HDL ratio, and how to talk to a doctor about results.
+- [Complete Keto Grocery List](https://ketodial.com/blog/keto-grocery-list.html): 50 keto foods sorted by grocery aisle with net carb counts and budget vs. premium pricing tiers.
+- [Keto Results Timeline](https://ketodial.com/blog/keto-results-timeline-month-by-month.html): Month-by-month expectations for weight, energy, and lab markers.
+- [Keto Stall Checklist](https://ketodial.com/blog/keto-stall-checklist.html): 10-point troubleshooting list for stalled weight loss on keto.
+
+## Recipes
+
+- [All Recipes](https://ketodial.com/recipes/): Full recipe index with category filters (breakfast, lunch, dinner, snack, dessert) and per-recipe net carb tags.
+- Each recipe page includes Schema.org Recipe structured data (ingredients, numbered method steps, prep/cook time, and full nutrition information: calories, fat, protein, net carbs per serving).
+
+## About
+
+- KetoDial is written by a small editorial team (Sarah, health; Marcus, performance; Chloe, community). Content is general nutrition information only and is not medical advice.
+- Macro estimates use USDA nutrition data. TDEE methodology: Mifflin-St Jeor equation.
+
+## Contact
+
+- Newsletter and coaching: https://coach.ketodial.com
+- Not affiliated with medical providers. Consult a physician before starting any diet, especially if on medication.

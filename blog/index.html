@@ -188,7 +188,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:58px 0 32px;margin-top:70px
     "@type": "Organization",
     "name": "KetoDial",
     "url": "https://ketodial.com",
-    "logo": "https://ketodial.com/favicon.svg"
+    "logo": "https://ketodial.com/images/ketodial-logo-512.png"
   }
 }
 </script>
@@ -214,7 +214,7 @@ footer{background:var(--panel);color:#9fb8c9;padding:58px 0 32px;margin-top:70px
       <a href="/#how">How it works</a>
       <a href="/blog/" class="active">Guides</a>
       <a href="/recipes/">Recipes</a>
-      <a href="/blog/why-we-built-ketodial.html">About</a>
+      <a href="/about.html">About</a>
     </nav>
     <div class="nav-cta">
       <a class="btn-ghost" href="/">Home</a>
@@ -655,13 +655,14 @@ footer{background:var(--panel);color:#9fb8c9;padding:58px 0 32px;margin-top:70px
       </div>
 
       <!-- Newsletter -->
-      <div class="widget news">
+      <div class="widget news" id="kd-blog-nl">
         <h4>The weekly dial-in</h4>
         <p>One plain-English keto guide a week. No spam, no fluff.</p>
-        <div class="ni">
-          <input type="email" placeholder="you@email.com" aria-label="Email address" />
-          <button type="button">Join</button>
-        </div>
+        <form class="ni" id="kd-blog-nl-form" onsubmit="return false">
+          <input type="email" id="kd-blog-nl-email" placeholder="you@email.com" aria-label="Email address" required />
+          <button type="submit" id="kd-blog-nl-btn">Join</button>
+        </form>
+        <p id="kd-blog-nl-status" style="margin-top:8px;font-size:12.5px;display:none"></p>
       </div>
 
       <!-- Sponsor banners -->
@@ -696,9 +697,9 @@ footer{background:var(--panel);color:#9fb8c9;padding:58px 0 32px;margin-top:70px
         <p>Dial in your macros. A tool-first keto calculator that hands you a plan, not a homework assignment.</p>
       </div>
       <div class="foot-col"><h4>Product</h4><a href="/#calc">Calculator</a><a href="/#how">How it works</a><a href="/blog/">Macro guide</a><a href="/#reportPicker">Pricing</a></div>
-      <div class="foot-col"><h4>Learn</h4><a href="/blog/">Guides</a>
-      <a href="/recipes/">Recipes</a><a href="/blog/keto-flu-electrolyte-fix.html">Keto basics</a><a href="/blog/keto-meal-prep-under-50.html">Recipes</a><a href="/blog/">Food lists</a></div>
-      <div class="foot-col"><h4>Company</h4><a href="/blog/why-we-built-ketodial.html">About</a><a href="mailto:hello@ketodial.com">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+      <div class="foot-col"><h4>Learn</h4><a href="/blog/">All Guides</a>
+      <a href="/recipes/">Recipes</a><a href="/blog/keto-flu-electrolyte-fix.html">Electrolyte Fix</a><a href="/blog/keto-grocery-list.html">Grocery List</a><a href="/blog/keto-results-timeline-month-by-month.html">Results Timeline</a><a href="/blog/keto-meal-prep-under-50.html">Meal Prep</a><a href="/blog/keto-vs-carnivore.html">Keto vs Carnivore</a></div>
+      <div class="foot-col"><h4>Company</h4><a href="/about.html">About</a><a href="mailto:hello@ketodial.com">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
     </div>
     <div class="foot-bottom">
       <p class="disclaimer">KetoDial provides general nutrition estimates for informational purposes only and is not medical advice. Consult a qualified healthcare provider before starting any diet, especially if you have a medical condition or take medication.</p>
@@ -714,6 +715,42 @@ footer{background:var(--panel);color:#9fb8c9;padding:58px 0 32px;margin-top:70px
       b.classList.add('on');
     });
   });
+
+  // Newsletter signup
+  (function(){
+    var form=document.getElementById('kd-blog-nl-form');
+    if(!form)return;
+    form.addEventListener('submit',async function(e){
+      e.preventDefault();
+      var email=document.getElementById('kd-blog-nl-email').value.trim();
+      var btn=document.getElementById('kd-blog-nl-btn');
+      var status=document.getElementById('kd-blog-nl-status');
+      if(!email)return;
+      btn.disabled=true;btn.textContent='Joining...';
+      status.style.display='none';
+      try{
+        var res=await fetch('https://carnivore-report-api-production.iambrew.workers.dev/api/v1/subscribe/newsletter',{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({email:email,site:'kd',source:'kd-blog'})
+        });
+        var d=await res.json();
+        if(res.ok){
+          form.style.display='none';
+          status.textContent='You\'re in! Check your inbox.';
+          status.style.color='#2dd4bf';status.style.display='block';
+          try{gtag('event','kd_newsletter_signup',{source:'blog'})}catch(x){}
+        }else{
+          status.textContent=d.error||'Something went wrong. Try again.';
+          status.style.color='#ef4444';status.style.display='block';
+          btn.disabled=false;btn.textContent='Join';
+        }
+      }catch(err){
+        status.textContent='Connection error. Try again.';
+        status.style.color='#ef4444';status.style.display='block';
+        btn.disabled=false;btn.textContent='Join';
+      }
+    });
+  })();
 </script>
 </body>
 </html>
