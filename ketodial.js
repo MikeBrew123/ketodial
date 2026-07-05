@@ -193,6 +193,9 @@
     var d=getFormData();
     var valid=true;
     var fields={age:d.age,weight:d.weightKg,height:d.heightCm};
+    // Email is required — it gates the free results (email captured in exchange).
+    var emailEl=$('#emailOpt');
+    if(!emailEl||!/.+@.+\..+/.test(emailEl.value.trim())){if(emailEl)emailEl.closest('.input').classList.add('invalid');valid=false;}
     // Check age
     if(!d.age||d.age<10||d.age>120){$('#age').closest('.input').classList.add('invalid');valid=false;}
     // Check weight (20-350 kg / ~44-770 lbs — reject absurd values, not just empty)
@@ -282,14 +285,14 @@
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
       // Save session to Supabase via worker
       var emailField=$('#emailOpt');
-      var nlCheckbox=$('#newsletterOpt');
+      // Email is now required to reach this point; giving it is the opt-in.
       sessionReady=fetch(API_BASE+'/session',{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           sex:d.sex,age:d.age,goal:d.goal,
           height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
           email:(emailField&&emailField.value.trim())||null,
-          newsletter_opt_in:!!(nlCheckbox&&nlCheckbox.checked&&emailField&&emailField.value.trim()),
+          newsletter_opt_in:!!(emailField&&emailField.value.trim()),
           macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee},
           referrer:document.referrer||null,
           device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop'),
@@ -306,11 +309,10 @@
       if(optEmail&&optEmail.value.trim()&&$('#emailReq')){
         $('#emailReq').value=optEmail.value.trim();
       }
-      // Fulfill the step-1 promise: if they gave an email "so we can send your results", send them.
+      // Fulfill the step-1 promise: email is required, so always send their results.
       if(optEmail&&optEmail.value.trim()&&$('#planEmail')){
         $('#planEmail').value=optEmail.value.trim();
-        var nlOptStep1=$('#newsletterOpt');
-        sendPlanEmail(optEmail.value.trim(),!!(nlOptStep1&&nlOptStep1.checked),true);
+        sendPlanEmail(optEmail.value.trim(),true,true);
       }
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
       else{ animateGauge(lastMacros); }

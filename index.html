@@ -400,11 +400,8 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
 
       <div class="field-grid">
         <div class="field full">
-          <label>Email <span class="opt">— optional, so we can send your results</span></label>
-          <div style="display:flex;gap:12px;align-items:center">
-            <div class="input" style="flex:1"><input type="email" class="sans" placeholder="you@email.com" id="emailOpt" /></div>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);white-space:nowrap;cursor:pointer;user-select:none"><input type="checkbox" id="newsletterOpt" style="width:16px;height:16px;accent-color:var(--accent-deep);cursor:pointer" /> Send me the weekly tips</label>
-          </div>
+          <label>Email <span class="opt">— we'll send your results here</span></label>
+          <div class="input"><input type="email" class="sans" placeholder="you@email.com" id="emailOpt" required aria-required="true" /></div>
         </div>
 
         <div class="field">
