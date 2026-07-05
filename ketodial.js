@@ -195,14 +195,16 @@
     var fields={age:d.age,weight:d.weightKg,height:d.heightCm};
     // Check age
     if(!d.age||d.age<10||d.age>120){$('#age').closest('.input').classList.add('invalid');valid=false;}
-    // Check weight
-    if(!d.weightKg||d.weightKg<20){$('#weight').closest('.input').classList.add('invalid');valid=false;}
-    // Check height
+    // Check weight (20-350 kg / ~44-770 lbs — reject absurd values, not just empty)
+    if(!d.weightKg||d.weightKg<20||d.weightKg>350){$('#weight').closest('.input').classList.add('invalid');valid=false;}
+    // Check height. Imperial only checked for a non-empty ft field before, so
+    // "175" in the ft box passed and produced a 32,000 kcal TDEE. Bound both units.
     var metric=($('#unitSeg .on')||{}).dataset&&($('#unitSeg .on')||{}).dataset.unit==='metric';
     if(metric){
-      if(!d.heightCm||d.heightCm<100){$('#heightCm').closest('.input').classList.add('invalid');valid=false;}
+      if(!d.heightCm||d.heightCm<100||d.heightCm>250){$('#heightCm').closest('.input').classList.add('invalid');valid=false;}
     }else{
-      if(!$('#heightFt').value){$('#heightFt').closest('.input').classList.add('invalid');valid=false;}
+      var ft=parseFloat($('#heightFt').value);
+      if(!ft||ft<3||ft>8){$('#heightFt').closest('.input').classList.add('invalid');valid=false;}
     }
     return valid;
   }
