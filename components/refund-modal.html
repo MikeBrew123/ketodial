@@ -1,0 +1,159 @@
+<!-- KetoDial Refund Request Modal — opened via a footer link, not a floating button -->
+<div id="refund-modal" class="refund-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="refund-modal-title">
+    <div class="refund-modal-overlay"></div>
+
+    <div class="refund-modal-content">
+        <button class="refund-modal-close" aria-label="Close refund form">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <!-- Form view (default) -->
+        <div class="refund-form-view">
+            <h1 id="refund-modal-title">Request a refund</h1>
+            <p class="refund-subtitle">Bought a report in the last 30 days? We'll make it right. Tell us what happened — a few quick questions help us fix what fell short.</p>
+
+            <form id="refund-form" class="refund-form">
+                <div class="form-group">
+                    <label for="refund-email">Email used for purchase</label>
+                    <input type="email" id="refund-email" name="email" required placeholder="you@email.com" />
+                </div>
+
+                <div class="form-group">
+                    <label for="refund-category">What's the issue?</label>
+                    <select id="refund-category" name="reason_category" required>
+                        <option value="" disabled selected>Choose a reason</option>
+                        <option value="not_as_described">Not what I expected</option>
+                        <option value="technical_issue">Technical issue / couldn't access report</option>
+                        <option value="no_longer_needed">No longer needed</option>
+                        <option value="duplicate_charge">I was charged twice</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Overall, how would you rate the report's quality?</label>
+                    <div class="rating-group" role="radiogroup" aria-label="Overall quality rating">
+                        <label class="rating-option"><input type="radio" name="overall_rating" value="1" required> 1</label>
+                        <label class="rating-option"><input type="radio" name="overall_rating" value="2"> 2</label>
+                        <label class="rating-option"><input type="radio" name="overall_rating" value="3"> 3</label>
+                        <label class="rating-option"><input type="radio" name="overall_rating" value="4"> 4</label>
+                        <label class="rating-option"><input type="radio" name="overall_rating" value="5"> 5</label>
+                    </div>
+                    <p class="form-help">1 = poor, 5 = excellent</p>
+                </div>
+
+                <div class="form-group">
+                    <label>The 7-day meal plan</label>
+                    <div class="rating-group" role="radiogroup" aria-label="Meal plan feedback">
+                        <label class="rating-option-text"><input type="radio" name="meal_plan_feedback" value="helpful" required> Helpful</label>
+                        <label class="rating-option-text"><input type="radio" name="meal_plan_feedback" value="not_helpful"> Not helpful</label>
+                        <label class="rating-option-text"><input type="radio" name="meal_plan_feedback" value="didnt_use"> Didn't use it</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>The Doctor's Report</label>
+                    <div class="rating-group" role="radiogroup" aria-label="Doctor's report feedback">
+                        <label class="rating-option-text"><input type="radio" name="doctor_script_feedback" value="helpful" required> Helpful</label>
+                        <label class="rating-option-text"><input type="radio" name="doctor_script_feedback" value="not_helpful"> Not helpful</label>
+                        <label class="rating-option-text"><input type="radio" name="doctor_script_feedback" value="didnt_use"> Didn't use it</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="refund-reason">What would have made this worth keeping?</label>
+                    <textarea id="refund-reason" name="reason_text" rows="4" minlength="10" maxlength="1000" required placeholder="Be specific — this is what actually gets fixed."></textarea>
+                    <div class="char-counter"><span class="char-count">0</span> / 1000</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="refund-technical">Any technical issues? (optional)</label>
+                    <textarea id="refund-technical" name="technical_notes" rows="2" maxlength="1000" placeholder="Broken link, page wouldn't load, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="refund-additional">Anything else? (optional)</label>
+                    <textarea id="refund-additional" name="additional_notes" rows="2" maxlength="1000" placeholder="Anything we didn't ask about"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="refund-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="refund-submit">
+                        <span class="button-text">Submit request</span>
+                        <span class="button-loading" style="display: none;"><span class="spinner-small"></span></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success view -->
+        <div class="refund-success-view" style="display: none;">
+            <svg class="success-icon-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h2>Request received</h2>
+            <p>We'll review it and follow up at the email you gave us within 1-2 business days.</p>
+            <button type="button" class="btn btn-primary" id="refund-close-success">Close</button>
+        </div>
+
+        <!-- Error view -->
+        <div class="refund-error-view" style="display: none;">
+            <svg class="error-icon-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h2>Something went wrong</h2>
+            <p class="error-detail">Please try again in a moment.</p>
+            <button type="button" class="btn btn-primary" id="refund-retry">Try again</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.refund-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.refund-modal-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(4px); }
+.refund-modal-content { position: relative; background: var(--surface, #fff); border-radius: 14px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); animation: refundModalSlideUp 0.3s ease; }
+@keyframes refundModalSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.refund-modal-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; background: transparent; border: none; cursor: pointer; color: var(--ink-soft, #475569); transition: color 0.2s ease; }
+.refund-modal-close:hover { color: var(--ink, #0f172a); }
+.refund-modal-close svg { width: 20px; height: 20px; }
+.refund-form-view h1 { font-family: var(--serif, Georgia, serif); font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink, #0f172a); margin: 0 0 0.5rem 0; }
+.refund-subtitle { color: var(--ink-soft, #475569); margin: 0 0 1.5rem 0; line-height: 1.6; }
+.refund-form { margin: 0; }
+.refund-form .form-group { margin-bottom: 1.4rem; }
+.refund-form .form-group label { display: block; font-weight: 600; color: var(--ink, #0f172a); margin-bottom: 0.5rem; font-size: 0.9375rem; }
+.refund-form .form-help { font-size: 0.8125rem; color: var(--ink-faint, #94a3b8); margin: 0.35rem 0 0; font-weight: 400; }
+.refund-form textarea, .refund-form input[type="email"], .refund-form select { width: 100%; padding: 0.75rem; font-size: 1rem; font-family: inherit; color: var(--ink, #0f172a); border: 1px solid var(--line, #e2e8f0); border-radius: 8px; transition: border-color 0.2s ease; background: var(--surface, #fff); box-sizing: border-box; }
+.refund-form textarea:focus, .refund-form input[type="email"]:focus, .refund-form select:focus { outline: none; border-color: var(--accent-deep, #0ea5e9); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12); }
+.refund-form textarea { resize: vertical; min-height: 110px; }
+.rating-group { display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; }
+.rating-option, .rating-option-text { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 400; font-size: 0.9375rem; color: var(--ink-soft, #475569); cursor: pointer; }
+.rating-option input, .rating-option-text input { cursor: pointer; accent-color: var(--accent-deep, #0ea5e9); }
+.refund-form .char-counter { text-align: right; font-size: 0.8125rem; color: var(--ink-faint, #94a3b8); margin-top: 0.25rem; }
+.refund-form .form-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.75rem; }
+.refund-form .btn { padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
+.refund-form .btn-primary { background: var(--accent-deep, #0ea5e9); color: #fff; }
+.refund-form .btn-primary:hover:not(:disabled) { background: #0284c7; transform: translateY(-1px); }
+.refund-form .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.refund-form .btn-secondary { background: transparent; color: var(--ink-soft, #475569); border: 1px solid var(--line, #e2e8f0); }
+.refund-form .btn-secondary:hover { border-color: var(--ink, #0f172a); color: var(--ink, #0f172a); }
+.refund-modal .spinner-small { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: #fff; border-radius: 50%; animation: refundSpin 0.6s linear infinite; }
+@keyframes refundSpin { to { transform: rotate(360deg); } }
+.refund-success-view, .refund-error-view { text-align: center; padding: 2rem 0; }
+.refund-success-view .success-icon-large, .refund-error-view .error-icon-large { width: 64px; height: 64px; margin: 0 auto 1.5rem; }
+.refund-success-view .success-icon-large { color: #10b981; }
+.refund-error-view .error-icon-large { color: #ef4444; }
+.refund-success-view h2, .refund-error-view h2 { font-family: var(--serif, Georgia, serif); font-size: 1.6rem; font-weight: 800; color: var(--ink, #0f172a); margin: 0 0 0.75rem 0; }
+.refund-success-view p, .refund-error-view p { color: var(--ink-soft, #475569); margin: 0 0 1.5rem 0; line-height: 1.6; }
+.refund-error-view .error-detail { color: #ef4444; font-weight: 500; }
+@media (max-width: 640px) {
+    .refund-modal-content { padding: 1.5rem; }
+    .refund-form .form-actions { flex-direction: column-reverse; }
+    .refund-form .btn { width: 100%; }
+}
+</style>
