@@ -35,6 +35,19 @@
     var nav=70, pad=(extra||24);
     var y=el.getBoundingClientRect().top+window.scrollY-nav-pad;
     window.scrollTo({top:y,behavior:'smooth'});
+    // Some webviews/emulators silently drop smooth programmatic scrolls.
+    // If nothing moved after 700ms and the user hasn't scrolled, snap.
+    // behavior:'instant' is required — this page sets html{scroll-behavior:
+    // smooth}, which turns even default scrollTo calls into (droppable)
+    // smooth animations.
+    var start=window.scrollY;
+    setTimeout(function(){
+      var yNow=el.getBoundingClientRect().top+window.scrollY-nav-pad;
+      if(Math.abs(window.scrollY-start)<4 && Math.abs(yNow-window.scrollY)>60){
+        try{window.scrollTo({top:yNow,behavior:'instant'});}
+        catch(e){window.scrollTo(0,yNow);}
+      }
+    },700);
   }
 
   /* ---------- gauge ticks ---------- */
@@ -94,6 +107,9 @@
         var u=b.dataset.unit;
         $all('[data-unitgroup]').forEach(function(g){g.classList.toggle('hidden',g.dataset.unitgroup!==u);});
         if(weightUnit) weightUnit.textContent=(u==='imperial')?'lbs':'kg';
+        // Placeholder must match the unit — "165" reads as 165 kg in metric
+        var weightInput=$('#weight');
+        if(weightInput) weightInput.placeholder=(u==='imperial')?'165':'75';
       });
     });
   }
@@ -208,6 +224,9 @@
     }else{
       var ft=parseFloat($('#heightFt').value);
       if(!ft||ft<3||ft>8){$('#heightFt').closest('.input').classList.add('invalid');valid=false;}
+      // Inches were unbounded — "5 ft 25 in" passed silently and skewed the math
+      var inch=parseFloat($('#heightIn').value)||0;
+      if(inch<0||inch>11){$('#heightIn').closest('.input').classList.add('invalid');valid=false;}
     }
     return valid;
   }
@@ -574,7 +593,15 @@
     }
 
     if(successEmail) successEmail.textContent=sessionId?'the email you provided':'your inbox';
-    track('kd_payment_complete',{session_id:sessionId});
+    // Fire once per purchase — the success URL survives reloads/bookmarks and
+    // used to re-count kd_payment_complete on every visit
+    var payKey='kd_purchase_fired_'+(sessionId||'unknown');
+    var alreadyFired=false;
+    try{alreadyFired=!!localStorage.getItem(payKey);}catch(e){}
+    if(!alreadyFired){
+      track('kd_payment_complete',{session_id:sessionId});
+      try{localStorage.setItem(payKey,'1');}catch(e){}
+    }
     successOverlay.classList.add('show');
   }
 
