@@ -243,11 +243,11 @@
     var msg=$('#planEmailMsg'), btn=$('#planEmailBtn');
     function show(text,color){if(msg){msg.style.display='block';msg.style.color=color;msg.textContent=text;}}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-      if(!isAuto)show('Please enter a valid email.','#fca5a5');
+      if(!isAuto)show('Please enter a valid email.','#dc2626');
       return;
     }
     if(planSentTo[email]){
-      if(!isAuto)show('Already sent to this address. Check your inbox (and spam folder).','#4ade80');
+      if(!isAuto)show('Already sent to this address. Check your inbox (and spam folder).','#15803d');
       return;
     }
     planSentTo[email]=true;
@@ -272,15 +272,15 @@
       if(btn){btn.disabled=false;btn.textContent='Email me my plan';}
       if(res&&res.ok){
         track('kd_plan_emailed',{auto:!!isAuto,newsletter_opt_in:!!newsletterOptIn});
-        show('Sent! Check your inbox for your plan.','#4ade80');
+        show('Sent! While it lands, keep going below — Step 2 is what makes it personal.','#15803d');
       }else{
         planSentTo[email]=false;
-        show('Something went wrong sending your plan. Try again in a minute.','#fca5a5');
+        show('Something went wrong sending your plan. Try again in a minute.','#dc2626');
       }
     }).catch(function(){
       planSentTo[email]=false;
       if(btn){btn.disabled=false;btn.textContent='Email me my plan';}
-      show('Something went wrong sending your plan. Try again in a minute.','#fca5a5');
+      show('Something went wrong sending your plan. Try again in a minute.','#dc2626');
     });
   }
   var planBtn=$('#planEmailBtn');
@@ -347,6 +347,14 @@
         if(xb)xb.href='https://twitter.com/intent/tweet?text='+t+'&url='+u;
         if(pb)pb.href='https://pinterest.com/pin/create/button/?url='+u+'&description='+t;
       }
+    });
+  }
+
+  var continueBtn=$('#kdContinueBtn');
+  if(continueBtn){
+    continueBtn.addEventListener('click',function(){
+      track('kd_continue_step2',{});
+      if(step2) scrollToEl(step2);
     });
   }
 
