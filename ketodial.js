@@ -324,6 +324,16 @@
       }).then(function(r){return r.json();}).then(function(j){if(j.token)sessionToken=j.token;}).catch(function(e){console.warn('KD session create failed:',e);});
       freeResults.classList.add('show');
       step2.classList.add('show');
+      // Reveal the priced report picker right after the free macros, moved above
+      // the survey so prices are visible without completing the 12-field profile.
+      // The survey stays below as optional personalization.
+      var picker=$('#reportPicker');
+      if(picker){
+        if(step2&&step2.parentNode&&step2.parentNode===picker.parentNode){
+          step2.parentNode.insertBefore(picker,step2);
+        }
+        picker.classList.add('show');
+      }
       var optEmail=$('#emailOpt');
       if(optEmail&&optEmail.value.trim()&&$('#emailReq')){
         $('#emailReq').value=optEmail.value.trim();
