@@ -529,7 +529,7 @@
       fetch(API_BASE+'/checkout',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({items:items,email:email,name:name,formData:formData})
+        body:JSON.stringify({items:items,email:email,name:name,formData:formData,token:sessionToken})
       })
       .then(function(r){return r.json();})
       .then(function(data){
