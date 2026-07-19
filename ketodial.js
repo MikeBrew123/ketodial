@@ -4,6 +4,15 @@
   /* ---------- analytics ---------- */
   function track(event,params){
     if(window.gtag) window.gtag('event',event,params||{});
+    // Mirror the key conversion moments to the Pinterest tag so pin -> ketodial
+    // traffic is attributable in Pinterest reporting (not just GA).
+    if(window.pintrk){
+      if(event==='kd_plan_emailed'){
+        window.pintrk('track','lead',{lead_type:'keto_calculator'});
+      }else if(event==='kd_payment_complete'){
+        window.pintrk('track','checkout',{currency:'USD',lead_type:'keto_report'});
+      }
+    }
   }
 
   /* ---------- helpers ---------- */

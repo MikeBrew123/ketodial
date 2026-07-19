@@ -1053,6 +1053,7 @@ pintrk('page');
       if(res.ok){
         document.getElementById('coachWaitlist').style.display='none';
         document.getElementById('cwlDone').style.display='block';
+        try{pintrk('track','lead',{lead_type:'coach_waitlist'})}catch(x){}
       }else{
         const d=await res.json();errEl.textContent=d.error||'Something went wrong';errEl.style.display='block';
         btn.textContent='Join the founding cohort';btn.disabled=false;
@@ -1170,6 +1171,7 @@ pintrk('page');
         status.textContent='You\'re in! Check your inbox.';
         status.style.color='#2dd4bf';status.style.display='block';
         try{gtag('event','kd_newsletter_signup',{source:'homepage'})}catch(x){}
+        try{pintrk('track','signup',{lead_type:'newsletter'})}catch(x){}
       }else{
         status.textContent=d.error||'Something went wrong. Try again.';
         status.style.color='#ef4444';status.style.display='block';
