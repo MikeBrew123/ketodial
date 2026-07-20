@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <meta name="description" content="A 30-second anonymous check-in for people on the 30-day keto starter. Answer one question and see what brought everyone else here.">
+    <link rel="canonical" href="https://ketodial.com/journey-checkin.html">
+    <title>Journey Check-In | KetoDial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y79FB48EG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-0Y79FB48EG');
+    </script>
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --ink-soft: #475569;
+            --accent: #38bdf8;
+            --accent-deep: #0ea5e9;
+            --teal: #2dd4bf;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .site-header {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--teal) 100%);
+            padding: 18px 20px;
+            text-align: center;
+        }
+        .site-header a {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+        .wrap { max-width: 560px; margin: 0 auto; padding: 32px 20px 60px; }
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--ink);
+        }
+        .intro { color: var(--ink-soft); margin-bottom: 26px; font-size: 0.98rem; }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(15,23,42,0.05);
+        }
+        .q-text { font-weight: 700; font-size: 1.12rem; margin-bottom: 4px; }
+        .q-sub { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 16px; }
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+            font-size: 0.97rem;
+        }
+        .opt:hover { border-color: var(--accent-deep); }
+        .opt input { accent-color: var(--accent-deep); width: 18px; height: 18px; flex-shrink: 0; }
+        .opt.checked { border-color: var(--accent-deep); background: #f0f9ff; }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background: var(--accent-deep);
+            color: #ffffff;
+            font-family: 'Hanken Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: opacity .15s;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+        .submit-btn:disabled { opacity: 0.45; cursor: default; }
+        .skip-link {
+            display: block;
+            text-align: center;
+            margin-top: 14px;
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+        }
+        .skip-link a { color: var(--accent-deep); }
+        /* Results */
+        .results-header {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+        .bar-row { margin-bottom: 14px; }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .bar-label .pct { font-weight: 700; color: var(--accent-deep); }
+        .bar-track {
+            background: #e2e8f0;
+            border-radius: 999px;
+            height: 12px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            background: var(--accent-deep);
+            height: 100%;
+            border-radius: 999px;
+            width: 0;
+            transition: width .7s ease;
+        }
+        .bar-row.mine .bar-fill { background: var(--teal); }
+        .bar-row.mine .bar-label .txt::after { content: " (you)"; font-weight: 600; color: var(--ink-soft); font-size: 0.8rem; }
+        .early-note {
+            background: #f0f9ff;
+            border-left: 4px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 14px 16px;
+            font-size: 0.93rem;
+            margin-bottom: 16px;
+        }
+        .bridge-stat {
+            border-top: 1px solid var(--border);
+            margin-top: 18px;
+            padding-top: 16px;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+        }
+        .bridge-stat a { color: var(--accent-deep); }
+        .thanks { font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 18px; }
+        .respondents { font-size: 0.82rem; color: var(--ink-soft); text-align: center; margin-top: 6px; }
+        .hidden { display: none; }
+        .error-note { color: #b91c1c; font-size: 0.9rem; margin-top: 10px; text-align: center; }
+        /* Honeypot: visually gone, present in DOM for bots */
+        .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+        @media (prefers-color-scheme: dark) {
+            body { background: #0f172a; color: #e2e8f0; }
+            .card { background: #1e293b; border-color: #334155; }
+            .opt { border-color: #334155; }
+            .opt.checked { background: #0c2436; }
+            .intro, .q-sub, .skip-link, .bridge-stat, .thanks, .respondents, .bar-label { color: #94a3b8; }
+            .q-text, h1, .results-header { color: #e2e8f0; }
+            .bar-label .pct, .skip-link a, .bridge-stat a { color: #38bdf8; }
+            .bar-track { background: #334155; }
+            .early-note { background: #172a3a; color: #e2e8f0; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-nav" style="position:absolute;left:-9999px">Skip to main content</a>
+    <header class="site-header"><a href="https://ketodial.com">KetoDial</a></header>
+    <main class="wrap" id="main-content">
+        <span class="badge">Check-In</span>
+        <h1>Quick check-in</h1>
+        <p class="intro" id="intro-text">One question, and it's anonymous. No name, no email, nothing tied to you. Answer if you want to (you don't have to), and you'll see why everyone before you started. Your answer becomes part of the picture for the next person standing where you are right now.</p>
+
+        <div id="loading" class="card"><p>Loading today's question…</p></div>
+
+        <form id="question-form" class="hidden">
+            <div id="questions"></div>
+            <!-- Honeypot: humans never see or fill this -->
+            <div class="hp-field" aria-hidden="true">
+                <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+            <button type="submit" class="submit-btn" id="submit-btn" disabled>Count me in</button>
+            <p class="skip-link">Rather not answer? <a href="#results" id="skip-link">Just show me the results</a></p>
+            <p class="error-note hidden" id="form-error"></p>
+        </form>
+
+        <section id="results" class="hidden">
+            <div class="card">
+                <p class="thanks hidden" id="thanks-line">Thanks. Your answer just became part of the map.</p>
+                <h2 class="results-header">You're not doing this alone. Here's what brought everyone else here.</h2>
+                <div id="results-bars"></div>
+                <div class="early-note hidden" id="early-note">This check-in is brand new, so you're one of the very first people to answer. There's no big chart to show you yet, but your answer is literally building it. The people who sign up next week will see what you just added.</div>
+                <p class="respondents" id="respondents-line"></p>
+                <div class="bridge-stat" id="bridge-stat">
+                    While the chart grows, keep the momentum going: the <a href="https://ketodial.com/recipes/">KetoDial recipe library</a> has 70+ keto recipes with the macros already worked out.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    (function () {
+        var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+            ? 'http://localhost:8787/api/v1/drip-survey'
+            : 'https://carnivore-report-api-production.iambrew.workers.dev/api/v1/drip-survey';
+        var EARLY_THRESHOLD = 25;
+        var params = new URLSearchParams(location.search);
+        var day = parseInt(params.get('day') || '1', 10);
+        if (!(day >= 1 && day <= 28)) day = 1;
+        var site = 'kd';
+        var source = ['drip', 'calculator', 'blog'].indexOf(params.get('source')) >= 0 ? params.get('source') : 'drip';
+
+        // Anonymous fingerprint: random UUID in localStorage. Dedup only, never identity.
+        var fp;
+        try {
+            fp = localStorage.getItem('kd_checkin_fp');
+            if (!fp) {
+                fp = (crypto.randomUUID && crypto.randomUUID()) || String(Math.random()).slice(2) + Date.now();
+                localStorage.setItem('kd_checkin_fp', fp);
+            }
+        } catch (e) {
+            fp = (crypto.randomUUID && crypto.randomUUID()) || String(Math.random()).slice(2) + Date.now();
+        }
+
+        var $ = function (id) { return document.getElementById(id); };
+        var state = { questions: [], picked: {} };
+
+        function show(el) { el.classList.remove('hidden'); }
+        function hide(el) { el.classList.add('hidden'); }
+
+        function renderQuestions(data) {
+            if (data.intro) $('intro-text').textContent = data.intro;
+            var host = $('questions');
+            host.innerHTML = '';
+            state.questions = data.questions;
+            data.questions.forEach(function (q) {
+                var card = document.createElement('div');
+                card.className = 'card';
+                var inputType = q.type === 'single' ? 'radio' : 'checkbox';
+                var sub = q.type === 'single' ? 'Pick one.' : 'Check everything that applies.';
+                var html = '<p class="q-text">' + esc(q.text) + '</p><p class="q-sub">' + sub + '</p>';
+                q.options.forEach(function (o) {
+                    html += '<label class="opt"><input type="' + inputType + '" name="q_' + esc(q.key) + '" value="' + esc(o.id) + '"><span>' + esc(o.text) + '</span></label>';
+                });
+                card.innerHTML = html;
+                host.appendChild(card);
+            });
+            host.addEventListener('change', function () {
+                host.querySelectorAll('.opt').forEach(function (l) {
+                    l.classList.toggle('checked', l.querySelector('input').checked);
+                });
+                $('submit-btn').disabled = host.querySelectorAll('input:checked').length === 0;
+            });
+            hide($('loading'));
+            show($('question-form'));
+        }
+
+        function renderResults(data, mine, answered) {
+            var bars = $('results-bars');
+            bars.innerHTML = '';
+            var early = data.total_respondents < EARLY_THRESHOLD;
+            if (answered) show($('thanks-line'));
+            if (early) {
+                show($('early-note'));
+            } else {
+                hide($('early-note'));
+                data.questions.forEach(function (q) {
+                    q.options.forEach(function (o) {
+                        var row = document.createElement('div');
+                        row.className = 'bar-row' + (mine.indexOf(o.id) >= 0 ? ' mine' : '');
+                        row.innerHTML = '<div class="bar-label"><span class="txt">' + esc(o.text) + '</span><span class="pct">' + o.pct + '%</span></div><div class="bar-track"><div class="bar-fill"></div></div>';
+                        bars.appendChild(row);
+                        requestAnimationFrame(function () {
+                            row.querySelector('.bar-fill').style.width = o.pct + '%';
+                        });
+                    });
+                });
+                $('respondents-line').textContent = data.total_respondents + ' people have answered so far';
+            }
+            hide($('question-form'));
+            hide($('loading'));
+            show($('results'));
+        }
+
+        function esc(s) {
+            return String(s).replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        }
+
+        fetch(API + '?day=' + day + '&site=' + site)
+            .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function (data) {
+                renderQuestions(data);
+                // First-party view ping: completes the clicked→viewed→submitted funnel.
+                // Best-effort; fires only after a real question render (bots without JS never get here).
+                fetch(API + '/view', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ site: site, day: day, fingerprint: fp, source: source })
+                }).catch(function () {});
+            })
+            .catch(function () {
+                $('loading').innerHTML = '<p>Couldn\'t load today\'s question. <a href="' + location.href.split('?')[0] + '?day=' + day + '">Try again</a> or come back later.</p>';
+            });
+
+        $('question-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var picked = Array.prototype.map.call(
+                document.querySelectorAll('#questions input:checked'),
+                function (i) { return i.value; }
+            );
+            if (!picked.length) return;
+            $('submit-btn').disabled = true;
+            $('submit-btn').textContent = 'Saving…';
+            fetch(API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    site: site, day: day, option_ids: picked,
+                    fingerprint: fp, source: source,
+                    website: document.querySelector('input[name="website"]').value
+                })
+            })
+                .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(function (data) {
+                    if (window.gtag) gtag('event', 'checkin_submit', { day: day, site: site });
+                    renderResults(data, picked, true);
+                })
+                .catch(function () {
+                    $('submit-btn').disabled = false;
+                    $('submit-btn').textContent = 'Count me in';
+                    var err = $('form-error');
+                    err.textContent = "That didn't save. Give it another try in a minute.";
+                    show(err);
+                });
+        });
+
+        $('skip-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            fetch(API + '?day=' + day + '&site=' + site)
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (window.gtag) gtag('event', 'checkin_view_results', { day: day, site: site });
+                    renderResults(data, [], false);
+                });
+        });
+    })();
+    </script>
+</body>
+</html>
