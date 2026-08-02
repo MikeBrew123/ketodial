@@ -69,7 +69,23 @@
             margin-bottom: 12px;
             color: var(--ink);
         }
-        .intro { color: var(--ink-soft); margin-bottom: 26px; font-size: 0.98rem; }
+        .intro { color: var(--ink-soft); margin-bottom: 16px; font-size: 0.98rem; }
+        /* Trust row: static, never overwritten by the DB intro text. The click, not the
+           page, is where people drop off, so say plainly what this is and isn't. */
+        .trust-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            margin-bottom: 26px;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+        }
+        .trust-row span { display: inline-flex; align-items: center; gap: 6px; }
+        .trust-row span::before {
+            content: "✓";
+            color: var(--accent-deep);
+            font-weight: 700;
+        }
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -177,7 +193,8 @@
             .card { background: #1e293b; border-color: #334155; }
             .opt { border-color: #334155; }
             .opt.checked { background: #0c2436; }
-            .intro, .q-sub, .skip-link, .bridge-stat, .thanks, .respondents, .bar-label { color: #94a3b8; }
+            .intro, .q-sub, .skip-link, .bridge-stat, .thanks, .respondents, .bar-label, .trust-row { color: #94a3b8; }
+            .trust-row span::before { color: #38bdf8; }
             .q-text, h1, .results-header { color: #e2e8f0; }
             .bar-label .pct, .skip-link a, .bridge-stat a { color: #38bdf8; }
             .bar-track { background: #334155; }
@@ -191,7 +208,13 @@
     <main class="wrap" id="main-content">
         <span class="badge">Check-In</span>
         <h1>Quick check-in</h1>
-        <p class="intro" id="intro-text">One question, and it's anonymous. No name, no email, nothing tied to you. Answer if you want to (you don't have to), and you'll see why everyone before you started. Your answer becomes part of the picture for the next person standing where you are right now.</p>
+        <p class="intro" id="intro-text">One question, and it's anonymous. No name, no email, nothing tied to you. Answer if you want to, or don't. Your answer becomes part of the picture for the next person standing where you are right now.</p>
+        <div class="trust-row">
+            <span>No sales pitch</span>
+            <span>No popup</span>
+            <span>Nothing to sign up for</span>
+            <span>You can leave anytime</span>
+        </div>
 
         <div id="loading" class="card"><p>Loading today's question…</p></div>
 
