@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CGM on Keto: Find Your Real Carb Tolerance in 14 Days -- KetoDial</title>
+<meta name="description" content="A step-by-step 14-day CGM protocol to test your personal carb tolerance by meal and time of day, then feed those numbers into your keto macros.">
+<link rel="canonical" href="https://ketodial.com/blog/cgm-keto-carb-tolerance.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ketodial.com/blog/cgm-keto-carb-tolerance.html">
+<meta property="og:title" content="CGM on Keto: Find Your Real Carb Tolerance in 14 Days">
+<meta property="og:description" content="A step-by-step 14-day CGM protocol to test your personal carb tolerance by meal and time of day, then feed those numbers into your keto macros.">
+<meta property="og:site_name" content="KetoDial">
+<meta property="og:image" content="https://ketodial.com/images/blog/cgm-keto-carb-tolerance.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CGM on Keto: Find Your Real Carb Tolerance in 14 Days">
+<meta name="twitter:description" content="A step-by-step 14-day CGM protocol to test your personal carb tolerance by meal and time of day, then feed those numbers into your keto macros.">
+<meta name="twitter:image" content="https://ketodial.com/images/blog/cgm-keto-carb-tolerance.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&display=swap" rel="stylesheet" />
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y79FB48EG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0Y79FB48EG');
+</script>
+<style>
+:root{
+  --bg:#f1f5f9;--surface:#ffffff;--ink:#0f172a;--ink-soft:#475569;--ink-faint:#94a3b8;
+  --line:#e2e8f0;--accent:#38bdf8;--accent-deep:#0ea5e9;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--serif:"Newsreader",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+
+header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px;max-width:1180px;margin:0 auto;padding:0 28px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand .word{font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink)}
+.brand .word b{color:var(--accent-deep)}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+@media(max-width:860px){.nav-links{display:none}}
+
+.article{max-width:720px;margin:0 auto;padding:48px 28px 80px}
+.article .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:500;margin-bottom:12px}
+.article h1{font-size:clamp(30px,5vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
+.article .byline{font-size:14px;color:var(--ink-faint);margin-bottom:32px;display:flex;align-items:center;gap:8px}
+.article .byline b{color:var(--ink-soft);font-weight:600}
+.content{font-family:var(--serif);font-size:18px;line-height:1.7;color:#334155}
+.content h2{font-family:var(--sans);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:36px 0 14px}
+.content p{margin-bottom:16px}
+.content ul{margin:8px 0 18px 24px}
+.content li{margin-bottom:8px}
+.content strong{color:var(--ink);font-weight:600}
+.content a{color:var(--accent-deep);font-weight:500}
+.content blockquote{border-left:3px solid var(--accent);padding:16px 20px;margin:24px 0;background:#f7fbfe;border-radius:0 10px 10px 0;font-size:15px;color:var(--ink-soft);font-style:normal}
+.content blockquote em{font-style:italic}
+
+.cta-box{background:var(--ink);color:#e2eef7;border-radius:16px;padding:28px 32px;margin:36px 0;text-align:center}
+.cta-box h3{font-family:var(--sans);font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.cta-box p{font-size:15px;color:#9fc0d6;margin-bottom:16px;font-family:var(--sans)}
+.cta-box a{display:inline-block;background:var(--accent);color:#062234;font-family:var(--sans);font-weight:700;font-size:15px;padding:12px 28px;border-radius:10px;text-decoration:none;transition:background .15s}
+.cta-box a:hover{background:#7dd3fc;text-decoration:none}
+
+footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
+.foot-inner{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-inner .disclaimer{font-size:12px;color:#6b8aa0;max-width:640px;line-height:1.5}
+.foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "CGM on Keto: Find Your Real Carb Tolerance in 14 Days",
+  "description": "A step-by-step 14-day CGM protocol to test your personal carb tolerance by meal and time of day, then feed those numbers into your keto macros.",
+  "url": "https://ketodial.com/blog/cgm-keto-carb-tolerance.html",
+  "datePublished": "2026-08-08",
+  "dateModified": "2026-08-08",
+  "author": {
+    "@type": "Person",
+    "name": "Marcus"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "KetoDial",
+    "url": "https://ketodial.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ketodial.com/blog/cgm-keto-carb-tolerance.html"
+  }
+}
+</script>
+<!-- Pinterest Tag -->
+<script>
+!function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+pintrk('load','2612943505341');
+pintrk('page');
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?event=init&tid=2612943505341&noscript=1" /></noscript>
+<!-- end Pinterest Tag -->
+</head>
+<body>
+<a href="#main-content" class="skip-nav">Skip to content</a>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#0b1620"/>
+        <path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/>
+        <path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="3" fill="#e2eef7"/>
+      </svg>
+      <span class="word">Keto<b>Dial</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#calc">Calculator</a>
+      <a href="/#how">How it works</a>
+      <a href="/#guides">Guides</a>
+      <a href="/recipes/">Recipes</a>
+      <a href="/">Home</a>
+    </nav>
+  </div>
+</header>
+<article class="article" id="main-content">
+  <div class="eyebrow">Protocol</div>
+  <h1>CGM on Keto: Find Your Real Carb Tolerance in 14 Days</h1>
+  <div class="byline"><b>Marcus</b> · Performance Coach · August 8, 2026</div>
+  <div class="content">
+    <img src="/images/blog/cgm-keto-carb-tolerance.jpg" alt="CGM on Keto: Find Your Real Carb Tolerance in 14 Days" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <p>Everybody on keto has the same question. How many carbs can I actually eat? The internet says 20 grams. Your buddy says 50. Some coach on YouTube says it depends. They're all guessing, and you're the one paying for it.</p>
+
+<p>Here's the thing. Your carb tolerance isn't a keto rule. It's a number. And a continuous glucose monitor can find it for you in 14 days. I've run this protocol with dozens of clients, and the results surprise almost everyone. One guy I coached could handle 40 grams of rice at dinner with barely a ripple. The same rice at breakfast spiked him 55 points. Same food, same body, different clock.</p>
+
+<p>Stop overthinking it. Here's the protocol.</p>
+
+<h2>What You Need Before Day One</h2>
+
+<p>First, a CGM. You don't need a prescription anymore. Stelo, Lingo, and Libre Rio are all sold over the counter for roughly $50 to $100 per sensor, and one sensor lasts about 14 days. That's convenient, because 14 days is exactly what this protocol takes.</p>
+
+<p>Second, a way to log. Notes app, spreadsheet, whatever. You'll record what you ate, how many carbs, what time, and what your glucose did over the next two hours.</p>
+
+<p>Third, two numbers to watch:</p>
+
+<ul>
+<li><strong>Peak rise:</strong> how far above your pre-meal reading you climbed. Under 30 mg/dL is a pass. Over 30 is a flag.</li>
+<li><strong>Return time:</strong> how long until you're back within 10 points of baseline. Under 2 hours is a pass.</li>
+</ul>
+
+<p>Those thresholds come from work by researchers like Dr. Casey Means and the Levels team, who've published reference data on healthy glucose responses. They're not diabetes diagnostics. They're performance targets for staying in fat-burning territory.</p>
+
+<h2>Days 1 to 3: Baseline. Change Nothing.</h2>
+
+<p>Wear the sensor and eat exactly how you've been eating. Don't clean anything up. The math doesn't lie, but only if you feed it honest data.</p>
+
+<p>Log every meal. Note your fasting glucose when you wake up, your pre-meal readings, and your peaks. Also expect one weird thing: many people see a morning rise of 10 to 20 points before they've eaten anything. That's the dawn effect, cortisol doing its job. It's normal. Don't panic and don't count it against breakfast.</p>
+
+<p>By day 3 you'll know your personal baseline. Most keto-adapted people sit somewhere between 75 and 95 mg/dL through the day. Yours is yours. That's the whole point.</p>
+
+<h2>Days 4 to 10: Test One Variable at a Time</h2>
+
+<p>Now the fun part. You're going to run structured carb tests, one per day, and hold everything else steady.</p>
+
+<p>Here's the structure I use with clients:</p>
+
+<ul>
+<li><strong>Day 4:</strong> 20 grams of carbs at dinner from a whole food source. Berries, squash, potato. Log the response.</li>
+<li><strong>Day 5:</strong> Same 20 grams, same food, but at breakfast. This tests time of day.</li>
+<li><strong>Day 6:</strong> 35 grams at dinner. You're finding the ceiling.</li>
+<li><strong>Day 7:</strong> Rest day. Normal keto eating. Let your log catch up.</li>
+<li><strong>Day 8:</strong> 35 grams at dinner again, but eaten after your protein and fat instead of with them. Food order changes glucose response, sometimes by 30 percent or more in published sequencing studies.</li>
+<li><strong>Day 9:</strong> Your day 6 test, repeated within an hour of a workout. Trained muscle soaks up glucose. Most people's tolerance jumps post-training.</li>
+<li><strong>Day 10:</strong> One test of your choice. Retest anything that surprised you.</li>
+</ul>
+
+<p>Rules for every test day. Same sleep the night before, or close to it. No alcohol. Don't stack two tests in one day. One variable at a time or your data is garbage.</p>
+
+<blockquote>A poor night of sleep can raise your glucose response the next day by 20 points or more. If you slept 5 hours, skip the test. Bad data is worse than no data.</blockquote>
+
+<h2>Days 11 to 14: Confirm Your Numbers</h2>
+
+<p>By now you'll see a pattern. Maybe you pass 20 grams anytime but fail 35 at breakfast. Maybe post-workout you handle 40 like it's nothing. Whatever your pattern is, days 11 to 14 are for confirming it.</p>
+
+<p>Repeat your two best-tolerated scenarios and your single worst one. If the results match the first round, you've got real numbers. If they don't match, believe the average, not the outlier.</p>
+
+<p>When I ran this myself, I confirmed something annoying. My dinner tolerance was nearly double my breakfast tolerance. I didn't like it, but I stopped eating carbs before noon and my afternoon energy dips disappeared inside a week.</p>
+
+<h2>Feed the Numbers Into Your Plan</h2>
+
+<p>This is where most people drop the ball. They collect two weeks of data and then keep eating the same generic 20 grams a day.</p>
+
+<p>Do this instead. Take your confirmed daily tolerance, the total carbs you can eat while passing both thresholds, and plug it into the KetoDial calculator as your carb target. Now your macros are built on your measured tolerance, not a default number somebody picked for the average person. You are not the average person. You just proved it with 14 days of data.</p>
+
+<p>Then schedule those carbs where your body handles them. If dinner is your window, that's your window. If post-workout doubles your tolerance, put your carbs there.</p>
+
+<h2>Three Mistakes That Wreck the Protocol</h2>
+
+<ul>
+<li><strong>Reacting to single readings.</strong> CGMs have a margin of error around 8 to 10 percent. Trends matter. Single numbers don't.</li>
+<li><strong>Testing junk carbs.</strong> Test the foods you'd actually add back. Data on Skittles doesn't help you plan dinner.</li>
+<li><strong>Changing your training mid-protocol.</strong> New training stress changes glucose. Keep your routine boring for two weeks.</li>
+</ul>
+
+<p>Fourteen days. One sensor. One variable at a time. At the end you'll have something almost nobody on keto has, a carb number that's actually yours.</p>
+
+<h2>Not a Doctor</h2>
+
+<p>I'm not a doctor. I've coached people and competed myself, so I know what works. But I'm not your doctor. If you have diabetes, take glucose-lowering meds, or manage any diagnosed condition, you need medical supervision before running this. Don't make changes alone. Everything here is based on what works in practice and what research supports. Your mileage may vary.</p>
+    <div class="cta-box">
+      <h3>Ready to dial in your macros?</h3>
+      <p>Free results in 90 seconds. No account needed.</p>
+      <a href="/#calc">Try the calculator</a>
+    </div>
+  </div>
+</article>
+<footer>
+  <div class="foot-inner">
+    <p class="disclaimer">KetoDial provides general nutrition estimates for informational purposes only and is not medical advice. Consult a qualified healthcare provider before starting any diet.</p>
+    <span class="copy">&copy; 2026 KetoDial</span>
+  </div>
+</footer>
+<script src="/js/share-buttons.js" defer></script>
+</body>
+</html>
