@@ -105,7 +105,11 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: email, site: 'kd', source: 'etsy-bonus' })
         });
-        if (!res.ok) throw new Error('subscribe failed');
+        if (!res.ok) {
+          const d = await res.json().catch(() => ({}));
+          if (d.message) err.textContent = d.message;
+          throw new Error('subscribe failed');
+        }
         document.getElementById('form-card').style.display = 'none';
         document.getElementById('bonus-success').style.display = 'block';
         if (typeof gtag === 'function') gtag('event', 'bonus_signup', { source: 'etsy-bonus', site: 'kd' });

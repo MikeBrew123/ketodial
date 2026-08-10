@@ -1222,7 +1222,7 @@ pintrk('page');
           try{gtag('event','kd_newsletter_signup',{source:'blog'})}catch(x){}
           try{pintrk('track','signup',{lead_type:'newsletter'})}catch(x){}
         }else{
-          status.textContent=d.error||'Something went wrong. Try again.';
+          status.textContent=d.message||d.error||'Something went wrong. Try again.';
           status.style.color='#ef4444';status.style.display='block';
           btn.disabled=false;btn.textContent='Join';
         }
