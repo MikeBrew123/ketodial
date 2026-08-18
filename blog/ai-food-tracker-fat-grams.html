@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your AI Food Tracker Is Lying About Your Fat Grams -- KetoDial</title>
+<meta name="description" content="Photo-based AI food trackers miss about a third of the fat on keto plates. Here is a 14-day calibration protocol to find your app&#x27;s real error margin.">
+<link rel="canonical" href="https://ketodial.com/blog/ai-food-tracker-fat-grams.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ketodial.com/blog/ai-food-tracker-fat-grams.html">
+<meta property="og:title" content="Your AI Food Tracker Is Lying About Your Fat Grams">
+<meta property="og:description" content="Photo-based AI food trackers miss about a third of the fat on keto plates. Here is a 14-day calibration protocol to find your app&#x27;s real error margin.">
+<meta property="og:site_name" content="KetoDial">
+<meta property="og:image" content="https://ketodial.com/images/blog/ai-food-tracker-fat-grams.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your AI Food Tracker Is Lying About Your Fat Grams">
+<meta name="twitter:description" content="Photo-based AI food trackers miss about a third of the fat on keto plates. Here is a 14-day calibration protocol to find your app&#x27;s real error margin.">
+<meta name="twitter:image" content="https://ketodial.com/images/blog/ai-food-tracker-fat-grams.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&display=swap" rel="stylesheet" />
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y79FB48EG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0Y79FB48EG');
+</script>
+<style>
+:root{
+  --bg:#f1f5f9;--surface:#ffffff;--ink:#0f172a;--ink-soft:#475569;--ink-faint:#94a3b8;
+  --line:#e2e8f0;--accent:#38bdf8;--accent-deep:#0ea5e9;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--serif:"Newsreader",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+
+header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px;max-width:1180px;margin:0 auto;padding:0 28px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand .word{font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink)}
+.brand .word b{color:var(--accent-deep)}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+@media(max-width:860px){.nav-links{display:none}}
+
+.article{max-width:720px;margin:0 auto;padding:48px 28px 80px}
+.article .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:500;margin-bottom:12px}
+.article h1{font-size:clamp(30px,5vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
+.article .byline{font-size:14px;color:var(--ink-faint);margin-bottom:32px;display:flex;align-items:center;gap:8px}
+.article .byline b{color:var(--ink-soft);font-weight:600}
+.content{font-family:var(--serif);font-size:18px;line-height:1.7;color:#334155}
+.content h2{font-family:var(--sans);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:36px 0 14px}
+.content p{margin-bottom:16px}
+.content ul{margin:8px 0 18px 24px}
+.content li{margin-bottom:8px}
+.content strong{color:var(--ink);font-weight:600}
+.content a{color:var(--accent-deep);font-weight:500}
+.content blockquote{border-left:3px solid var(--accent);padding:16px 20px;margin:24px 0;background:#f7fbfe;border-radius:0 10px 10px 0;font-size:15px;color:var(--ink-soft);font-style:normal}
+.content blockquote em{font-style:italic}
+
+.cta-box{background:var(--ink);color:#e2eef7;border-radius:16px;padding:28px 32px;margin:36px 0;text-align:center}
+.cta-box h3{font-family:var(--sans);font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.cta-box p{font-size:15px;color:#9fc0d6;margin-bottom:16px;font-family:var(--sans)}
+.cta-box a{display:inline-block;background:var(--accent);color:#062234;font-family:var(--sans);font-weight:700;font-size:15px;padding:12px 28px;border-radius:10px;text-decoration:none;transition:background .15s}
+.cta-box a:hover{background:#7dd3fc;text-decoration:none}
+
+footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
+.foot-inner{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-inner .disclaimer{font-size:12px;color:#6b8aa0;max-width:640px;line-height:1.5}
+.foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Your AI Food Tracker Is Lying About Your Fat Grams",
+  "description": "Photo-based AI food trackers miss about a third of the fat on keto plates. Here is a 14-day calibration protocol to find your app's real error margin.",
+  "url": "https://ketodial.com/blog/ai-food-tracker-fat-grams.html",
+  "datePublished": "2026-08-18",
+  "dateModified": "2026-08-18",
+  "author": {
+    "@type": "Person",
+    "name": "Marcus"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "KetoDial",
+    "url": "https://ketodial.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ketodial.com/blog/ai-food-tracker-fat-grams.html"
+  }
+}
+</script>
+<!-- Pinterest Tag -->
+<script>
+!function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+pintrk('load','2612943505341');
+pintrk('page');
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?event=init&tid=2612943505341&noscript=1" /></noscript>
+<!-- end Pinterest Tag -->
+</head>
+<body>
+<a href="#main-content" class="skip-nav">Skip to content</a>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#0b1620"/>
+        <path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/>
+        <path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="3" fill="#e2eef7"/>
+      </svg>
+      <span class="word">Keto<b>Dial</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#calc">Calculator</a>
+      <a href="/#how">How it works</a>
+      <a href="/#guides">Guides</a>
+      <a href="/recipes/">Recipes</a>
+      <a href="/">Home</a>
+    </nav>
+  </div>
+</header>
+<article class="article" id="main-content">
+  <div class="eyebrow">Protocol</div>
+  <h1>Your AI Food Tracker Is Lying About Your Fat Grams</h1>
+  <div class="byline"><b>Marcus</b> · Performance Coach · August 18, 2026</div>
+  <div class="content">
+    <img src="/images/blog/ai-food-tracker-fat-grams.jpg" alt="Your AI Food Tracker Is Lying About Your Fat Grams" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <p>Your app said that plate was 620 calories. It was closer to 965.</p>
+
+<p>That's the gap 2026 testing keeps finding in photo-based food logging. Point the camera at a meal, the AI guesses, and the guess comes in around <strong>345 calories light per meal</strong>. On high-fat keto plates it gets worse. Those tests found the models missing roughly <strong>a third of the fat</strong> on the plate.</p>
+
+<p>Stop and do that math. Two logged meals a day, 30 days. That's over 20,000 calories your tracker never told you about. Then you wonder why the scale hasn't moved in six weeks.</p>
+
+<h2>Why keto plates break the camera</h2>
+
+<p>Photo estimation works on volume and pattern matching. It sees a chicken thigh, it knows roughly what a chicken thigh weighs, it pulls a database entry. Fine.</p>
+
+<p>Fat doesn't have a shape. That's the whole problem.</p>
+
+<p>The two tablespoons of butter you melted into the pan disappeared into the meat. The heavy cream in your coffee looks like a color change. The olive oil you drizzled over the salad is a shine. The rendered fat you spooned back over the steak reads as sauce, and most databases treat sauce as a rounding error.</p>
+
+<p>Each of those is 100 to 250 calories that never made it into your log. Add three or four of them across a day and you've built a phantom deficit. You think you're eating 1,600. You're eating 2,300 and still calling it a stall.</p>
+
+<p>These models also got trained on the average plate, and the average plate is carb-heavy. Rice, pasta, bread, sandwiches. They're good at the food most people eat. You're not eating that food.</p>
+
+<h2>I've watched this wreck good clients</h2>
+
+<p>I coached a guy last year, ex-hockey player, disciplined as anyone I've worked with. Twelve weeks of photo logging, zero fat loss, and he was ready to quit and blame his thyroid.</p>
+
+<p>I made him weigh everything for two weeks. No changes to the food. Same meals, same times, same everything. His actual intake came in <strong>580 calories a day</strong> above what the app had been reporting.</p>
+
+<p>He wasn't lying. He wasn't snacking in secret. His tool was wrong and he had no way to know by how much.</p>
+
+<p>That's the real cost here. Not the calories. It's that people quit a diet that was working fine, because their measurement was broken and they blamed themselves.</p>
+
+<h2>The 14-day calibration protocol</h2>
+
+<p>You're not going to weigh food forever. You're going to weigh food for two weeks so you learn exactly how wrong your app is, and then you'll never need to guess again.</p>
+
+<p>Here's the protocol.</p>
+
+<p><strong>Step 1. Get a food scale that reads in grams.</strong> Twenty bucks. Tare function required. Anything that only does ounces is useless for this.</p>
+
+<p><strong>Step 2. Set your real targets first.</strong> Before you track a single meal, run your numbers through the <strong>KetoDial calculator</strong> so you know what you're aiming at. Bodyweight, activity, goal. You need a real protein floor and a real fat ceiling based on your body, not a number the app invented off a photo.</p>
+
+<p><strong>Step 3. Log every meal twice.</strong> Photo first, the way you normally would. Write down what the app says. Then weigh every component and enter it by weight against a real database. Both numbers, same meal, every time.</p>
+
+<p>Weigh the butter before it hits the pan. Weigh the oil. Weigh the cream. Weigh the meat raw, not cooked, and log it raw. Cooked weight varies with how long you left it on the heat and it'll throw you off by 20 percent on a steak.</p>
+
+<p><strong>Step 4. Track four numbers a day.</strong> App calories, real calories, app fat grams, real fat grams. That's it. A notes app is fine. Don't build a spreadsheet with charts, you won't keep it up.</p>
+
+<p><strong>Step 5. On day 15, calculate your error margin.</strong> Add up 14 days of real calories. Add up 14 days of app calories. Subtract, divide by 14. That's your daily gap. Do the same for fat grams.</p>
+
+<h2>What the number means</h2>
+
+<p>Most people land somewhere between 200 and 600 calories a day under-reported, with fat running 25 to 40 percent light. If you cook with a lot of added fat you'll be at the high end.</p>
+
+<p>Now you've got something useful. If your app says 1,500 and you know it runs 400 light, you're at 1,900 and you can adjust without guessing.</p>
+
+<p>Two things to do with that number:</p>
+
+<ul>
+<li><strong>Correct forward.</strong> Add your gap to every app reading from now on. It's not elegant but it works.</li>
+<li><strong>Fix the source.</strong> Keep weighing the three or four items your app misses worst, usually the added fats, and photo-log the rest. That's maybe 90 seconds of extra work a day.</li>
+</ul>
+
+<p>Most of my clients end up in the second camp. You don't weigh the steak forever. You weigh the butter forever, because butter is where the lie lives.</p>
+
+<h2>Be honest about who this fails</h2>
+
+<p>This protocol isn't for everyone. I've run it with people who spiraled on the daily numbers and I pulled them off it by day four. If tracking has been a problem for you in the past, don't do this. There are better ways in.</p>
+
+<p>It also failed for two out of the last ten clients I ran it with, both for the same reason. They changed how they ate during the calibration window. They cooked simpler so weighing was easier, and their two-week average stopped representing their real diet. If you do that, you've measured a diet you don't follow.</p>
+
+<p>Eat exactly the way you normally eat. Messy sauces, restaurant meals, all of it. Estimate the restaurant ones as best you can and flag them so you know which days are soft.</p>
+
+<h2>The short version</h2>
+
+<p>Your tracker is a rough estimate wearing the costume of a precise measurement. That's the whole issue. It's not useless, it's just uncalibrated, and you're the only one who can calibrate it.</p>
+
+<p>Fourteen days of real data. One number at the end. Then you get to go back to the fast version of tracking, except now it's accurate.</p>
+
+<p>Set your real targets in the calculator. Buy the scale. Start Monday.</p>
+
+<blockquote>I'm not a doctor. I've coached people and competed myself, so I know what works in practice. But I'm not your doctor. If you have health issues, take medication, or have any history of disordered eating, talk to someone qualified before you start tracking this closely. Your results will vary.</blockquote>
+    <div class="cta-box">
+      <h3>Ready to dial in your macros?</h3>
+      <p>Free results in 90 seconds. No account needed.</p>
+      <a href="/#calc">Try the calculator</a>
+    </div>
+  </div>
+</article>
+<footer>
+  <div class="foot-inner">
+    <p class="disclaimer">KetoDial provides general nutrition estimates for informational purposes only and is not medical advice. Consult a qualified healthcare provider before starting any diet.</p>
+    <span class="copy">&copy; 2026 KetoDial</span>
+  </div>
+</footer>
+<script src="/js/share-buttons.js" defer></script>
+</body>
+</html>
