@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Keto Maintenance: Adding Carbs Back Without Regain -- KetoDial</title>
+<meta name="description" content="A step by step keto maintenance protocol: recalculate macros at goal weight, add calories slowly, handle the water weight bump, and hold a weight range instead of a number.">
+<link rel="canonical" href="https://ketodial.com/blog/keto-maintenance-adding-carbs-back.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ketodial.com/blog/keto-maintenance-adding-carbs-back.html">
+<meta property="og:title" content="Keto Maintenance: Adding Carbs Back Without Regain">
+<meta property="og:description" content="A step by step keto maintenance protocol: recalculate macros at goal weight, add calories slowly, handle the water weight bump, and hold a weight range instead of a number.">
+<meta property="og:site_name" content="KetoDial">
+<meta property="og:image" content="https://ketodial.com/images/blog/keto-maintenance-adding-carbs-back.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Keto Maintenance: Adding Carbs Back Without Regain">
+<meta name="twitter:description" content="A step by step keto maintenance protocol: recalculate macros at goal weight, add calories slowly, handle the water weight bump, and hold a weight range instead of a number.">
+<meta name="twitter:image" content="https://ketodial.com/images/blog/keto-maintenance-adding-carbs-back.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&display=swap" rel="stylesheet" />
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y79FB48EG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0Y79FB48EG');
+</script>
+<style>
+:root{
+  --bg:#f1f5f9;--surface:#ffffff;--ink:#0f172a;--ink-soft:#475569;--ink-faint:#94a3b8;
+  --line:#e2e8f0;--accent:#38bdf8;--accent-deep:#0ea5e9;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--serif:"Newsreader",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+
+header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px;max-width:1180px;margin:0 auto;padding:0 28px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand .word{font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink)}
+.brand .word b{color:var(--accent-deep)}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+@media(max-width:860px){.nav-links{display:none}}
+
+.article{max-width:720px;margin:0 auto;padding:48px 28px 80px}
+.article .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:500;margin-bottom:12px}
+.article h1{font-size:clamp(30px,5vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
+.article .byline{font-size:14px;color:var(--ink-faint);margin-bottom:32px;display:flex;align-items:center;gap:8px}
+.article .byline b{color:var(--ink-soft);font-weight:600}
+.content{font-family:var(--serif);font-size:18px;line-height:1.7;color:#334155}
+.content h2{font-family:var(--sans);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:36px 0 14px}
+.content p{margin-bottom:16px}
+.content ul{margin:8px 0 18px 24px}
+.content li{margin-bottom:8px}
+.content strong{color:var(--ink);font-weight:600}
+.content a{color:var(--accent-deep);font-weight:500}
+.content blockquote{border-left:3px solid var(--accent);padding:16px 20px;margin:24px 0;background:#f7fbfe;border-radius:0 10px 10px 0;font-size:15px;color:var(--ink-soft);font-style:normal}
+.content blockquote em{font-style:italic}
+
+.cta-box{background:var(--ink);color:#e2eef7;border-radius:16px;padding:28px 32px;margin:36px 0;text-align:center}
+.cta-box h3{font-family:var(--sans);font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+.cta-box p{font-size:15px;color:#9fc0d6;margin-bottom:16px;font-family:var(--sans)}
+.cta-box a{display:inline-block;background:var(--accent);color:#062234;font-family:var(--sans);font-weight:700;font-size:15px;padding:12px 28px;border-radius:10px;text-decoration:none;transition:background .15s}
+.cta-box a:hover{background:#7dd3fc;text-decoration:none}
+
+footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
+.foot-inner{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-inner .disclaimer{font-size:12px;color:#6b8aa0;max-width:640px;line-height:1.5}
+.foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Keto Maintenance: Adding Carbs Back Without Regain",
+  "description": "A step by step keto maintenance protocol: recalculate macros at goal weight, add calories slowly, handle the water weight bump, and hold a weight range instead of a number.",
+  "url": "https://ketodial.com/blog/keto-maintenance-adding-carbs-back.html",
+  "datePublished": "2026-08-28",
+  "dateModified": "2026-08-28",
+  "author": {
+    "@type": "Person",
+    "name": "Marcus"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "KetoDial",
+    "url": "https://ketodial.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ketodial.com/blog/keto-maintenance-adding-carbs-back.html"
+  }
+}
+</script>
+<!-- Pinterest Tag -->
+<script>
+!function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+pintrk('load','2612943505341');
+pintrk('page');
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?event=init&tid=2612943505341&noscript=1" /></noscript>
+<!-- end Pinterest Tag -->
+</head>
+<body>
+<a href="#main-content" class="skip-nav">Skip to content</a>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#0b1620"/>
+        <path d="M9 25 A 12 12 0 1 1 31 25" stroke="#1e3a52" stroke-width="3" stroke-linecap="round"/>
+        <path d="M9 25 A 12 12 0 0 1 18.5 8.4" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="20" y1="20" x2="26.5" y2="13.5" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="3" fill="#e2eef7"/>
+      </svg>
+      <span class="word">Keto<b>Dial</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#calc">Calculator</a>
+      <a href="/#how">How it works</a>
+      <a href="/#guides">Guides</a>
+      <a href="/recipes/">Recipes</a>
+      <a href="/">Home</a>
+    </nav>
+  </div>
+</header>
+<article class="article" id="main-content">
+  <div class="eyebrow">Protocol</div>
+  <h1>Keto Maintenance: Adding Carbs Back Without Regain</h1>
+  <div class="byline"><b>Marcus</b> · Performance Coach · August 28, 2026</div>
+  <div class="content">
+    <img src="/images/blog/keto-maintenance-adding-carbs-back.jpg" alt="Keto Maintenance: Adding Carbs Back Without Regain" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <p>You hit your goal weight. Congratulations. Now what?</p>
+
+<p>Almost every keto resource goes quiet right here. Hundreds of articles on losing the weight, maybe three on keeping it off. So people do the only thing they know how to do. They keep eating at a deficit until they're miserable, then quit cold and gain it back in six weeks.</p>
+
+<p>That's not a willpower problem. That's a missing protocol. Here's the one I give every client who reaches goal.</p>
+
+<h2>Step 1: Recalculate Everything at Your New Weight</h2>
+
+<p>This is the part people skip. Your maintenance calories at 165 pounds aren't your maintenance calories at 210 pounds. A smaller body burns less. That's just physics.</p>
+
+<p>Rough rule: every 10 pounds you dropped took roughly 60 to 100 calories per day off your maintenance number. Lose 45 pounds and your body now needs somewhere around 300 to 450 fewer calories a day than it did on day one. If you eat like the old version of you, you become the old version of you.</p>
+
+<p>Run your numbers again at your current weight before you change anything. It's the same habit that <a href="/blog/recalculate-macros-every-10-pounds.html">recalculating every 10 pounds</a> builds during the loss phase, just pointed at a different target. The <strong>KetoDial calculator</strong> will give you a maintenance target instead of a deficit target, and that number is your finish line for this whole process. Write it down. You're going to walk toward it slowly.</p>
+
+<h2>Step 2: Protein Doesn't Move</h2>
+
+<p>Whatever protein number got you here, keep it. This is non-negotiable.</p>
+
+<p>Protein is what protected your muscle during the deficit, and it's what keeps you full while you add food back. Dr. Gabrielle Lyon has been hammering this point for years, and she's right. Muscle is the organ of longevity, and maintenance is exactly when people accidentally sacrifice it. The <a href="/blog/keto-muscle-loss-scans.html">scan data on keto and muscle loss</a> makes the case better than I can.</p>
+
+<p>Target <strong>0.8 to 1.0 grams per pound of goal body weight</strong>. At 165 pounds that's 132 to 165 grams a day. Hold that line while everything else shifts around it.</p>
+
+<h2>Step 3: Add 75 to 100 Calories Per Week</h2>
+
+<p>Here's the actual protocol. Not a leap, a ramp.</p>
+
+<ul>
+<li><strong>Week 1:</strong> Current intake plus 75 to 100 calories per day</li>
+<li><strong>Week 2:</strong> Hold. Weigh daily, average the week.</li>
+<li><strong>Week 3:</strong> Weekly average stable or down? Add another 75 to 100.</li>
+<li><strong>Repeat</strong> until you hit your calculated maintenance number.</li>
+</ul>
+
+<p>If you were eating 1,700 and your new maintenance is 2,200, that's a 500 calorie gap. At 100 per week you close it in five weeks. That feels slow. It's supposed to. The slow version is the one that sticks.</p>
+
+<p>If your weekly average climbs more than a pound for two weeks running, hold at your current intake for another two weeks instead of adding. You're not failing. You're calibrating.</p>
+
+<h2>Step 4: Reverse With Fat or Carbs?</h2>
+
+<p>This is the real decision, and the honest answer is it depends on what you want your life to look like.</p>
+
+<p><strong>Add fat if:</strong> you like being in ketosis, your energy is great, your bloodwork looks good, and you have no interest in bread. Adding fat keeps you fully keto. It's the simplest option. More butter, more olive oil, fattier cuts. Nothing else changes. Take that far enough and you land near <a href="https://carnivoreweekly.com/blog/2026-02-10-carnivore-vs-keto.html">the carnivore end of the spectrum</a>, which is a legitimate place to end up if the food suits you.</p>
+
+<p><strong>Add carbs if:</strong> you're training hard, you miss real food, or you want a way of eating you can run at a wedding without a spreadsheet. Most people I've coached land here eventually.</p>
+
+<p>If you're adding carbs, go up in <strong>10 to 15 gram steps</strong> and put them around training. Start with the ones that come with something else useful. Berries, squash, potato, rice, fruit. Save the refined stuff for later, when you actually know where your ceiling is. If you want that ceiling measured instead of guessed at, <a href="/blog/cgm-keto-carb-tolerance.html">two weeks with a CGM</a> will find it faster than trial and error.</p>
+
+<p>The standard keto target is 20 to 30 grams of net carbs, and maintenance is the one phase where you leave it on purpose. Most people find a comfortable maintenance zone somewhere between <strong>75 and 150 grams of carbs</strong> a day. Some feel best staying under 50 forever. Both are legitimate. There's no prize for the lower number.</p>
+
+<h2>Step 5: Expect the Water Weight Bump</h2>
+
+<p>Nobody warns people about this, and it's the single biggest reason maintenance attempts collapse in week two.</p>
+
+<p>Every gram of glycogen your muscles store pulls roughly 3 grams of water with it. When carbs come back, your body refills glycogen it hasn't had in months. The scale jumps <strong>3 to 6 pounds in a few days</strong>.</p>
+
+<p>That is not fat. You cannot gain 5 pounds of fat in 72 hours. It would take about 17,500 surplus calories, and you didn't eat that.</p>
+
+<p>What happens next is predictable. Someone sees the number, panics, cuts carbs back to zero, drops the water, feels relieved, and repeats the cycle a month later. That loop is worse for you than the carbs ever were. Know the bump is coming, expect it, and let it settle. It stabilizes in one to two weeks.</p>
+
+<h2>Step 6: A Range, Not a Number</h2>
+
+<p>Pick a <strong>5 pound range</strong>, not a single weight. If you finished at 165, your range is 163 to 168.</p>
+
+<p>Weigh daily. Only look at the weekly average. Daily weight swings on sodium, sleep, stress, and last night's dinner, and reacting to a single morning number is how people talk themselves out of a diet that's working.</p>
+
+<p>Then apply the <strong>2 to 3 week stability rule</strong>. Before you decide anything, you need two to three consecutive weekly averages pointing the same direction. Three weeks trending up? Pull back 100 calories. One bad Tuesday? That's not data, that's a Tuesday.</p>
+
+<p>Only act when you cross the top of your range and stay there for three weeks. Then take out 100 to 150 calories a day and hold. You don't need to go back to a full cut. You need a small correction, applied early.</p>
+
+<h2>The Part Nobody Says Out Loud</h2>
+
+<p>Maintenance is harder than the diet. Losing weight has a scoreboard that moves every week. Maintenance is showing up to do nothing dramatic, forever, with no visible reward.</p>
+
+<p>That's why it needs to be a protocol instead of a feeling. Numbers to hit, a rule for when to adjust, a range instead of a verdict. Take the emotion out and it becomes maintainable.</p>
+
+<p>Run your maintenance numbers, add 100 calories, and check back in a week. That's the whole first move.</p>
+
+<blockquote>I'm not a doctor. I've coached people through this and done it myself, so I know what works in practice. But I'm not your doctor. If you have health issues or take medication, especially anything for blood sugar or blood pressure, changing your carb intake can change how those meds hit you. Get supervision before you adjust. Your mileage may vary.</blockquote>
+    <div class="cta-box">
+      <h3>Ready to dial in your macros?</h3>
+      <p>Free results in 90 seconds. No account needed.</p>
+      <a href="/#calc">Try the calculator</a>
+    </div>
+  </div>
+</article>
+<footer>
+  <div class="foot-inner">
+    <p class="disclaimer">KetoDial provides general nutrition estimates for informational purposes only and is not medical advice. Consult a qualified healthcare provider before starting any diet.</p>
+    <span class="copy">&copy; 2026 KetoDial</span>
+  </div>
+</footer>
+<script src="/js/share-buttons.js" defer></script>
+</body>
+</html>
