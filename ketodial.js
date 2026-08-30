@@ -247,18 +247,23 @@
   if(freeBtn) freeBtn.parentNode.insertBefore(step1Msg,freeBtn.nextSibling.nextSibling);
 
   /* ---------- EMAIL MY PLAN ---------- */
+  // lastProfile is snapshotted at compute time alongside lastMacros, so the
+  // email always describes the same inputs that produced its numbers. Reading
+  // the live form here was the old bug: change the goal chip after computing
+  // and the email paired fresh goal copy with stale macros.
   var planSentTo={};
+  var lastProfile=null;
   function sendPlanEmail(email,newsletterOptIn,isAuto){
-    var msg=$('#planEmailMsg'), btn=$('#planEmailBtn');
+    var msg=$('#planEmailMsg'), btn=$('#planResendBtn');
     function show(text,color){if(msg){msg.style.display='block';msg.style.color=color;msg.textContent=text;}}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-      if(!isAuto)show('Please enter a valid email.','#dc2626');
+      if(!isAuto)show('We need a valid email on file. Fix it in Step 1 and recalculate.','#dc2626');
       return;
     }
-    if(planSentTo[email]){
-      if(!isAuto)show('Already sent to this address. Check your inbox (and spam folder).','#15803d');
-      return;
-    }
+    // Explicit resends (the "updated numbers" button) bypass the dedupe map —
+    // the whole point is sending again with new numbers. Auto-sends stay
+    // deduped so recomputes never fire emails on their own.
+    if(isAuto&&planSentTo[email])return;
     planSentTo[email]=true;
     if(btn){btn.disabled=true;btn.textContent='Sending…';}
     function doSend(){
@@ -268,7 +273,10 @@
           token:sessionToken,
           email:email,
           newsletter_opt_in:!!newsletterOptIn,
-          goal:(getFormData()||{}).goal,
+          goal:(lastProfile||{}).goal,
+          age:(lastProfile||{}).age||null,
+          sex:(lastProfile||{}).sex||null,
+          activity:(lastProfile||{}).activity||null,
           macros:lastMacros?{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee}:null,
           utm_source:utmData.utm_source,
           utm_medium:utmData.utm_medium,
@@ -278,26 +286,28 @@
     }
     var start=sessionReady?sessionReady.then(doSend,doSend):doSend();
     start.then(function(res){
-      if(btn){btn.disabled=false;btn.textContent='Email me my plan';}
+      if(btn){btn.disabled=false;btn.textContent='Email me these updated numbers';}
       if(res&&res.ok){
         track('kd_plan_emailed',{auto:!!isAuto,newsletter_opt_in:!!newsletterOptIn});
-        show('Sent! While it lands, keep going below — Step 2 is what makes it personal.','#15803d');
+        if(!isAuto){
+          if(btn)btn.style.display='none';
+          show('Sent! Your updated numbers are on the way.','#15803d');
+        }
       }else{
         planSentTo[email]=false;
-        show('Something went wrong sending your plan. Try again in a minute.','#dc2626');
+        if(!isAuto)show('Something went wrong sending your plan. Try again in a minute.','#dc2626');
       }
     }).catch(function(){
       planSentTo[email]=false;
-      if(btn){btn.disabled=false;btn.textContent='Email me my plan';}
-      show('Something went wrong sending your plan. Try again in a minute.','#dc2626');
+      if(btn){btn.disabled=false;btn.textContent='Email me these updated numbers';}
+      if(!isAuto)show('Something went wrong sending your plan. Try again in a minute.','#dc2626');
     });
   }
-  var planBtn=$('#planEmailBtn');
-  if(planBtn){
-    planBtn.addEventListener('click',function(){
-      var em=($('#planEmail')&&$('#planEmail').value.trim())||'';
-      var nl=$('#planNlOpt');
-      sendPlanEmail(em,!!(nl&&nl.checked),false);
+  var planResendBtn=$('#planResendBtn');
+  if(planResendBtn){
+    planResendBtn.addEventListener('click',function(){
+      var em=($('#emailOpt')&&$('#emailOpt').value.trim())||'';
+      sendPlanEmail(em,true,false);
     });
   }
 
@@ -310,6 +320,7 @@
       step1Msg.style.display='none';
       var d=getFormData();
       lastMacros=computeMacros(d);
+      lastProfile={goal:d.goal,age:d.age,sex:d.sex,activity:d.activity};
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
       // Save session to Supabase via worker
       var emailField=$('#emailOpt');
@@ -347,10 +358,19 @@
       if(optEmail&&optEmail.value.trim()&&$('#emailReq')){
         $('#emailReq').value=optEmail.value.trim();
       }
-      // Fulfill the step-1 promise: email is required, so always send their results.
-      if(optEmail&&optEmail.value.trim()&&$('#planEmail')){
-        $('#planEmail').value=optEmail.value.trim();
-        sendPlanEmail(optEmail.value.trim(),true,true);
+      // Fulfill the step-1 promise: the FIRST results click auto-sends their
+      // numbers. Recomputes only update the screen — someone playing what-if
+      // with the sliders shouldn't fill their own inbox. Instead a resend
+      // button appears so they can email the new numbers when they mean to.
+      if(optEmail&&optEmail.value.trim()){
+        var planEm=optEmail.value.trim();
+        if($('#planSentEmail'))$('#planSentEmail').textContent=planEm;
+        if(!planSentTo[planEm]){
+          sendPlanEmail(planEm,true,true);
+        }else if($('#planResendBtn')){
+          $('#planResendBtn').style.display='inline-block';
+          if($('#planEmailMsg'))$('#planEmailMsg').style.display='none';
+        }
       }
       if(!gaugeShown){ setTimeout(function(){animateGauge(lastMacros);},180); gaugeShown=true; }
       else{ animateGauge(lastMacros); }
