@@ -89,6 +89,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
