@@ -4,6 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Baked Zucchini Chips (6 Flavors) — KetoDial Recipe</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
 <meta name="description" content="Baked zucchini chips in six seasoning flavors. Just 23 kcal and 1g net carb per serving. Slow-baked until crispy, so all you spend is oven time.">
 <link rel="canonical" href="https://ketodial.com/recipes/keto-zucchini-chips.html">
 <meta property="og:type" content="article">
@@ -21,7 +25,7 @@
 :root{
   --bg:#e7edf3;--surface:#ffffff;--ink:#0f172a;--ink-soft:#475569;--ink-faint:#94a3b8;
   --line:#e2e8f0;--line-soft:#eef2f6;--panel:#0b1620;--panel-line:#1e3a52;
-  --accent:#38bdf8;--accent-deep:#0ea5e9;--fat:#38bdf8;--protein:#2dd4bf;--carbs:#818cf8;
+  --accent:#38bdf8;--accent-deep:#0ea5e9;--accent-text:#0369a1;--ink-muted:#5b687d;--fat:#38bdf8;--protein:#2dd4bf;--carbs:#818cf8;
   --sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--serif:"Newsreader",Georgia,serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -62,18 +66,18 @@ body{font-family:var(--sans);background:radial-gradient(130% 90% at 50% -10%,#db
 .rc-meta .mv small{font-size:11px;color:#9fc0d6;font-weight:400}
 .rc-body{padding:0.4in 0.6in 0.3in;flex:1}
 .macro-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:24px}
-.macro-row .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-right:4px}
+.macro-row .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-right:4px}
 .mpill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:500;padding:6px 12px;border-radius:8px;border:1px solid var(--line);color:var(--ink)}
 .mpill .d{width:9px;height:9px;border-radius:2px}
 .mpill.kcal{background:var(--ink);color:#fff;border-color:var(--ink)}
-.macro-row .net{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent-deep);background:rgba(56,189,248,.1);padding:6px 12px;border-radius:8px}
+.macro-row .net{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent-text);background:rgba(56,189,248,.1);padding:6px 12px;border-radius:8px}
 .photo{height:2.1in;border-radius:14px;border:1.5px dashed #c7d2de;background:repeating-linear-gradient(45deg,#eef3f8 0 11px,#e7eef5 11px 22px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;margin-bottom:26px;color:#8499ad}
 .photo svg{width:30px;height:30px;color:#aab9c9}
 .photo .pt{font-size:13px;font-weight:600;color:#64788e}
 .photo .ps{font-family:var(--mono);font-size:10px;color:#9aabbd;letter-spacing:.04em}
 .cols{display:grid;grid-template-columns:0.82fr 1.18fr;gap:34px}
 .col-h{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;letter-spacing:-.01em;margin-bottom:15px;padding-bottom:11px;border-bottom:2px solid var(--ink)}
-.col-h .cn{font-family:var(--mono);font-size:11px;color:var(--accent-deep);font-weight:600}
+.col-h .cn{font-family:var(--mono);font-size:11px;color:var(--accent-text);font-weight:600}
 ul.ingr{list-style:none;display:flex;flex-direction:column;gap:2px}
 ul.ingr li{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--ink-soft);line-height:1.45;padding:7px 0;border-bottom:1px solid var(--line-soft)}
 ul.ingr li:last-child{border-bottom:none}
@@ -84,12 +88,12 @@ ol.method li{display:grid;grid-template-columns:26px 1fr;gap:13px;font-size:13.5
 ol.method li::before{counter-increment:s;content:counter(s);font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;background:var(--accent-deep);width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:none}
 ol.method li b{color:var(--ink);font-weight:600}
 .tip{margin-top:24px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;background:#f7fbfe;font-size:13px;color:var(--ink-soft);line-height:1.55}
-.tip .tt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep);font-weight:600;margin-bottom:6px}
+.tip .tt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);font-weight:600;margin-bottom:6px}
 .tip b{color:var(--ink)}
-.rc-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding:0.24in 0.6in;border-top:1px solid var(--line);font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-faint)}
+.rc-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding:0.24in 0.6in;border-top:1px solid var(--line);font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--ink-muted)}
 .rc-foot .fb{display:flex;align-items:center;gap:7px;color:var(--ink-soft);font-weight:500}
 .rc-foot .fb b{color:var(--ink);font-weight:700}
-.rc-foot .dot{color:var(--accent-deep)}
+.rc-foot .dot{color:var(--accent-text)}
 /* WATERMARK (free version — removed on Etsy paid cards) */
 .card::after{content:"FREE PREVIEW · ketodial.com/recipes";position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-family:var(--mono);font-size:48px;font-weight:800;letter-spacing:.08em;color:rgba(56,189,248,.06);white-space:nowrap;pointer-events:none;z-index:50;display:none}
 @media print{
@@ -115,14 +119,14 @@ ol.method li b{color:var(--ink);font-weight:600}
 /* AMAZON SHOPPING */
 .shop{margin-top:24px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fefefe}
 .shop .sh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.shop .sl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+.shop .sl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);font-weight:500}
 .shop .sp{font-size:12.5px;color:var(--ink-soft);margin:8px 0 12px;line-height:1.45}
 .shop .amazon-btn{display:inline-flex;align-items:center;gap:8px;background:#FF9900;color:#111;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;text-decoration:none;transition:background .15s;border:none;cursor:pointer;font-family:var(--sans)}
 .shop .amazon-btn:hover{background:#FFB84D;text-decoration:none}
 .shop .amazon-btn svg{width:16px;height:16px}
 .shop .matched{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--accent-deep,#0ea5e9);border:1px solid var(--line);text-decoration:none;cursor:pointer;transition:all .15s}.shop .mi:hover{background:var(--accent-deep,#0ea5e9);color:#fff;border-color:var(--accent-deep,#0ea5e9)}
-.shop .aff-note{font-size:10px;color:var(--ink-faint);margin-top:8px}
+.shop .mi{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;background:var(--bg,#f1f5f9);color:var(--accent-text,#0369a1);border:1px solid var(--line);text-decoration:none;cursor:pointer;transition:all .15s}.shop .mi:hover{background:var(--accent-deep,#0ea5e9);color:#fff;border-color:var(--accent-deep,#0ea5e9)}
+.shop .aff-note{font-size:10px;color:var(--ink-muted);margin-top:8px}
 
 /* SITE NAV */
 .site-nav a:hover{opacity:0.8}
@@ -135,9 +139,9 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rel-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px -8px rgba(15,23,42,.15)}
 .rel-card img{width:100%;height:130px;object-fit:cover}
 .rel-card .rb{padding:14px 16px}
-.rel-card .rk{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#0ea5e9;font-weight:500}
+.rel-card .rk{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#0369a1;font-weight:500}
 .rel-card h3{font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.2;margin:6px 0 8px}
-.rel-card .rm{font-family:var(--mono);font-size:10.5px;color:#94a3b8}
+.rel-card .rm{font-family:var(--mono);font-size:10.5px;color:#5b687d}
 @media(max-width:700px){.rel-grid{grid-template-columns:1fr}}
 
 @media(max-width:700px){
@@ -323,7 +327,7 @@ pintrk('page');
           <li><span class="qty">1 tbsp</span><span><b>Olive oil</b>, or avocado oil</span></li>
           <li><span class="qty">1/2 tsp</span><span><b>Sea salt</b>, or see flavor options</span></li>
         </ul>
-        <a href="/pantry.html" style="display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent-deep,#0ea5e9);text-decoration:none;margin-top:10px;letter-spacing:.02em" onclick="try{gtag('event','kd_pantry_link',{source:'ingredients'})}catch(e){}">Stock up from our pantry &#8250;</a>
+        <a href="/pantry.html" style="display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent-text,#0369a1);text-decoration:none;margin-top:10px;letter-spacing:.02em" onclick="try{gtag('event','kd_pantry_link',{source:'ingredients'})}catch(e){}">Stock up from our pantry &#8250;</a>
       </div>
       <div>
         <div class="col-h"><span class="cn">B</span>Method</div>

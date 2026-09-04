@@ -4,6 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Keto Pantry Staples — KetoDial</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
 <meta name="description" content="Every pantry ingredient we use across KetoDial recipes. Oils, spices, baking essentials, and more. One page, all the staples, ready to shop.">
 <link rel="canonical" href="https://ketodial.com/pantry.html">
 <meta property="og:type" content="website">
@@ -29,12 +33,12 @@
 <style>
 :root{
   --bg:#f1f5f9;--surface:#ffffff;--ink:#0f172a;--ink-soft:#475569;--ink-faint:#94a3b8;
-  --line:#e2e8f0;--accent:#38bdf8;--accent-deep:#0ea5e9;
+  --line:#e2e8f0;--accent:#38bdf8;--accent-deep:#0ea5e9;--accent-text:#0369a1;--ink-muted:#5b687d;
   --sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--serif:"Newsreader",Georgia,serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6}
-a{color:var(--accent-deep);text-decoration:none}
+a{color:var(--accent-text);text-decoration:none}
 a:hover{text-decoration:underline}
 
 header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
@@ -48,7 +52,7 @@ header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);bac
 @media(max-width:860px){.nav-links{display:none}}
 
 .hero{max-width:800px;margin:0 auto;padding:48px 28px 0;text-align:center}
-.hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:500;margin-bottom:12px}
+.hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-text);font-weight:500;margin-bottom:12px}
 .hero h1{font-size:clamp(30px,5vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
 .hero .intro{font-family:var(--serif);font-size:18px;color:var(--ink-soft);max-width:600px;margin:0 auto 8px}
 
@@ -58,7 +62,7 @@ header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);bac
 .cat-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--line)}
 .cat-icon{font-size:24px}
 .cat-name{font-size:20px;font-weight:800;letter-spacing:-.02em}
-.cat-count{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.04em}
+.cat-count{font-family:var(--mono);font-size:11px;color:var(--ink-muted);letter-spacing:.04em}
 
 .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
 
@@ -66,16 +70,16 @@ header.nav{position:sticky;top:0;z-index:40;background:rgba(241,245,249,.82);bac
 .item:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(56,189,248,.12);text-decoration:none;transform:translateY(-1px)}
 .item-info{flex:1;min-width:0}
 .item-name{font-size:14px;font-weight:600;color:var(--ink);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item-key{font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em}
+.item-key{font-family:var(--mono);font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.04em}
 .item-arrow{color:var(--accent);font-size:18px;flex-shrink:0;opacity:.4;transition:opacity .15s}
 .item:hover .item-arrow{opacity:1}
 
-.aff-note{text-align:center;font-size:12px;color:var(--ink-faint);margin-top:40px;padding-top:20px;border-top:1px solid var(--line)}
+.aff-note{text-align:center;font-size:12px;color:var(--ink-muted);margin-top:40px;padding-top:20px;border-top:1px solid var(--line)}
 
 footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
 .foot-inner{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
 .foot-inner .disclaimer{font-size:12px;color:#6b8aa0;max-width:640px;line-height:1.5}
-.foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
+.foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#6b8fa8}
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
 </style>
 <script type="application/ld+json">

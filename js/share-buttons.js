@@ -6,7 +6,7 @@
   var style = document.createElement('style');
   style.textContent =
     '.kd-share-bar{display:flex;align-items:center;gap:14px;padding:18px 0;margin:32px 0;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}' +
-    '.kd-share-label{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#94a3b8}' +
+    '.kd-share-label{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#5b687d}' +
     '.kd-share-btns{display:flex;gap:8px}' +
     '.kd-share-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid #e2e8f0;background:#fff;color:#475569;text-decoration:none;cursor:pointer;transition:all .2s;font-size:16px}' +
     '.kd-share-btn:hover{background:#f0f7ff;border-color:#38bdf8;color:#0ea5e9}' +
