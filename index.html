@@ -326,6 +326,9 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
    and it never zooms back out. Keep every real text field at 16px on phones,
    and give the tap targets room. */
 @media(max-width:640px){
+  /* Half-width fields left Height at 133px and Weight at 100px. One field per
+     row reads as a considered form rather than a squeezed desktop one. */
+  .field-grid{grid-template-columns:1fr}
   .input input,.input input.sans{font-size:16px}
   .select select{font-size:16px}
   textarea.ta{font-size:16px}
