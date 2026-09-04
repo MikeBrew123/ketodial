@@ -145,6 +145,26 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rel-card h3{font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.2;margin:6px 0 8px}
 .rel-card .rm{font-family:var(--mono);font-size:10.5px;color:#94a3b8}
 @media(max-width:700px){.rel-grid{grid-template-columns:1fr}}
+
+@media(max-width:700px){
+/* The print bar is fixed to the top-right corner. On a phone it is 276px wide
+   and lands on top of the sticky nav, covering the KetoDial logo. It already
+   sits between the nav and the card in the markup, so let it sit there. */
+.printbar{position:static;width:94vw;margin:0 auto 14px;justify-content:flex-end}
+/* Brand and category label butted together with no gap. */
+.rc-top{flex-wrap:wrap;gap:6px 14px}
+/* Four meta columns could not fit their own content: "Serves" ran off. */
+.rc-meta{grid-template-columns:1fr 1fr}
+.rc-meta .m:nth-child(2n){border-right:none}
+.rc-meta .m:nth-child(-n+2){border-bottom:1px solid var(--panel-line)}
+/* The kcal label was overlapping the number it labels. */
+.rc-gauge .lab{margin-top:28px}
+/* Letter-sized print padding left about 185px of usable column. */
+.rc-head{padding:26px 22px 24px}
+.rc-body{padding:24px 22px 18px}
+.rc-foot{padding:16px 22px}
+.rc-head h1{font-size:30px}
+}
 </style>
 <script type="application/ld+json">
 {

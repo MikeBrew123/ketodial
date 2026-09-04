@@ -76,6 +76,15 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
 .foot-inner .disclaimer{font-size:12px;color:#6b8aa0;max-width:640px;line-height:1.5}
 .foot-inner .copy{font-family:var(--mono);font-size:11.5px;color:#5f8198}
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+
+@media(max-width:640px){
+/* The article image is floated right at a fixed 260px. On a phone that leaves
+   about 35px of column beside it, so nothing can wrap. Full width instead. */
+.content img[style*="float"]{float:none!important;width:100%!important;margin:0 0 20px!important}
+/* Affiliate banners carry an inline max-width of 320px, which is wider than the
+   column on a small phone and dragged the whole page sideways. */
+.content img{max-width:100%!important;height:auto!important}
+}
 </style>
 <script type="application/ld+json">
 {
