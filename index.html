@@ -322,6 +322,17 @@ footer{background:var(--panel);color:#9fb8c9;padding:60px 0 34px}
 .success-done{width:100%;height:48px;border-radius:12px;background:var(--ink);color:#fff;font-weight:700;font-size:15px}
 .success-done:hover{background:#15273f}
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+/* PHONE. iOS zooms the whole page in whenever a focused field is under 16px,
+   and it never zooms back out. Keep every real text field at 16px on phones,
+   and give the tap targets room. */
+@media(max-width:640px){
+  .input input,.input input.sans{font-size:16px}
+  .select select{font-size:16px}
+  textarea.ta{font-size:16px}
+  .seg button{padding:12px 14px;font-size:13.5px}
+  .chip{padding:14px 8px;font-size:14px}
+  .checkchip{padding:11px 14px;font-size:13.5px}
+}
 </style>
 <script type="application/ld+json">
 {
@@ -994,9 +1005,9 @@ pintrk('page');
     <p style="font-size:16px;color:var(--ink-soft);line-height:1.6;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto">We're preparing a small founding cohort for weekly accountability check-ins, coach-reviewed progress, and educational support. Join the interest list and we'll reach out when early access opens.</p>
 
     <form id="coachWaitlist" style="background:#fff;border:2px solid #38bdf8;border-radius:18px;padding:24px;text-align:left">
-      <div style="display:flex;gap:10px;margin-bottom:12px">
-        <input id="cwlName" type="text" placeholder="First name" style="flex:1;height:46px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 14px;font-size:15px;outline:none;font-family:inherit" />
-        <input id="cwlEmail" type="email" placeholder="Email" required style="flex:1;height:46px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 14px;font-size:15px;outline:none;font-family:inherit" />
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+        <input id="cwlName" type="text" placeholder="First name" style="flex:1 1 130px;min-width:0;height:46px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 14px;font-size:16px;outline:none;font-family:inherit" />
+        <input id="cwlEmail" type="email" placeholder="Email" required style="flex:1 1 130px;min-width:0;height:46px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 14px;font-size:16px;outline:none;font-family:inherit" />
       </div>
       <div style="font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:8px">What interests you most?</div>
       <div id="cwlChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px"></div>
@@ -1063,7 +1074,7 @@ pintrk('page');
     <h2 style="font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:10px">Weekly keto tips and recipes</h2>
     <p style="font-size:15px;color:var(--ink-soft);margin-bottom:24px;line-height:1.55">One email a week with practical keto advice you can actually use. No spam, unsubscribe anytime.</p>
     <form id="kd-nl-form" style="display:flex;gap:10px;max-width:440px;margin:0 auto">
-      <input type="email" id="kd-nl-email" placeholder="you@email.com" required aria-label="Email address" style="flex:1;min-width:0;height:48px;padding:0 16px;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s" onfocus="this.style.borderColor='var(--accent-deep)';this.style.boxShadow='0 0 0 4px rgba(56,189,248,.14)'" onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'" />
+      <input type="email" id="kd-nl-email" placeholder="you@email.com" required aria-label="Email address" style="flex:1;min-width:0;height:48px;padding:0 16px;border:1.5px solid var(--line);border-radius:12px;font-family:var(--sans);font-size:16px;outline:none;transition:border-color .15s,box-shadow .15s" onfocus="this.style.borderColor='var(--accent-deep)';this.style.boxShadow='0 0 0 4px rgba(56,189,248,.14)'" onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'" />
       <button type="submit" id="kd-nl-btn" style="background:var(--accent-deep);color:#fff;font-family:var(--sans);font-weight:700;font-size:15px;padding:0 24px;height:48px;border-radius:12px;border:none;cursor:pointer;white-space:nowrap;transition:background .15s,transform .12s" onmouseover="this.style.background='#0284c7'" onmouseout="this.style.background='var(--accent-deep)'">Subscribe</button>
     </form>
     <p id="kd-nl-status" style="margin-top:12px;font-size:13px;display:none"></p>

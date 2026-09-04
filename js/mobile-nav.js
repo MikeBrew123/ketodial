@@ -36,8 +36,11 @@
 
   function injectStyles(isPrimary) {
     if (document.getElementById('kd-mobilenav-styles')) return;
+    // On phones the desktop links AND the CTA pills both collapse into the menu.
+    // Leaving .nav-cta visible crowded the bar next to the hamburger and pushed
+    // the blog index a few px past the viewport.
     var hideRule = isPrimary
-      ? 'header.nav .nav-links{display:none!important}'
+      ? 'header.nav .nav-links,header.nav .nav-cta{display:none!important}'
       : 'header.site-nav > div > nav{display:none!important}';
     var css =
       '@media(max-width:' + BP + 'px){' +
