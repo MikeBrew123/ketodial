@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>The Protein Snack Aisle Ate Keto: What&#x27;s Worth Buying</h1>
   <div class="byline"><b>Chloe</b> · Community Manager · August 11, 2026</div>
   <div class="content">
-    <img src="/images/blog/protein-snack-aisle-keto.jpg" alt="The Protein Snack Aisle Ate Keto: What&#x27;s Worth Buying" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/protein-snack-aisle-keto.jpg" alt="The Protein Snack Aisle Ate Keto: What&#x27;s Worth Buying" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <p>Okay, so have you walked through a grocery store lately? The keto aisle is gone. Not shrunk, gone. In its place there's a wall of protein everything. Protein chips, protein candy, protein soda, protein cereal that looks suspiciously like the sugary stuff we all quit.</p>
 
 <p>Here's the thing: this isn't keto dying. It's keto getting absorbed. The protein snack market blew past $5 billion and it's still climbing, and the brands figured out that "protein" sells to way more people than "keto" ever did. So they rebranded, reformulated, and quietly slid a bunch of carbs back into products that used to be clean.</p>

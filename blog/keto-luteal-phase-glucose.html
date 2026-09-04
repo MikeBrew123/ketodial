@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Keto and Your Cycle: Why Luteal Week Wrecks Your Numbers</h1>
   <div class="byline"><b>Sarah</b> · Health Coach · August 7, 2026</div>
   <div class="content">
-    <img src="/images/blog/keto-luteal-phase-glucose.jpg" alt="Keto and Your Cycle: Why Luteal Week Wrecks Your Numbers" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/keto-luteal-phase-glucose.jpg" alt="Keto and Your Cycle: Why Luteal Week Wrecks Your Numbers" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <p>Your fasting glucose jumped ten points overnight. Your ketones dropped for no reason. You'd fight someone for a brownie, and the scale is up three pounds even though you didn't change a thing. Before you assume keto stopped working, check the calendar. If you're in the week before your period, this is probably your luteal phase talking, not a failed diet.</p>
 
 <p>I hear this from women constantly, and I lived it myself for years before I understood what was happening. Let me explain why your numbers go sideways every month, what the research actually shows, and how to adjust so you stop fighting your own hormones.</p>

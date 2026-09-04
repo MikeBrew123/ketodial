@@ -159,6 +159,12 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rc-foot{padding:16px 22px}
 .rc-head h1{font-size:30px}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -306,7 +312,7 @@ pintrk('page');
     </div>
 
     <div class="photo" style="height:auto;border:none;background:none;padding:0">
-      <img src="/images/recipes/recipe-homemade-pork-rinds.jpg" alt="Homemade Pork Rinds (Chicharrones)" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
+      <img width="1152" height="896" src="/images/recipes/recipe-homemade-pork-rinds.jpg" alt="Homemade Pork Rinds (Chicharrones)" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
 
     <div class="cols">
@@ -369,7 +375,7 @@ pintrk('page');
   <h2>You might also like</h2>
   <div class="rel-grid">
       <a class="rel-card" href="/recipes/keto-jalapeno-poppers.html">
-        <img src="/images/recipes/recipe-keto-jalapeno-poppers.jpg" alt="Jalapeno Poppers with Crispy Bacon" loading="lazy" />
+        <img width="1152" height="896" src="/images/recipes/recipe-keto-jalapeno-poppers.jpg" alt="Jalapeno Poppers with Crispy Bacon" loading="lazy" />
         <div class="rb">
           <span class="rk">Snack</span>
           <h3>Jalapeno Poppers with Crispy Bacon</h3>
@@ -377,7 +383,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/keto-zucchini-chips.html">
-        <img src="/images/recipes/recipe-keto-zucchini-chips.jpg" alt="Baked Zucchini Chips (6 Flavors)" loading="lazy" />
+        <img width="1152" height="896" src="/images/recipes/recipe-keto-zucchini-chips.jpg" alt="Baked Zucchini Chips (6 Flavors)" loading="lazy" />
         <div class="rb">
           <span class="rk">Snack</span>
           <h3>Baked Zucchini Chips (6 Flavors)</h3>
@@ -385,7 +391,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/keto-almond-flour-crackers.html">
-        <img src="/images/recipes/recipe-keto-almond-flour-crackers.jpg" alt="Almond Flour Crackers (2 Ingredients)" loading="lazy" />
+        <img width="1152" height="896" src="/images/recipes/recipe-keto-almond-flour-crackers.jpg" alt="Almond Flour Crackers (2 Ingredients)" loading="lazy" />
         <div class="rb">
           <span class="rk">Snack</span>
           <h3>Almond Flour Crackers (2 Ingredients)</h3>

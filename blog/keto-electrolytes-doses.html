@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Keto Electrolytes: Sodium, Potassium, Magnesium</h1>
   <div class="byline"><b>Marcus</b> · Performance Coach · July 25, 2026</div>
   <div class="content">
-    <img src="/images/blog/keto-electrolytes-doses.jpg" alt="Keto Electrolytes: Sodium, Potassium, Magnesium" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/keto-electrolytes-doses.jpg" alt="Keto Electrolytes: Sodium, Potassium, Magnesium" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <p>Keto flu isn't a mystery. It's an electrolyte problem. When you cut carbs, your insulin drops, and your kidneys start dumping sodium and water fast. That's why you feel like garbage on day three. Headache, brain fog, cramps, zero energy. Most people white-knuckle through it. You don't have to.</p>
 
 <p>Here's the protocol. You dose your electrolytes on purpose, every day, starting on day one. Nail sodium, potassium, and magnesium, and the "flu" mostly disappears. I've walked a lot of people through their first two weeks of keto, and this is the single biggest lever. Fix the minerals, fix the misery.</p>

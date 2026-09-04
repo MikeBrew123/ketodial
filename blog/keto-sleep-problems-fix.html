@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Keto and Sleep: Why You&amp;#39;re Wired at 3 AM (and How to Fix It)</h1>
   <div class="byline"><b>Marcus</b> · Performance Coach · June 6, 2026</div>
   <div class="content">
-    <img src="/images/blog/keto-sleep-problems-fix.jpg" alt="Keto and Sleep: Why You&amp;#39;re Wired at 3 AM (and How to Fix It)" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/keto-sleep-problems-fix.jpg" alt="Keto and Sleep: Why You&amp;#39;re Wired at 3 AM (and How to Fix It)" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
 
     <h2>You're Not Broken. Your Electrolytes Probably Are.</h2>
 

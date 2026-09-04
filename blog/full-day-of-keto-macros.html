@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>What a Full Day of Keto Macros Actually Looks Like</h1>
   <div class="byline"><b>Marcus</b> · Performance Coach · July 13, 2026</div>
   <div class="content">
-    <img src="/images/blog/full-day-of-keto-macros.jpg" alt="What a Full Day of Keto Macros Actually Looks Like" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/full-day-of-keto-macros.jpg" alt="What a Full Day of Keto Macros Actually Looks Like" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <h2>Stop Eyeballing. Start Building.</h2>
 <p>Most people who stall on keto aren't doing anything wrong with their food choices. They're guessing at portions. A "handful" of nuts turns into 400 calories. A "little" cheese doubles their fat for the day. The guessing adds up, and progress stops.</p>
 <p>Here's the fix. You build one full day around your actual numbers, then you repeat the structure. No math at every meal. Just a template you already know works.</p>

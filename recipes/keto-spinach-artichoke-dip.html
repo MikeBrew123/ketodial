@@ -159,6 +159,12 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rc-foot{padding:16px 22px}
 .rc-head h1{font-size:30px}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -313,7 +319,7 @@ pintrk('page');
     </div>
 
     <div class="photo" style="height:auto;border:none;background:none;padding:0">
-      <img src="/images/recipes/recipe-keto-spinach-artichoke-dip.jpg" alt="Easy Spinach Artichoke Dip" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
+      <img width="1152" height="896" src="/images/recipes/recipe-keto-spinach-artichoke-dip.jpg" alt="Easy Spinach Artichoke Dip" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
 
     <div class="cols">
@@ -383,7 +389,7 @@ pintrk('page');
   <h2>You might also like</h2>
   <div class="rel-grid">
       <a class="rel-card" href="/recipes/homemade-pork-rinds.html">
-        <img src="/images/recipes/recipe-homemade-pork-rinds.jpg" alt="Homemade Pork Rinds (Chicharrones)" loading="lazy" />
+        <img width="1152" height="896" src="/images/recipes/recipe-homemade-pork-rinds.jpg" alt="Homemade Pork Rinds (Chicharrones)" loading="lazy" />
         <div class="rb">
           <span class="rk">Snack</span>
           <h3>Homemade Pork Rinds (Chicharrones)</h3>
@@ -391,7 +397,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/keto-mozzarella-sticks.html">
-        <img src="/images/recipes/recipe-keto-mozzarella-sticks.jpg" alt="Keto Mozzarella Sticks" loading="lazy" />
+        <img width="1152" height="896" src="/images/recipes/recipe-keto-mozzarella-sticks.jpg" alt="Keto Mozzarella Sticks" loading="lazy" />
         <div class="rb">
           <span class="rk">Snack</span>
           <h3>Keto Mozzarella Sticks</h3>
@@ -399,7 +405,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/keto-parmesan-crisps.html">
-        <img src="/images/recipes/recipe-keto-parmesan-crisps.jpg" alt="One-Ingredient Parmesan Crisps" loading="lazy" />
+        <img width="1152" height="896" src="/images/recipes/recipe-keto-parmesan-crisps.jpg" alt="One-Ingredient Parmesan Crisps" loading="lazy" />
         <div class="rb">
           <span class="rk">Snack</span>
           <h3>One-Ingredient Parmesan Crisps</h3>

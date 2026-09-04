@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Keto Influencer Red Flags: How to Spot Bad Advice</h1>
   <div class="byline"><b>Chloe</b> · Community Manager · July 9, 2026</div>
   <div class="content">
-    <img src="/images/blog/keto-influencer-red-flags.jpg" alt="Keto Influencer Red Flags: How to Spot Bad Advice" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1344" height="768" src="/images/blog/keto-influencer-red-flags.jpg" alt="Keto Influencer Red Flags: How to Spot Bad Advice" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <h2>The Keto Internet Is Full of Bad Takes. Here's How to Filter Them.</h2>
 
 <p>Okay, so you've been scrolling through keto content for a while now. Maybe you're a few weeks in, maybe a few months. And you've noticed something weird. For every genuinely helpful creator out there, there are about fifteen people confidently saying things that make you go... wait, that can't be right.</p>

@@ -159,6 +159,12 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rc-foot{padding:16px 22px}
 .rc-head h1{font-size:30px}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -288,7 +294,7 @@ pintrk('page');
       <span class="net">Net carbs 7g</span>
     </div>
     <div class="photo" style="height:auto;border:none;background:none;padding:0">
-      <img src="/images/recipes/recipe-low-carb-beef-cabbage-stew.jpg" alt="Low-Carb Beef Cabbage Stew" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
+      <img width="1152" height="658" src="/images/recipes/recipe-low-carb-beef-cabbage-stew.jpg" alt="Low-Carb Beef Cabbage Stew" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
     <div class="cols">
       <div>

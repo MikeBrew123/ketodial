@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>CGM on Keto: Find Your Real Carb Tolerance in 14 Days</h1>
   <div class="byline"><b>Marcus</b> · Performance Coach · August 8, 2026</div>
   <div class="content">
-    <img src="/images/blog/cgm-keto-carb-tolerance.jpg" alt="CGM on Keto: Find Your Real Carb Tolerance in 14 Days" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/cgm-keto-carb-tolerance.jpg" alt="CGM on Keto: Find Your Real Carb Tolerance in 14 Days" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <p>Everybody on keto has the same question. How many carbs can I actually eat? The internet says 20 grams. Your buddy says 50. Some coach on YouTube says it depends. They're all guessing, and you're the one paying for it.</p>
 
 <p>Here's the thing. Your carb tolerance isn't a keto rule. It's a number. And a continuous glucose monitor can find it for you in 14 days. I've run this protocol with dozens of clients, and the results surprise almost everyone. One guy I coached could handle 40 grams of rice at dinner with barely a ripple. The same rice at breakfast spiked him 55 points. Same food, same body, different clock.</p>

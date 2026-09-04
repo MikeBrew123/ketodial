@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Keto Flu: What Actually Helped (According to 500 Reddit Comments)</h1>
   <div class="byline"><b>Chloe</b> · Community Manager · May 28, 2026</div>
   <div class="content">
-    <img src="/images/blog/keto-flu-community.jpg" alt="Keto Flu: What Actually Helped (According to 500 Reddit Comments)" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1200" height="675" src="/images/blog/keto-flu-community.jpg" alt="Keto Flu: What Actually Helped (According to 500 Reddit Comments)" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
 
     <h2>We Read 500 Reddit Comments About Keto Flu So You Don't Have To</h2>
 
@@ -228,7 +234,7 @@ pintrk('page');
     
     <div style="margin:32px 0;text-align:center">
       <a href="https://elementallabs.refr.cc" target="_blank" rel="noopener sponsored">
-        <img src="/images/lmnt-banner.avif" alt="LMNT Electrolytes" style="max-width:320px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)" loading="lazy" />
+        <img width="1176" height="1176" src="/images/lmnt-banner.avif" alt="LMNT Electrolytes" style="max-width:320px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)" loading="lazy" />
       </a>
       <p style="font-size:12px;color:#94a3b8;margin-top:6px">Affiliate link — we may earn a small commission at no extra cost to you.</p>
     </div>

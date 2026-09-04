@@ -176,6 +176,12 @@ footer{background:var(--panel);color:#9fb8c9;padding:58px 0 32px;margin-top:70px
 @media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:920px){.sidebar{display:none}}
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100}.skip-nav:focus{position:fixed;top:8px;left:8px;width:auto;height:auto;padding:12px 20px;background:var(--ink,#0f172a);color:#fff;font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;z-index:9999}
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -253,7 +259,7 @@ pintrk('page');
 <!-- FEATURED POST -->
 <div class="wrap">
   <a class="featured" href="/blog/why-we-built-ketodial.html">
-    <img class="feat-img" src="/images/blog/welcome.jpg" alt="Why We Built KetoDial" loading="eager">
+    <img width="1344" height="768" class="feat-img" src="/images/blog/welcome.jpg" alt="Why We Built KetoDial" loading="eager">
     <div class="fbody">
       <div class="tagrow">
         <span class="feat-badge">Featured</span>
@@ -279,7 +285,7 @@ pintrk('page');
 
     <div class="feed-grid">
       <a class="pcard" href="/blog/keto-food-noise-dependency.html">
-        <img class="card-img" src="/images/blog/keto-food-noise-dependency.jpg" alt="Why Keto Is the Only Thing That Quiets Food Noise" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-food-noise-dependency.jpg" alt="Why Keto Is the Only Thing That Quiets Food Noise" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Why Keto Is the Only Thing That Quiets Food Noise</h3>
@@ -291,7 +297,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-maintenance-adding-carbs-back.html">
-        <img class="card-img" src="/images/blog/keto-maintenance-adding-carbs-back.jpg" alt="Keto Maintenance: Adding Carbs Back Without Regain" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-maintenance-adding-carbs-back.jpg" alt="Keto Maintenance: Adding Carbs Back Without Regain" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Keto Maintenance: Adding Carbs Back Without Regain</h3>
@@ -303,7 +309,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-pcos-meta-analysis.html">
-        <img class="card-img" src="/images/blog/keto-pcos-meta-analysis.jpg" alt="Keto and PCOS: What the New Meta-Analysis Shows" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-pcos-meta-analysis.jpg" alt="Keto and PCOS: What the New Meta-Analysis Shows" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and PCOS: What the New Meta-Analysis Shows</h3>
@@ -315,7 +321,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-muscle-loss-scans.html">
-        <img class="card-img" src="/images/blog/keto-muscle-loss-scans.jpg" alt="Keto and Muscle Loss: What the Scans Actually Show" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-muscle-loss-scans.jpg" alt="Keto and Muscle Loss: What the Scans Actually Show" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and Muscle Loss: What the Scans Actually Show</h3>
@@ -327,7 +333,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/ai-food-tracker-fat-grams.html">
-        <img class="card-img" src="/images/blog/ai-food-tracker-fat-grams.jpg" alt="Your AI Food Tracker Is Lying About Your Fat Grams" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/ai-food-tracker-fat-grams.jpg" alt="Your AI Food Tracker Is Lying About Your Fat Grams" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Your AI Food Tracker Is Lying About Your Fat Grams</h3>
@@ -339,7 +345,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-gas-station-tier-list.html">
-        <img class="card-img" src="/images/blog/keto-gas-station-tier-list.jpg" alt="Keto Road Trip Survival: The Gas Station Tier List" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-gas-station-tier-list.jpg" alt="Keto Road Trip Survival: The Gas Station Tier List" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto Road Trip Survival: The Gas Station Tier List</h3>
@@ -351,7 +357,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/protein-snack-aisle-keto.html">
-        <img class="card-img" src="/images/blog/protein-snack-aisle-keto.jpg" alt="The Protein Snack Aisle Ate Keto: What&#x27;s Worth Buying" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/protein-snack-aisle-keto.jpg" alt="The Protein Snack Aisle Ate Keto: What&#x27;s Worth Buying" loading="lazy">
         <div class="body">
           <span class="kicker strategy">Strategy</span>
           <h3>The Protein Snack Aisle Ate Keto: What&#x27;s Worth Buying</h3>
@@ -363,7 +369,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/glp1-off-ramp-keto-macros.html">
-        <img class="card-img" src="/images/blog/glp1-off-ramp-keto-macros.jpg" alt="The GLP-1 Off-Ramp: Keto Macros That Keep Weight Off" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/glp1-off-ramp-keto-macros.jpg" alt="The GLP-1 Off-Ramp: Keto Macros That Keep Weight Off" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>The GLP-1 Off-Ramp: Keto Macros That Keep Weight Off</h3>
@@ -375,7 +381,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/cgm-keto-carb-tolerance.html">
-        <img class="card-img" src="/images/blog/cgm-keto-carb-tolerance.jpg" alt="CGM on Keto: Find Your Real Carb Tolerance in 14 Days" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/cgm-keto-carb-tolerance.jpg" alt="CGM on Keto: Find Your Real Carb Tolerance in 14 Days" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>CGM on Keto: Find Your Real Carb Tolerance in 14 Days</h3>
@@ -387,7 +393,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-luteal-phase-glucose.html">
-        <img class="card-img" src="/images/blog/keto-luteal-phase-glucose.jpg" alt="Keto and Your Cycle: Why Luteal Week Wrecks Your Numbers" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-luteal-phase-glucose.jpg" alt="Keto and Your Cycle: Why Luteal Week Wrecks Your Numbers" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and Your Cycle: Why Luteal Week Wrecks Your Numbers</h3>
@@ -400,7 +406,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/metabolic-flexibility-new-goal.html">
-        <img class="card-img" src="/images/blog/metabolic-flexibility-new-goal.jpg" alt="Metabolic Flexibility: The New Goal Replacing Ketosis" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/metabolic-flexibility-new-goal.jpg" alt="Metabolic Flexibility: The New Goal Replacing Ketosis" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Metabolic Flexibility: The New Goal Replacing Ketosis</h3>
@@ -412,7 +418,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/allulose-was-it-worth-it.html">
-        <img class="card-img" src="/images/blog/allulose-was-it-worth-it.jpg" alt="Everyone Switched to Allulose. Was It Worth It?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/allulose-was-it-worth-it.jpg" alt="Everyone Switched to Allulose. Was It Worth It?" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Everyone Switched to Allulose. Was It Worth It?</h3>
@@ -425,7 +431,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/fibermaxxing-on-keto.html">
-        <img class="card-img" src="/images/blog/fibermaxxing-on-keto.jpg" alt="Fibermaxxing on Keto: Can You Hit 30g?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/fibermaxxing-on-keto.jpg" alt="Fibermaxxing on Keto: Can You Hit 30g?" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Fibermaxxing on Keto: Can You Hit 30g?</h3>
@@ -437,7 +443,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/psmf-days-fat-loss-lever.html">
-        <img class="card-img" src="/images/blog/psmf-days-fat-loss-lever.jpg" alt="PSMF Days: The Fat Loss Lever Nobody Pulls" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/psmf-days-fat-loss-lever.jpg" alt="PSMF Days: The Fat Loss Lever Nobody Pulls" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>PSMF Days: The Fat Loss Lever Nobody Pulls</h3>
@@ -450,7 +456,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/recalculate-macros-every-10-pounds.html">
-        <img class="card-img" src="/images/blog/recalculate-macros-every-10-pounds.jpg" alt="Recalculate Your Keto Macros Every 10 Pounds" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/recalculate-macros-every-10-pounds.jpg" alt="Recalculate Your Keto Macros Every 10 Pounds" loading="lazy">
         <div class="body">
           <span class="kicker strategy">Strategy</span>
           <h3>Recalculate Your Keto Macros Every 10 Pounds</h3>
@@ -463,7 +469,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-perimenopause-changes.html">
-        <img class="card-img" src="/images/blog/keto-perimenopause-changes.jpg" alt="Keto in Perimenopause: What Actually Changes" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-perimenopause-changes.jpg" alt="Keto in Perimenopause: What Actually Changes" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto in Perimenopause: What Actually Changes</h3>
@@ -476,7 +482,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-insomnia-3am.html">
-        <img class="card-img" src="/images/blog/keto-insomnia-3am.jpg" alt="Why Keto Wakes You Up at 3 A.M." loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-insomnia-3am.jpg" alt="Why Keto Wakes You Up at 3 A.M." loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Why Keto Wakes You Up at 3 A.M.</h3>
@@ -489,7 +495,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-is-high-protein-now.html">
-        <img class="card-img" src="/images/blog/keto-is-high-protein-now.jpg" alt="Nobody Says &#x27;Keto&#x27; Anymore. It&#x27;s High-Protein Now." loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-is-high-protein-now.jpg" alt="Nobody Says &#x27;Keto&#x27; Anymore. It&#x27;s High-Protein Now." loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Nobody Says &#x27;Keto&#x27; Anymore. It&#x27;s High-Protein Now.</h3>
@@ -502,7 +508,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/cottage-cheese-flatbread-tested.html">
-        <img class="card-img" src="/images/blog/cottage-cheese-flatbread-tested.jpg" alt="The Viral Cottage Cheese Flatbread, Tested" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/cottage-cheese-flatbread-tested.jpg" alt="The Viral Cottage Cheese Flatbread, Tested" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>The Viral Cottage Cheese Flatbread, Tested</h3>
@@ -515,7 +521,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/mct-oil-vs-ketone-salts.html">
-        <img class="card-img" src="/images/blog/mct-oil-vs-ketone-salts.jpg" alt="MCT Oil vs Ketone Salts: Which One Works?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/mct-oil-vs-ketone-salts.jpg" alt="MCT Oil vs Ketone Salts: Which One Works?" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>MCT Oil vs Ketone Salts: Which One Works?</h3>
@@ -528,7 +534,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-electrolytes-doses.html">
-        <img class="card-img" src="/images/blog/keto-electrolytes-doses.jpg" alt="Keto Electrolytes: Sodium, Potassium, Magnesium" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-electrolytes-doses.jpg" alt="Keto Electrolytes: Sodium, Potassium, Magnesium" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Keto Electrolytes: Sodium, Potassium, Magnesium</h3>
@@ -541,7 +547,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-fatty-liver-reversal.html">
-        <img class="card-img" src="/images/blog/keto-fatty-liver-reversal.jpg" alt="Keto and Fatty Liver: The 31% Reversal Data" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-fatty-liver-reversal.jpg" alt="Keto and Fatty Liver: The 31% Reversal Data" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and Fatty Liver: The 31% Reversal Data</h3>
@@ -554,7 +560,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/usda-keto-food-pyramid.html">
-        <img class="card-img" src="/images/blog/usda-keto-food-pyramid.jpg" alt="Did the USDA Just Endorse Keto? Not Quite." loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/usda-keto-food-pyramid.jpg" alt="Did the USDA Just Endorse Keto? Not Quite." loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Did the USDA Just Endorse Keto? Not Quite.</h3>
@@ -567,7 +573,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/5-keto-myths-reddit.html">
-        <img class="card-img" src="/images/blog/5-keto-myths-reddit.jpg" alt="5 Keto Myths That Refuse to Die on Reddit" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/5-keto-myths-reddit.jpg" alt="5 Keto Myths That Refuse to Die on Reddit" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>5 Keto Myths That Refuse to Die on Reddit</h3>
@@ -580,7 +586,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/did-ozempic-kill-keto.html">
-        <img class="card-img" src="/images/blog/did-ozempic-kill-keto.jpg" alt="Did Ozempic Kill Keto? The Community Isn&#x27;t Sure" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/did-ozempic-kill-keto.jpg" alt="Did Ozempic Kill Keto? The Community Isn&#x27;t Sure" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Did Ozempic Kill Keto? The Community Isn&#x27;t Sure</h3>
@@ -593,7 +599,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-and-natural-glp-1.html">
-        <img class="card-img" src="/images/blog/keto-and-natural-glp-1.jpg" alt="Your Body&#x27;s Own Ozempic: Keto and Natural GLP-1" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-and-natural-glp-1.jpg" alt="Your Body&#x27;s Own Ozempic: Keto and Natural GLP-1" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Your Body&#x27;s Own Ozempic: Keto and Natural GLP-1</h3>
@@ -606,7 +612,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/measuring-ketosis-right.html">
-        <img class="card-img" src="/images/blog/measuring-ketosis-right.jpg" alt="Blood vs Breath vs Urine: Measuring Ketosis Right" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/measuring-ketosis-right.jpg" alt="Blood vs Breath vs Urine: Measuring Ketosis Right" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Blood vs Breath vs Urine: Measuring Ketosis Right</h3>
@@ -618,7 +624,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-for-bipolar-and-depression.html">
-        <img class="card-img" src="/images/blog/keto-for-bipolar-and-depression.jpg" alt="Keto for Bipolar and Depression: The Science So Far" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-for-bipolar-and-depression.jpg" alt="Keto for Bipolar and Depression: The Science So Far" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto for Bipolar and Depression: The Science So Far</h3>
@@ -631,7 +637,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/does-keto-cause-cancer.html">
-        <img class="card-img" src="/images/blog/does-keto-cause-cancer.jpg" alt="Does Keto Cause Cancer? The Study Everyone&#x27;s Sharing" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/does-keto-cause-cancer.jpg" alt="Does Keto Cause Cancer? The Study Everyone&#x27;s Sharing" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Does Keto Cause Cancer? The Study Everyone&#x27;s Sharing</h3>
@@ -644,7 +650,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-pasta-pizza-swaps-ranked.html">
-        <img class="card-img" src="/images/blog/keto-pasta-pizza-swaps-ranked.jpg" alt="Keto Pasta and Pizza Swaps, Ranked by Letdown" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-pasta-pizza-swaps-ranked.jpg" alt="Keto Pasta and Pizza Swaps, Ranked by Letdown" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto Pasta and Pizza Swaps, Ranked by Letdown</h3>
@@ -657,7 +663,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/almond-flour-worst-what-pros-bake-with.html">
-        <img class="card-img" src="/images/blog/almond-flour-worst-what-pros-bake-with.jpg" alt="Almond Flour Is the Worst. What Pros Bake With" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/almond-flour-worst-what-pros-bake-with.jpg" alt="Almond Flour Is the Worst. What Pros Bake With" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Almond Flour Is the Worst. What Pros Bake With</h3>
@@ -670,7 +676,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/which-fruits-fit-keto-carb-budget.html">
-        <img class="card-img" src="/images/blog/which-fruits-fit-keto-carb-budget.jpg" alt="Which Fruits Fit Your Keto Carb Budget" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/which-fruits-fit-keto-carb-budget.jpg" alt="Which Fruits Fit Your Keto Carb Budget" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Which Fruits Fit Your Keto Carb Budget</h3>
@@ -683,7 +689,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/full-day-of-keto-macros.html">
-        <img class="card-img" src="/images/blog/full-day-of-keto-macros.jpg" alt="What a Full Day of Keto Macros Actually Looks Like" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/full-day-of-keto-macros.jpg" alt="What a Full Day of Keto Macros Actually Looks Like" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>What a Full Day of Keto Macros Actually Looks Like</h3>
@@ -696,7 +702,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/still-exhausted-after-keto-adaptation.html">
-        <img class="card-img" src="/images/blog/still-exhausted-after-keto-adaptation.jpg" alt="Still Exhausted After Keto Adaptation? Here&#x27;s Why" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/still-exhausted-after-keto-adaptation.jpg" alt="Still Exhausted After Keto Adaptation? Here&#x27;s Why" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Still Exhausted After Keto Adaptation? Here&#x27;s Why</h3>
@@ -708,7 +714,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/ldl-spike-on-keto-panic.html">
-        <img class="card-img" src="/images/blog/ldl-spike-on-keto-panic.jpg" alt="Your LDL Shot Up on Keto: Should You Panic?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/ldl-spike-on-keto-panic.jpg" alt="Your LDL Shot Up on Keto: Should You Panic?" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Your LDL Shot Up on Keto: Should You Panic?</h3>
@@ -721,7 +727,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-insulin-resistance.html">
-        <img class="card-img" src="/images/blog/keto-insulin-resistance.jpg" alt="Keto for Insulin Resistance: Beyond Weight Loss" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/keto-insulin-resistance.jpg" alt="Keto for Insulin Resistance: Beyond Weight Loss" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto for Insulin Resistance: Beyond Weight Loss</h3>
@@ -734,7 +740,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-influencer-red-flags.html">
-        <img class="card-img" src="/images/blog/keto-influencer-red-flags.jpg" alt="Keto Influencer Red Flags: How to Spot Bad Advice" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/keto-influencer-red-flags.jpg" alt="Keto Influencer Red Flags: How to Spot Bad Advice" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto Influencer Red Flags: How to Spot Bad Advice</h3>
@@ -747,7 +753,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/dirty-keto-vs-clean-keto.html">
-        <img class="card-img" src="/images/blog/dirty-keto-vs-clean-keto.jpg" alt="Dirty Keto vs Clean Keto: The Real Debate" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/dirty-keto-vs-clean-keto.jpg" alt="Dirty Keto vs Clean Keto: The Real Debate" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Dirty Keto vs Clean Keto: The Real Debate</h3>
@@ -760,7 +766,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-family-reunion-survival.html">
-        <img class="card-img" src="/images/blog/keto-family-reunion-survival.jpg" alt="Keto at the Family Reunion: Surviving Carb Weekend" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/keto-family-reunion-survival.jpg" alt="Keto at the Family Reunion: Surviving Carb Weekend" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto at the Family Reunion: Surviving Carb Weekend</h3>
@@ -773,7 +779,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/thirty-dollar-keto-week.html">
-        <img class="card-img" src="/images/blog/thirty-dollar-keto-week.jpg" alt="The $30 Keto Week: Emergency Budget Meals" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/thirty-dollar-keto-week.jpg" alt="The $30 Keto Week: Emergency Budget Meals" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>The $30 Keto Week: Emergency Budget Meals</h3>
@@ -786,7 +792,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-meal-prep-couples.html">
-        <img class="card-img" src="/images/blog/keto-meal-prep-couples.jpg" alt="Keto Meal Prep for Couples: 1 Hour, 5 Days" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/keto-meal-prep-couples.jpg" alt="Keto Meal Prep for Couples: 1 Hour, 5 Days" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Keto Meal Prep for Couples: 1 Hour, 5 Days</h3>
@@ -799,7 +805,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/high-protein-keto-macros.html">
-        <img class="card-img" src="/images/blog/high-protein-keto-macros.jpg" alt="High-Protein Keto: Hit Macros Without Getting Kicked Out" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/high-protein-keto-macros.jpg" alt="High-Protein Keto: Hit Macros Without Getting Kicked Out" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>High-Protein Keto: Hit Macros Without Getting Kicked Out</h3>
@@ -812,7 +818,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/seed-oils-on-keto.html">
-        <img class="card-img" src="/images/blog/seed-oils-on-keto.jpg" alt="Seed Oils on Keto: Do They Actually Matter?" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/seed-oils-on-keto.jpg" alt="Seed Oils on Keto: Do They Actually Matter?" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Seed Oils on Keto: Do They Actually Matter?</h3>
@@ -824,7 +830,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-gut-health-microbiome.html">
-        <img class="card-img" src="/images/blog/keto-gut-health-microbiome.jpg" alt="Keto and Gut Health: What Your Microbiome Needs" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/keto-gut-health-microbiome.jpg" alt="Keto and Gut Health: What Your Microbiome Needs" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and Gut Health: What Your Microbiome Needs</h3>
@@ -836,7 +842,7 @@ pintrk('page');
         </div>
       </a>
       <a class="pcard" href="/blog/keto-cholesterol-bloodwork-guide.html">
-        <img class="card-img" src="/images/blog/keto-cholesterol-bloodwork-guide.jpg" alt="Your Keto Bloodwork Came Back &ldquo;Bad.&rdquo; Now What?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-cholesterol-bloodwork-guide.jpg" alt="Your Keto Bloodwork Came Back &ldquo;Bad.&rdquo; Now What?" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Your Keto Bloodwork Came Back &ldquo;Bad.&rdquo; Now What?</h3>
@@ -849,7 +855,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-cooking-fats-guide.html">
-        <img class="card-img" src="/images/blog/keto-cooking-fats-guide.jpg" alt="The Keto Cooking Fats Guide: What to Use, What to Avoid, and Why It Actually Matters" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-cooking-fats-guide.jpg" alt="The Keto Cooking Fats Guide: What to Use, What to Avoid, and Why It Actually Matters" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>The Keto Cooking Fats Guide: What to Use, What to Avoid, and Why It Actually Matters</h3>
@@ -862,7 +868,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-sleep-problems-fix.html">
-        <img class="card-img" src="/images/blog/keto-sleep-problems-fix.jpg" alt="Keto and Sleep: Why You&amp;#39;re Wired at 3 AM (and How to Fix It)" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-sleep-problems-fix.jpg" alt="Keto and Sleep: Why You&amp;#39;re Wired at 3 AM (and How to Fix It)" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Keto and Sleep: Why You&amp;#39;re Wired at 3 AM (and How to Fix It)</h3>
@@ -875,7 +881,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-summer-bbq-survival.html">
-        <img class="card-img" src="/images/blog/keto-summer-bbq-survival.jpg" alt="Keto at Every BBQ This Summer Without Being &ldquo;That Person&rdquo;" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-summer-bbq-survival.jpg" alt="Keto at Every BBQ This Summer Without Being &ldquo;That Person&rdquo;" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto at Every BBQ This Summer Without Being &ldquo;That Person&rdquo;</h3>
@@ -888,7 +894,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-blood-sugar-first-30-days.html">
-        <img class="card-img" src="/images/blog/keto-blood-sugar-first-30-days.jpg" alt="Keto and Blood Sugar: What Actually Happens in the First 30 Days" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-blood-sugar-first-30-days.jpg" alt="Keto and Blood Sugar: What Actually Happens in the First 30 Days" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and Blood Sugar: What Actually Happens in the First 30 Days</h3>
@@ -901,7 +907,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-meal-plan-beginners-first-7-days.html">
-        <img class="card-img" src="/images/blog/keto-meal-plan-beginners-first-7-days.jpg" alt="Keto Meal Plan for Beginners: Your First 7 Days Sorted" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-meal-plan-beginners-first-7-days.jpg" alt="Keto Meal Plan for Beginners: Your First 7 Days Sorted" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Keto Meal Plan for Beginners: Your First 7 Days Sorted</h3>
@@ -914,7 +920,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-results-timeline-month-by-month.html">
-        <img class="card-img" src="/images/blog/keto-results-timeline-month-by-month.jpg" alt="Keto Results Timeline: What to Realistically Expect Month by Month" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-results-timeline-month-by-month.jpg" alt="Keto Results Timeline: What to Realistically Expect Month by Month" loading="lazy">
         <div class="body">
           <span class="kicker guide">Guide</span>
           <h3>Keto Results Timeline: What to Realistically Expect Month by Month</h3>
@@ -927,7 +933,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-working-out-do-you-need-carbs.html">
-        <img class="card-img" src="/images/blog/keto-working-out-do-you-need-carbs.jpg" alt="Keto and Working Out: Do You Actually Need Carbs to Build Muscle?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-working-out-do-you-need-carbs.jpg" alt="Keto and Working Out: Do You Actually Need Carbs to Build Muscle?" loading="lazy">
         <div class="body">
           <span class="kicker performance">Performance</span>
           <h3>Keto and Working Out: Do You Actually Need Carbs to Build Muscle?</h3>
@@ -940,7 +946,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/lazy-keto-vs-strict-keto.html">
-        <img class="card-img" src="/images/blog/lazy-keto-vs-strict-keto.jpg" alt="Lazy Keto vs Strict Keto: Which One Actually Works Long Term?" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/lazy-keto-vs-strict-keto.jpg" alt="Lazy Keto vs Strict Keto: Which One Actually Works Long Term?" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Lazy Keto vs Strict Keto: Which One Actually Works Long Term?</h3>
@@ -953,7 +959,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/why-you-quit-keto-last-time.html">
-        <img class="card-img" src="/images/blog/why-you-quit-keto-last-time.jpg" alt="Why You Quit Keto Last Time (And How to Make This Time Stick)" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/why-you-quit-keto-last-time.jpg" alt="Why You Quit Keto Last Time (And How to Make This Time Stick)" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Why You Quit Keto Last Time (And How to Make This Time Stick)</h3>
@@ -966,7 +972,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/ketodial-coach-announcement.html">
-        <img class="card-img" src="/images/blog/ketodial-coach-announcement.jpg" alt="Introducing KetoDial Coach -- Weekly Keto Accountability Coaching (Coming Soon)" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/ketodial-coach-announcement.jpg" alt="Introducing KetoDial Coach -- Weekly Keto Accountability Coaching (Coming Soon)" loading="lazy">
         <div class="body">
           <span class="kicker announcing ketodial coach">Announcing Ketodial Coach</span>
           <h3>Introducing KetoDial Coach -- Weekly Keto Accountability Coaching (Coming Soon)</h3>
@@ -979,7 +985,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-date-night.html">
-        <img class="card-img" src="/images/blog/keto-date-night.jpg" alt="Keto Date Night: How to Eat Out Without Making It Weird" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-date-night.jpg" alt="Keto Date Night: How to Eat Out Without Making It Weird" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto Date Night: How to Eat Out Without Making It Weird</h3>
@@ -992,7 +998,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-first-week-meals.html">
-        <img class="card-img" src="/images/blog/keto-first-week-meals.jpg" alt="You Got Your Macros. Now What? Your First 7 Days of Keto Meals" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-first-week-meals.jpg" alt="You Got Your Macros. Now What? Your First 7 Days of Keto Meals" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>You Got Your Macros. Now What? Your First 7 Days of Keto Meals</h3>
@@ -1005,7 +1011,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-flu-community.html">
-        <img class="card-img" src="/images/blog/keto-flu-community.jpg" alt="Keto Flu: What Actually Helped (According to 500 Reddit Comments)" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-flu-community.jpg" alt="Keto Flu: What Actually Helped (According to 500 Reddit Comments)" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto Flu: What Actually Helped (According to 500 Reddit Comments)</h3>
@@ -1018,7 +1024,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-grocery-list.html">
-        <img class="card-img" src="/images/blog/keto-grocery-list.jpg" alt="The Complete Keto Grocery List: 50 Foods Sorted by Aisle" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-grocery-list.jpg" alt="The Complete Keto Grocery List: 50 Foods Sorted by Aisle" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>The Complete Keto Grocery List: 50 Foods Sorted by Aisle</h3>
@@ -1031,7 +1037,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-grocery-run.html">
-        <img class="card-img" src="/images/blog/keto-grocery-run.jpg" alt="Your First Keto Grocery Run (Without the Panic Attack)" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-grocery-run.jpg" alt="Your First Keto Grocery Run (Without the Panic Attack)" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Your First Keto Grocery Run (Without the Panic Attack)</h3>
@@ -1044,7 +1050,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-night-cravings.html">
-        <img class="card-img" src="/images/blog/keto-night-cravings.jpg" alt="Why Keto Cravings Hit Hardest at Night (And 5 Ways to Stop Them)" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-night-cravings.jpg" alt="Why Keto Cravings Hit Hardest at Night (And 5 Ways to Stop Them)" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Why Keto Cravings Hit Hardest at Night (And 5 Ways to Stop Them)</h3>
@@ -1057,7 +1063,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-office-lunch.html">
-        <img class="card-img" src="/images/blog/keto-office-lunch.jpg" alt="Keto at the Office: When Everyone&#x27;s Eating Pizza and You&#x27;re Not" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-office-lunch.jpg" alt="Keto at the Office: When Everyone&#x27;s Eating Pizza and You&#x27;re Not" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto at the Office: When Everyone&#x27;s Eating Pizza and You&#x27;re Not</h3>
@@ -1070,7 +1076,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-protein-foods.html">
-        <img class="card-img" src="/images/blog/keto-protein-foods.jpg" alt="Protein-First Keto: The 30 Best High-Protein, Low-Carb Foods Ranked" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-protein-foods.jpg" alt="Protein-First Keto: The 30 Best High-Protein, Low-Carb Foods Ranked" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Protein-First Keto: The 30 Best High-Protein, Low-Carb Foods Ranked</h3>
@@ -1083,7 +1089,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-social-pressure.html">
-        <img class="card-img" src="/images/blog/keto-social-pressure.jpg" alt="Your Friends Think Keto Is a Phase (Here&#x27;s What Actually Happens)" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-social-pressure.jpg" alt="Your Friends Think Keto Is a Phase (Here&#x27;s What Actually Happens)" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Your Friends Think Keto Is a Phase (Here&#x27;s What Actually Happens)</h3>
@@ -1096,7 +1102,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-stall-checklist.html">
-        <img class="card-img" src="/images/blog/keto-stall-checklist.jpg" alt="Keto Weight Loss Stalled? The 10-Point Checklist That Actually Works" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-stall-checklist.jpg" alt="Keto Weight Loss Stalled? The 10-Point Checklist That Actually Works" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto Weight Loss Stalled? The 10-Point Checklist That Actually Works</h3>
@@ -1109,7 +1115,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-women-cycle.html">
-        <img class="card-img" src="/images/blog/keto-women-cycle.jpg" alt="Keto and Your Cycle: Why Women Stall Differently (And What to Do About It)" loading="lazy">
+        <img width="1200" height="675" class="card-img" src="/images/blog/keto-women-cycle.jpg" alt="Keto and Your Cycle: Why Women Stall Differently (And What to Do About It)" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto and Your Cycle: Why Women Stall Differently (And What to Do About It)</h3>
@@ -1122,7 +1128,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-flu-electrolyte-fix.html">
-        <img class="card-img" src="/images/blog/keto-flu-electrolyte-fix.jpg" alt="Keto Flu Is Not Inevitable: The Electrolyte Fix" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-flu-electrolyte-fix.jpg" alt="Keto Flu Is Not Inevitable: The Electrolyte Fix" loading="lazy">
         <div class="body">
           <span class="kicker health">Health</span>
           <h3>Keto Flu Is Not Inevitable: The Electrolyte Fix</h3>
@@ -1135,7 +1141,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-meal-prep-under-50.html">
-        <img class="card-img" src="/images/blog/keto-meal-prep-under-50.jpg" alt="Keto Meal Prep: 5 Days for Under $50" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/keto-meal-prep-under-50.jpg" alt="Keto Meal Prep: 5 Days for Under $50" loading="lazy">
         <div class="body">
           <span class="kicker protocol">Protocol</span>
           <h3>Keto Meal Prep: 5 Days for Under $50</h3>
@@ -1148,7 +1154,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/keto-vs-carnivore.html">
-        <img class="card-img" src="/images/blog/keto-vs-carnivore.jpg" alt="Keto vs. Carnivore: Which One&#x27;s Actually for You" loading="lazy">
+        <img width="1344" height="768" class="card-img" src="/images/blog/keto-vs-carnivore.jpg" alt="Keto vs. Carnivore: Which One&#x27;s Actually for You" loading="lazy">
         <div class="body">
           <span class="kicker community">Community</span>
           <h3>Keto vs. Carnivore: Which One&#x27;s Actually for You</h3>
@@ -1161,7 +1167,7 @@ pintrk('page');
       </a>
 
       <a class="pcard" href="/blog/why-we-built-ketodial.html">
-        <img class="card-img" src="/images/blog/why-we-built-ketodial.jpg" alt="Why We Built KetoDial -- And Why Your Macros Are Wrong" loading="lazy">
+        <img width="1152" height="896" class="card-img" src="/images/blog/why-we-built-ketodial.jpg" alt="Why We Built KetoDial -- And Why Your Macros Are Wrong" loading="lazy">
         <div class="body">
           <span class="kicker welcome to ketodial">Welcome To Ketodial</span>
           <h3>Why We Built KetoDial -- And Why Your Macros Are Wrong</h3>
@@ -1233,10 +1239,10 @@ pintrk('page');
       <!-- Sponsor banners -->
       <div class="widget" style="display:flex;flex-direction:column;gap:16px">
         <a href="https://elementallabs.refr.cc" target="_blank" rel="noopener sponsored">
-          <img src="/images/lmnt-banner.avif" alt="LMNT Electrolytes" style="max-width:320px;width:100%;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)" loading="lazy" />
+          <img width="1176" height="1176" src="/images/lmnt-banner.avif" alt="LMNT Electrolytes" style="max-width:320px;width:100%;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)" loading="lazy" />
         </a>
         <a href="https://butcherbox.pxf.io/Z6oVMR" target="_blank" rel="noopener sponsored">
-          <img src="/images/butcherbox-banner.jpg" alt="ButcherBox — Quality meat delivered" style="max-width:320px;width:100%;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)" loading="lazy" />
+          <img width="600" height="300" src="/images/butcherbox-banner.jpg" alt="ButcherBox — Quality meat delivered" style="max-width:320px;width:100%;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08)" loading="lazy" />
         </a>
         <p style="font-size:11px;color:#94a3b8;text-align:center;margin:0">Affiliate partners</p>
       </div>

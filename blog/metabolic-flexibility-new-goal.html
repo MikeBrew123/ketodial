@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Metabolic Flexibility: The New Goal Replacing Ketosis</h1>
   <div class="byline"><b>Sarah</b> · Health Coach · August 6, 2026</div>
   <div class="content">
-    <img src="/images/blog/metabolic-flexibility-new-goal.jpg" alt="Metabolic Flexibility: The New Goal Replacing Ketosis" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/metabolic-flexibility-new-goal.jpg" alt="Metabolic Flexibility: The New Goal Replacing Ketosis" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <p>For years, the goal was simple: get into ketosis and stay there. Purple ketone strips, breath meters, blood readings at 6 a.m. If your beta-hydroxybutyrate dipped below 0.5 mmol/L, you'd somehow failed. I remember coaching people who felt genuine guilt over a bowl of berries.</p>
 
 <p>That mindset is fading, and honestly, I'm glad. The conversation in 2026 has moved toward something more useful: metabolic flexibility. It's the ability to switch smoothly between burning fat and burning carbs, depending on what you eat and what you're doing. And for most people, it's a smarter target than permanent ketosis.</p>

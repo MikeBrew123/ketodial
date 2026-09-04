@@ -39,6 +39,12 @@
 .rc-foot{padding:16px 22px}
 .rc-head h1{font-size:30px}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -186,7 +192,7 @@ pintrk('page');
     </div>
 
     <div class="photo" style="height:auto;border:none;background:none;padding:0">
-      <img src="/images/recipes/recipe-keto-broccoli-cheddar-quiche.jpg" alt="Keto broccoli cheddar quiche with almond flour crust" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
+      <img width="1152" height="896" src="/images/recipes/recipe-keto-broccoli-cheddar-quiche.jpg" alt="Keto broccoli cheddar quiche with almond flour crust" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
 
     <div class="cols">
@@ -258,7 +264,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/rebekahs-keto-egg-casserole.html">
-        <img src="/images/recipes/recipe-rebekahs-keto-egg-casserole.jpg" alt="Rebekah's Keto Egg Casserole" loading="lazy" />
+        <img width="1344" height="768" src="/images/recipes/recipe-rebekahs-keto-egg-casserole.jpg" alt="Rebekah's Keto Egg Casserole" loading="lazy" />
         <div class="rb">
           <span class="rk">Breakfast</span>
           <h3>Rebekah's Keto Egg Casserole</h3>

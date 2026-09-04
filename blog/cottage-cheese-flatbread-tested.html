@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>The Viral Cottage Cheese Flatbread, Tested</h1>
   <div class="byline"><b>Chloe</b> · Community Manager · July 27, 2026</div>
   <div class="content">
-    <img src="/images/blog/cottage-cheese-flatbread-tested.jpg" alt="The Viral Cottage Cheese Flatbread, Tested" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/cottage-cheese-flatbread-tested.jpg" alt="The Viral Cottage Cheese Flatbread, Tested" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <h2>Okay, So This Bread Isn't Bread</h2>
 <p>Real talk: your feed is drowning in cottage cheese right now. Specifically, this two-ingredient flatbread that r/ketorecipes and half of YouTube can't stop making.</p>
 <p>The pitch is almost too simple. Cottage cheese, eggs, blend, bake. You get something bread-shaped that packs around 40 grams of protein and barely any carbs. When a recipe sounds that good, my first instinct is suspicion.</p>

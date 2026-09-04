@@ -159,6 +159,12 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rc-foot{padding:16px 22px}
 .rc-head h1{font-size:30px}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -318,7 +324,7 @@ pintrk('page');
     </div>
 
     <div class="photo" style="height:auto;border:none;background:none;padding:0">
-      <img src="/images/recipes/recipe-bacon-spinach-egg-cups.jpg" alt="Golden baked egg cups in a muffin tin with bacon, spinach and melted cheese on top" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
+      <img width="1344" height="768" src="/images/recipes/recipe-bacon-spinach-egg-cups.jpg" alt="Golden baked egg cups in a muffin tin with bacon, spinach and melted cheese on top" style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
 
     <div class="cols">
@@ -390,7 +396,7 @@ pintrk('page');
   <h2>You might also like</h2>
   <div class="rel-grid">
       <a class="rel-card" href="/recipes/90-second-keto-bread.html">
-        <img src="/images/recipes/recipe-90-second-keto-bread.jpg" alt="90-Second Keto Bread in a Mug" loading="lazy" />
+        <img width="1344" height="768" src="/images/recipes/recipe-90-second-keto-bread.jpg" alt="90-Second Keto Bread in a Mug" loading="lazy" />
         <div class="rb">
           <span class="rk">Breakfast</span>
           <h3>90-Second Keto Bread in a Mug</h3>
@@ -398,7 +404,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/creamy-keto-taco-soup.html">
-        <img src="/images/recipes/recipe-creamy-keto-taco-soup.jpg" alt="Creamy Keto Taco Soup with Ground Beef" loading="lazy" />
+        <img width="1344" height="768" src="/images/recipes/recipe-creamy-keto-taco-soup.jpg" alt="Creamy Keto Taco Soup with Ground Beef" loading="lazy" />
         <div class="rb">
           <span class="rk">Dinner</span>
           <h3>Creamy Keto Taco Soup with Ground Beef</h3>
@@ -406,7 +412,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/instant-pot-bacon-ranch-chicken-thighs.html">
-        <img src="/images/recipes/recipe-instant-pot-bacon-ranch-chicken-thighs.jpg" alt="Instant Pot Bacon-Ranch Chicken Thighs" loading="lazy" />
+        <img width="1344" height="768" src="/images/recipes/recipe-instant-pot-bacon-ranch-chicken-thighs.jpg" alt="Instant Pot Bacon-Ranch Chicken Thighs" loading="lazy" />
         <div class="rb">
           <span class="rk">Dinner</span>
           <h3>Instant Pot Bacon-Ranch Chicken Thighs</h3>

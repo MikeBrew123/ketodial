@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Why Keto Wakes You Up at 3 A.M.</h1>
   <div class="byline"><b>Sarah</b> · Health Coach · July 29, 2026</div>
   <div class="content">
-    <img src="/images/blog/keto-insomnia-3am.jpg" alt="Why Keto Wakes You Up at 3 A.M." style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/keto-insomnia-3am.jpg" alt="Why Keto Wakes You Up at 3 A.M." style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <h2>You Fell Asleep Fine. So Why Are You Wide Awake at 3 A.M.?</h2>
 
 <p>This is one of the most common questions I get from people three weeks into keto. They're not struggling to fall asleep. They're out by 10:30. Then at 3:07 a.m., their eyes snap open and their brain is running through emails from 2019.</p>

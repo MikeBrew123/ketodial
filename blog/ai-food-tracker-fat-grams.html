@@ -85,6 +85,12 @@ footer{background:#0b1620;color:#9fb8c9;padding:40px 0 24px}
    column on a small phone and dragged the whole page sideways. */
 .content img{max-width:100%!important;height:auto!important}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -147,7 +153,7 @@ pintrk('page');
   <h1>Your AI Food Tracker Is Lying About Your Fat Grams</h1>
   <div class="byline"><b>Marcus</b> · Performance Coach · August 18, 2026</div>
   <div class="content">
-    <img src="/images/blog/ai-food-tracker-fat-grams.jpg" alt="Your AI Food Tracker Is Lying About Your Fat Grams" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
+    <img width="1152" height="896" src="/images/blog/ai-food-tracker-fat-grams.jpg" alt="Your AI Food Tracker Is Lying About Your Fat Grams" style="float:right;max-width:260px;margin:0 0 18px 24px;border-radius:12px" loading="lazy">
     <p>Your app said that plate was 620 calories. It was closer to 965.</p>
 
 <p>That's the gap 2026 testing keeps finding in photo-based food logging. Point the camera at a meal, the AI guesses, and the guess comes in around <strong>345 calories light per meal</strong>. On high-fat keto plates it gets worse. Those tests found the models missing roughly <strong>a third of the fat</strong> on the plate.</p>

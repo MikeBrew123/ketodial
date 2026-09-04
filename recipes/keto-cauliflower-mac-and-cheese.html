@@ -159,6 +159,12 @@ ol.method li b{color:var(--ink);font-weight:600}
 .rc-foot{padding:16px 22px}
 .rc-head h1{font-size:30px}
 }
+
+/* Every image carries its intrinsic width/height attributes so the browser can
+   reserve the right space before the file arrives. height:auto keeps those
+   attributes from stretching an image wherever CSS constrains only the width.
+   Class-based rules that set a real height (.card-img, .feat-img) still win. */
+img{height:auto}
 </style>
 <script type="application/ld+json">
 {
@@ -311,7 +317,7 @@ pintrk('page');
     </div>
 
     <div class="photo" style="height:auto;border:none;background:none;padding:0">
-      <img src="/images/recipes/recipe-keto-cauliflower-mac-and-cheese.jpg" alt="Roasted cauliflower florets coated in melted cheddar cheese sauce in a baking dish with a serving spoon." style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
+      <img width="1152" height="896" src="/images/recipes/recipe-keto-cauliflower-mac-and-cheese.jpg" alt="Roasted cauliflower florets coated in melted cheddar cheese sauce in a baking dish with a serving spoon." style="width:100%;border-radius:14px;object-fit:cover;max-height:340px" loading="lazy" />
     </div>
 
     <div class="cols">
@@ -379,7 +385,7 @@ pintrk('page');
   <h2>You might also like</h2>
   <div class="rel-grid">
       <a class="rel-card" href="/recipes/simple-cauliflower-keto-casserole.html">
-        <img src="/images/recipes/recipe-simple-cauliflower-keto-casserole.jpg" alt="Cauliflower Keto Casserole" loading="lazy" />
+        <img width="1344" height="768" src="/images/recipes/recipe-simple-cauliflower-keto-casserole.jpg" alt="Cauliflower Keto Casserole" loading="lazy" />
         <div class="rb">
           <span class="rk">Side</span>
           <h3>Cauliflower Keto Casserole</h3>
@@ -387,7 +393,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/low-carb-yellow-squash-casserole.html">
-        <img src="/images/recipes/recipe-low-carb-yellow-squash-casserole.jpg" alt="Yellow Squash Casserole with Almo..." loading="lazy" />
+        <img width="1152" height="658" src="/images/recipes/recipe-low-carb-yellow-squash-casserole.jpg" alt="Yellow Squash Casserole with Almo..." loading="lazy" />
         <div class="rb">
           <span class="rk">Side</span>
           <h3>Yellow Squash Casserole with Almo...</h3>
@@ -395,7 +401,7 @@ pintrk('page');
         </div>
       </a>
       <a class="rel-card" href="/recipes/low-carb-zucchini-pasta.html">
-        <img src="/images/recipes/recipe-low-carb-zucchini-pasta.jpg" alt="Low-Carb Zucchini Pasta" loading="lazy" />
+        <img width="1344" height="768" src="/images/recipes/recipe-low-carb-zucchini-pasta.jpg" alt="Low-Carb Zucchini Pasta" loading="lazy" />
         <div class="rb">
           <span class="rk">Side</span>
           <h3>Low-Carb Zucchini Pasta</h3>
