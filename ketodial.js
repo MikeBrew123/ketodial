@@ -35,6 +35,12 @@
   // session row has to exist before /checkout can validate it at all. Fire-and-
   // forget was how the step-2 PATCH failed silently in production for months.
   var pendingWrites = Promise.resolve();
+  // STICKY. This was `lastWriteError`, cleared on every successful PATCH — and
+  // checkout itself queues `step_completed:3`, so a failed profile save could be
+  // followed by that success and the failure would vanish before writesSettled()
+  // ever looked. A failure is only resolved by retrying the thing that failed, so
+  // only the profile submit clears it.
+  var writeFailures = 0;
   var lastWriteError = null;
 
   function updateSession(data){
@@ -47,14 +53,14 @@
           body:JSON.stringify(Object.assign({token:sessionToken},data))
         }).then(function(r){
           if(!r.ok){
+            writeFailures++;
             lastWriteError='Your answers did not save. Please try again.';
             console.warn('KD session update rejected:',r.status);
-          }else{
-            lastWriteError=null;
           }
         });
       });
     }).catch(function(e){
+      writeFailures++;
       lastWriteError='Your answers did not save. Please check your connection and try again.';
       console.warn('KD session update failed:',e);
     });
@@ -65,7 +71,7 @@
   function writesSettled(){
     return pendingWrites.then(function(){
       if(!sessionToken) throw new Error('We could not save your calculator results. Please reload and try again.');
-      if(lastWriteError) throw new Error(lastWriteError);
+      if(writeFailures>0) throw new Error(lastWriteError);
     });
   }
   function scrollToEl(el,extra){
@@ -507,24 +513,33 @@
       }
       var msg=$('#reqMsg'); if(msg) msg.classList.remove('show');
       track('kd_profile_completed',{email_provided:!!emailReq.value.trim()});
-      updateSession({
-        step_completed:2,
-        email:emailReq.value.trim(),
-        first_name:nameReq.value.trim(),
-        conditions:$all('#step2 [data-multi]')[0]?Array.from($all('#step2 [data-multi]')[0].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
-        symptoms:$all('#step2 [data-multi]')[1]?Array.from($all('#step2 [data-multi]')[1].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
-        medications:$('#step2 input[type="text"]')?$('#step2 input[type="text"]').value:'',
-        dairy_tolerance:$all('#step2 select')[0]?$all('#step2 select')[0].value:'',
-        cooking_skill:$all('#step2 select')[1]?$all('#step2 select')[1].value:'',
-        meal_prep_time:$all('#step2 select')[2]?$all('#step2 select')[2].value:'',
-        family_situation:$all('#step2 select')[3]?$all('#step2 select')[3].value:'',
-        budget:$('#step2 [data-seg="budget"] .on')?$('#step2 [data-seg="budget"] .on').dataset.val:'',
-        biggest_challenge:$('#step2 textarea')?$('#step2 textarea').value:'',
-        previous_diets:$all('#step2 [data-multi]')[2]?Array.from($all('#step2 [data-multi]')[2].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[]
-      });
+      writeFailures=0;   // this submit IS the retry of whatever failed before
+      updateSession(collectProfile());
       reportPicker.classList.add('show');
       setTimeout(function(){scrollToEl(reportPicker);},120);
     });
+  }
+
+  /**
+   * The step-2 profile. One collector, used by the pre-payment submit and by the
+   * post-payment "finish your reports" flow, so the two can never drift apart.
+   */
+  function collectProfile(){
+    return {
+      step_completed:2,
+      email:emailReq.value.trim(),
+      first_name:nameReq.value.trim(),
+      conditions:$all('#step2 [data-multi]')[0]?Array.from($all('#step2 [data-multi]')[0].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
+      symptoms:$all('#step2 [data-multi]')[1]?Array.from($all('#step2 [data-multi]')[1].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
+      medications:$('#step2 input[type="text"]')?$('#step2 input[type="text"]').value:'',
+      dairy_tolerance:$all('#step2 select')[0]?$all('#step2 select')[0].value:'',
+      cooking_skill:$all('#step2 select')[1]?$all('#step2 select')[1].value:'',
+      meal_prep_time:$all('#step2 select')[2]?$all('#step2 select')[2].value:'',
+      family_situation:$all('#step2 select')[3]?$all('#step2 select')[3].value:'',
+      budget:$('#step2 [data-seg="budget"] .on')?$('#step2 [data-seg="budget"] .on').dataset.val:'',
+      biggest_challenge:$('#step2 textarea')?$('#step2 textarea').value:'',
+      previous_diets:$all('#step2 [data-multi]')[2]?Array.from($all('#step2 [data-multi]')[2].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[]
+    };
   }
 
   /* ---------- REPORT PICKER ---------- */
@@ -738,45 +753,140 @@
   /* ---------- SUCCESS (return from Stripe embedded) ---------- */
   var successOverlay=$('#successOverlay');
   var urlParams=new URLSearchParams(window.location.search);
-  if(urlParams.get('success')==='true'){
-    var sessionId=urlParams.get('session_id')||'';
-    var successEmail=$('#successEmail');
+  var paidSessionId=urlParams.get('session_id')||urlParams.get('finish')||'';
+
+  var REPORT_META={
+    doctor:{name:"Doctor's Report",color:'#f0abfc'},
+    meal:{name:'7-Day Meal Plan',color:'var(--protein)'},
+    starter:{name:'Keto Starter Kit',color:'#fbbf24'}
+  };
+
+  /**
+   * Render the success screen from what the SERVER says was purchased.
+   *
+   * It used to hardcode all three reports. A renal customer who was correctly
+   * prevented from buying the meal plan was still shown an "Open 7-Day Meal Plan"
+   * link, which 403s. Telling someone they own something we deliberately did not
+   * sell them is worse than the 403 it leads to.
+   */
+  function renderSuccess(status){
     var wrap=$('#reportRows');
+    if(!wrap) return;
+    wrap.innerHTML='';
+    var base=API_BASE+'/report/'+paidSessionId;
 
-    // Build report links using the session ID
-    var reportBase=API_BASE+'/report/'+sessionId;
-    var reportTypes=[
-      {name:'Macro Results',type:'free',color:'var(--accent)',tag:'FREE'},
-      {name:"Doctor's Report",type:'doctor',color:'#f0abfc',tag:'PDF'},
-      {name:'7-Day Meal Plan',type:'meal',color:'var(--protein)',tag:'PDF'},
-      {name:'Keto Starter Kit',type:'starter',color:'#fbbf24',tag:'PDF'}
-    ];
+    var free=document.createElement('div');
+    free.className='rrow';
+    free.innerHTML='<span class="rdot" style="background:var(--accent)"></span>'+
+      '<span class="rnm">Macro Results</span><span class="rtag mono">FREE</span>';
+    wrap.appendChild(free);
 
-    if(wrap){
-      wrap.innerHTML='';
-      reportTypes.forEach(function(r){
-        var el=document.createElement('div');
-        el.className='rrow';
-        if(r.type==='free'){
-          el.innerHTML='<span class="rdot" style="background:'+r.color+'"></span><span class="rnm">'+r.name+'</span><span class="rtag mono">'+r.tag+'</span>';
-        }else{
-          el.innerHTML='<span class="rdot" style="background:'+r.color+'"></span><span class="rnm">'+r.name+'</span><span class="rtag mono">'+r.tag+'</span><a class="ropen" href="'+reportBase+'?type='+r.type+'" target="_blank">Open</a>';
-        }
-        wrap.appendChild(el);
+    (status.purchased||[]).forEach(function(type){
+      var meta=REPORT_META[type]; if(!meta) return;
+      var el=document.createElement('div');
+      el.className='rrow';
+      var right=status.profileComplete
+        ? '<a class="ropen" href="'+base+'?type='+type+'" target="_blank">Open</a>'
+        : '<span class="rtag mono" style="opacity:.7">PENDING</span>';
+      el.innerHTML='<span class="rdot" style="background:'+meta.color+'"></span>'+
+        '<span class="rnm">'+meta.name+'</span><span class="rtag mono">PDF</span>'+right;
+      wrap.appendChild(el);
+    });
+
+    var notice=$('#finishNotice');
+    if(!notice){
+      notice=document.createElement('div');
+      notice.id='finishNotice';
+      notice.style.cssText='margin-top:16px;padding:14px 16px;border-radius:10px;'+
+        'background:rgba(244,228,212,0.08);border:1px solid rgba(244,228,212,0.18);line-height:1.55';
+      wrap.parentNode.appendChild(notice);
+    }
+    if(status.profileComplete){
+      notice.style.display='none';
+    }else if(status.recoverable===false){
+      notice.style.display='';
+      notice.innerHTML='<b>We could not build your reports yet.</b><br>'+
+        (status.message||'Please email ketodial@carnivoreweekly.com and we will sort it out.');
+    }else{
+      notice.style.display='';
+      notice.innerHTML='<b>One short step and your reports are ready.</b><br>'+
+        'They are built from the short health profile below — it takes about a minute, and we would '+
+        'rather ask than guess at your details.<br>'+
+        '<button id="finishProfileBtn" class="generate" style="margin-top:12px">Finish my reports</button>';
+      var btn=$('#finishProfileBtn');
+      if(btn) btn.addEventListener('click',function(){
+        successOverlay.classList.remove('show');
+        if(step2){ step2.classList.add('show'); scrollToEl(step2); }
+        armPostPaymentProfile();
       });
     }
+  }
 
-    if(successEmail) successEmail.textContent=sessionId?'the email you provided':'your inbox';
-    // Fire once per purchase — the success URL survives reloads/bookmarks and
-    // used to re-count kd_payment_complete on every visit
-    var payKey='kd_purchase_fired_'+(sessionId||'unknown');
+  /**
+   * After payment the browser has NO session token — Stripe redirects to a freshly
+   * loaded page and nothing persisted it. So the post-payment profile submit is keyed
+   * on the paid Stripe session id instead, and the server resolves it back to the
+   * original row. Same form, same collector, different handle.
+   */
+  function armPostPaymentProfile(){
+    var build=$('#buildBtn');
+    if(!build||build.dataset.postPayment==='1') return;
+    build.dataset.postPayment='1';
+    build.textContent='Finish my reports';
+    build.addEventListener('click',function(ev){
+      ev.stopImmediatePropagation();
+      if(!emailReq.value.trim()||!nameReq.value.trim()){
+        flagInvalid(nameReq); flagInvalid(emailReq); return;
+      }
+      build.disabled=true; build.textContent='Saving…';
+      var payload=collectProfile();
+      payload.stripe_session_id=paidSessionId;
+      fetch(API_BASE+'/session',{
+        method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
+      }).then(function(r){
+        if(!r.ok) throw new Error('Your answers did not save. Please try again.');
+        build.textContent='Building your reports…';
+        return fetch(API_BASE+'/fulfill',{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({stripe_session_id:paidSessionId})
+        });
+      }).then(function(r){return r.json().then(function(j){
+        if(!r.ok) throw new Error(j.message||'We could not build your reports yet.');
+        return j;
+      });}).then(function(){
+        build.textContent='Done — check your email';
+        return loadPurchaseStatus();
+      }).catch(function(err){
+        alert(err.message);
+        build.disabled=false; build.textContent='Finish my reports';
+      });
+    },true);
+  }
+
+  function loadPurchaseStatus(){
+    return fetch(API_BASE+'/purchase/'+encodeURIComponent(paidSessionId))
+      .then(function(r){return r.json();})
+      .then(function(status){
+        if(status.error) return;
+        renderSuccess(status);
+        successOverlay.classList.add('show');
+        if(!status.profileComplete && status.recoverable!==false) armPostPaymentProfile();
+      })
+      .catch(function(e){console.warn('KD purchase status failed:',e);});
+  }
+
+  if(paidSessionId && (urlParams.get('success')==='true'||urlParams.get('finish'))){
+    var successEmail=$('#successEmail');
+    if(successEmail) successEmail.textContent='the email you provided';
+    loadPurchaseStatus();
+    // Fire once per purchase — the success URL survives reloads and bookmarks.
+    var payKey='kd_purchase_fired_'+paidSessionId;
     var alreadyFired=false;
     try{alreadyFired=!!localStorage.getItem(payKey);}catch(e){}
-    if(!alreadyFired){
-      track('kd_payment_complete',{session_id:sessionId});
+    if(!alreadyFired&&urlParams.get('success')==='true'){
+      track('kd_payment_complete',{session_id:paidSessionId});
       try{localStorage.setItem(payKey,'1');}catch(e){}
     }
-    successOverlay.classList.add('show');
   }
 
   var successClose=$('#successClose'), successDone=$('#successDone');
