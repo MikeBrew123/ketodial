@@ -329,6 +329,10 @@
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           sex:d.sex,age:d.age,goal:d.goal,
+          // Persisted because the Doctor's Report prints it. It was computed here to
+          // derive TDEE and then thrown away, so the report could only ever have shown
+          // a value it made up. Store it or do not print it.
+          lifestyle_activity:d.activity,
           height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
           email:(emailField&&emailField.value.trim())||null,
           newsletter_opt_in:!!(emailField&&emailField.value.trim()),
@@ -515,33 +519,12 @@
   var stripeInstance=null;
   var embeddedCheckout=null;
 
-  function collectFormData(){
-    var d=getFormData();
-    var selects=$all('#step2 select');
-    var dairy=selects[0]?selects[0].value:'';
-    var cooking=selects[1]?selects[1].value:'';
-    var prepTime=selects[2]?selects[2].value:'';
-    var cookingFor=selects[3]?selects[3].value:'';
-    var conditions=[];$all('#step2 [data-multi]')[0]&&$all('#step2 [data-multi]')[0].querySelectorAll('.on').forEach(function(b){conditions.push(b.dataset.val);});
-    var symptoms=[];$all('#step2 [data-multi]')[1]&&$all('#step2 [data-multi]')[1].querySelectorAll('.on').forEach(function(b){symptoms.push(b.dataset.val);});
-    var diets=[];$all('#step2 [data-multi]')[2]&&$all('#step2 [data-multi]')[2].querySelectorAll('.on').forEach(function(b){diets.push(b.dataset.val);});
-    var budgetBtn=$('#step2 [data-seg="budget"] .on');
-    var meds=$('#step2 input[type="text"]')?$('#step2 input[type="text"]').value:'';
-    var challenge=$('#step2 textarea')?$('#step2 textarea').value:'';
-    return {
-      sex:d.sex,age:d.age,weightKg:Math.round(d.weightKg),heightCm:Math.round(d.heightCm),
-      goal:d.goal,activity:d.activity,
-      calories:lastMacros?lastMacros.calories:0,
-      fatG:lastMacros?lastMacros.fatG:0,
-      proteinG:lastMacros?lastMacros.proteinG:0,
-      carbG:lastMacros?lastMacros.carbG:0,
-      tdee:lastMacros?lastMacros.tdee:0,
-      dairy:dairy,cooking:cooking,prepTime:prepTime,cookingFor:cookingFor,
-      conditions:conditions,symptoms:symptoms,diets:diets,
-      budget:budgetBtn?budgetBtn.dataset.val:'',
-      meds:meds,challenge:challenge
-    };
-  }
+  // collectFormData() was DELETED on 2026-09-08. It existed only to build the object
+  // that went into Stripe's metadata[form_data], and that store is gone: the
+  // authoritative questionnaire is in calculator_sessions_v2, written by
+  // updateSession() above and read back by the worker via session_token.
+  // Do not reintroduce it. Serializing the questionnaire into a 500-character
+  // metadata field is what truncated real customers' medications and conditions.
 
   if(checkoutBtn){
     checkoutBtn.addEventListener('click',function(){
@@ -549,8 +532,6 @@
       var items=Array.from(selected);
       var email=(emailReq&&emailReq.value.trim())||($('#emailOpt')&&$('#emailOpt').value.trim())||'';
       var name=(nameReq&&nameReq.value.trim())||'';
-      var formData=collectFormData();
-
       track('kd_checkout_opened',{items:items.join(',')});
       updateSession({step_completed:3});
 
@@ -568,7 +549,11 @@
       fetch(API_BASE+'/checkout',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({items:items,email:email,name:name,formData:formData,token:sessionToken})
+        // formData is deliberately NOT sent any more. The worker reads the
+        // authoritative questionnaire from calculator_sessions_v2 via this token.
+        // It used to be serialized into Stripe metadata, where a 500-character cap
+        // silently truncated it and the report was written from the wreckage.
+        body:JSON.stringify({items:items,email:email,name:name,token:sessionToken})
       })
       .then(function(r){return r.json();})
       .then(function(data){
@@ -576,7 +561,7 @@
           checkoutOverlay.classList.add('show');
           return stripeInstance.initEmbeddedCheckout({clientSecret:data.clientSecret});
         }else{
-          throw new Error(data.error||'Failed to create checkout session');
+          throw new Error(data.message||data.error||'Failed to create checkout session');
         }
       })
       .then(function(checkout){
