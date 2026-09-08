@@ -42,6 +42,7 @@
   // only the profile submit clears it.
   var writeFailures = 0;
   var lastWriteError = null;
+  var lastCheckpointFailed = false;
 
   function updateSession(data){
     if(!sessionReady) return pendingWrites;
@@ -52,6 +53,7 @@
           method:'PATCH',headers:{'Content-Type':'application/json'},
           body:JSON.stringify(Object.assign({token:sessionToken},data))
         }).then(function(r){
+          lastCheckpointFailed = !r.ok;
           if(!r.ok){
             writeFailures++;
             lastWriteError='Your answers did not save. Please try again.';
@@ -60,6 +62,7 @@
         });
       });
     }).catch(function(e){
+      lastCheckpointFailed = true;
       writeFailures++;
       lastWriteError='Your answers did not save. Please check your connection and try again.';
       console.warn('KD session update failed:',e);
@@ -513,8 +516,13 @@
       }
       var msg=$('#reqMsg'); if(msg) msg.classList.remove('show');
       track('kd_profile_completed',{email_provided:!!emailReq.value.trim()});
-      writeFailures=0;   // this submit IS the retry of whatever failed before
-      updateSession(collectProfile());
+      // Clear ONLY on success. Resetting before the write meant a failed checkpoint
+      // left the counter at zero and checkout sailed through on stale state.
+      updateSession(collectProfile()).then(function(){
+        if(writeFailures===0) return;
+        // The checkpoint itself landed; earlier failures are superseded by it.
+        if(!lastCheckpointFailed){ writeFailures=0; lastWriteError=null; }
+      });
       reportPicker.classList.add('show');
       setTimeout(function(){scrollToEl(reportPicker);},120);
     });
@@ -527,6 +535,16 @@
   function collectProfile(){
     return {
       step_completed:2,
+      // THE SAFETY ANSWER RIDES THE CHECKPOINT.
+      // Without this the sequence below silently disarms the gate:
+      //   stored=No -> customer changes to Yes -> that PATCH fails -> profile
+      //   submit resets writeFailures -> profile PATCH succeeds WITHOUT the kidney
+      //   answer -> checkout proceeds -> the server still believes No.
+      // The customer would see suppression on screen while the authoritative row —
+      // the one that decides what we sell and what the report says — said the
+      // opposite. Any write that is allowed to clear previous failures must carry
+      // every checkout-critical answer, not just the fields on this form.
+      kidney_status:kidneyStatus(),
       email:emailReq.value.trim(),
       first_name:nameReq.value.trim(),
       conditions:$all('#step2 [data-multi]')[0]?Array.from($all('#step2 [data-multi]')[0].querySelectorAll('.on')).map(function(b){return b.dataset.val;}):[],
