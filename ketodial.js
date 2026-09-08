@@ -30,14 +30,42 @@
     utm_content:urlParams.get('utm_content')||null,
     utm_term:urlParams.get('utm_term')||null
   };
+  // Writes that checkout depends on. Checkout AWAITS this chain instead of racing
+  // it: the kidney answer decides which products we are allowed to sell, and the
+  // session row has to exist before /checkout can validate it at all. Fire-and-
+  // forget was how the step-2 PATCH failed silently in production for months.
+  var pendingWrites = Promise.resolve();
+  var lastWriteError = null;
+
   function updateSession(data){
-    if(!sessionReady) return;
-    sessionReady.then(function(){
-      if(!sessionToken) return;
-      fetch(API_BASE+'/session',{
-        method:'PATCH',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(Object.assign({token:sessionToken},data))
-      }).catch(function(e){console.warn('KD session update failed:',e);});
+    if(!sessionReady) return pendingWrites;
+    pendingWrites = pendingWrites.then(function(){
+      return sessionReady.then(function(){
+        if(!sessionToken) return;
+        return fetch(API_BASE+'/session',{
+          method:'PATCH',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(Object.assign({token:sessionToken},data))
+        }).then(function(r){
+          if(!r.ok){
+            lastWriteError='Your answers did not save. Please try again.';
+            console.warn('KD session update rejected:',r.status);
+          }else{
+            lastWriteError=null;
+          }
+        });
+      });
+    }).catch(function(e){
+      lastWriteError='Your answers did not save. Please check your connection and try again.';
+      console.warn('KD session update failed:',e);
+    });
+    return pendingWrites;
+  }
+
+  /** Resolve once every save checkout depends on has landed. Rejects with a message. */
+  function writesSettled(){
+    return pendingWrites.then(function(){
+      if(!sessionToken) throw new Error('We could not save your calculator results. Please reload and try again.');
+      if(lastWriteError) throw new Error(lastWriteError);
     });
   }
   function scrollToEl(el,extra){
@@ -639,6 +667,19 @@
       checkoutBtn.disabled=true;
       checkoutBtn.textContent='Loading checkout…';
 
+      // Await the saves the server is about to validate, and surface a failure
+      // rather than letting checkout 409 on data that simply had not landed yet.
+      writesSettled().then(function(){ startCheckout(items,email,name); })
+        .catch(function(err){
+          alert(err.message);
+          checkoutBtn.disabled=false; render();
+        });
+    });
+  }
+
+  function startCheckout(items,email,name){
+    {
+
       // Clean up previous checkout if any
       if(embeddedCheckout){ embeddedCheckout.destroy(); embeddedCheckout=null; }
       var container=$('#checkout-container');
@@ -678,7 +719,7 @@
         checkoutBtn.disabled=false;
         render();
       });
-    });
+    }
   }
 
   // Close checkout modal
