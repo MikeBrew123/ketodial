@@ -658,7 +658,19 @@ pintrk('page');
     </div>
 
     <!-- STEP 3: PROFILE -->
-    <form class="flowstep form-card" id="step2" onsubmit="return false">
+    <!-- Every <option> and chip in this form carries an explicit value=. Those values
+     are the vocabulary calculator_sessions_v2 accepts (CHECK constraints shared with
+     Carnivore Weekly). They are an API contract, not copy.
+
+     Until 2026-09-08 these options had NO value attributes, so the browser submitted
+     the label text: "A little bothers me", "Basic - I can follow a recipe", "mod".
+     Every one violated a constraint, PostgREST rejected the whole PATCH, and the
+     customer's conditions, medications and symptoms were silently discarded with it.
+
+     CHANGE THE LABELS FREELY. Do not change a value= without changing the constraint
+     and the map in ketodial/worker/intake.js; tests/kd-intake-authority.test.mjs
+     GROUP K fails the build if you do. -->
+<form class="flowstep form-card" id="step2" onsubmit="return false">
       <div class="form-head">
         <div>
           <span class="eyebrow">Step 2 · Dial it in</span>
@@ -671,13 +683,13 @@ pintrk('page');
         <div class="field">
           <label>Dairy tolerance</label>
           <div class="select"><select>
-            <option>I love dairy</option><option>I tolerate it fine</option><option>A little bothers me</option><option>Strict dairy-free</option>
+            <option value="full">I love dairy</option><option value="full">I tolerate it fine</option><option value="some">A little bothers me</option><option value="none">Strict dairy-free</option>
           </select></div>
         </div>
         <div class="field">
           <label>Cooking skill</label>
           <div class="select"><select>
-            <option>Microwave only</option><option selected>Basic — I can follow a recipe</option><option>Confident in the kitchen</option><option>Chef-level</option>
+            <option value="beginner">Microwave only</option><option value="beginner" selected>Basic — I can follow a recipe</option><option value="intermediate">Confident in the kitchen</option><option value="advanced">Chef-level</option>
           </select></div>
         </div>
 
@@ -728,21 +740,21 @@ pintrk('page');
           <label>Grocery budget</label>
           <div class="chips" data-seg="budget">
             <button class="chip on" data-val="tight">Tight</button>
-            <button class="chip" data-val="mod">Moderate</button>
-            <button class="chip" data-val="flex">Flexible</button>
+            <button class="chip" data-val="moderate">Moderate</button>
+            <button class="chip" data-val="flexible">Flexible</button>
           </div>
         </div>
         <div class="field">
           <label>Meal-prep time</label>
           <div class="select"><select>
-            <option>Under 15 min/day</option><option selected>About 30 min/day</option><option>I batch on weekends</option><option>I love cooking</option>
+            <option value="minimal">Under 15 min/day</option><option value="some" selected>About 30 min/day</option><option value="lots">I batch on weekends</option><option value="lots">I love cooking</option>
           </select></div>
         </div>
 
         <div class="field full">
           <label>Who are you cooking for?</label>
           <div class="select"><select>
-            <option>Just me</option><option>Me + my partner</option><option>A family with kids</option><option>I cook for others / caregiver</option>
+            <option value="solo">Just me</option><option value="partner">Me + my partner</option><option value="family-with-kids">A family with kids</option><option value="large-household">I cook for others / caregiver</option>
           </select></div>
         </div>
 
