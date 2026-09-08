@@ -197,6 +197,11 @@ textarea.ta:focus{border-color:var(--accent-deep);box-shadow:0 0 0 4px rgba(56,1
 .free-card .fc-body{flex:1}
 .free-card .fc-body h3{font-size:16px;font-weight:700}
 .free-card .fc-body p{font-size:13px;color:var(--ink-soft);margin-top:2px}
+.kidney-q{font-size:14px;line-height:1.5;color:var(--ink);margin:0 0 10px}
+.kidney-help{font-size:12px;line-height:1.5;color:var(--ink-muted);margin:8px 0 0}
+.protein-referral{font-size:13px;line-height:1.45;font-weight:600;color:var(--ink-soft)}
+.protein-note{font-size:12px;line-height:1.5;color:var(--ink-muted);margin:10px 0 0}
+.report-card[hidden]{display:none!important}
 .free-card .fc-price{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--protein);letter-spacing:.05em}
 .report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .report-card{position:relative;text-align:left;border:1.5px solid var(--line);border-radius:16px;padding:20px 20px 22px;background:var(--surface);cursor:pointer;transition:all .15s;display:flex;flex-direction:column;min-height:188px}
@@ -504,6 +509,22 @@ pintrk('page');
             <button class="chip" data-val="maintain">Maintain</button>
             <button class="chip" data-val="gain">Gain muscle</button>
           </div>
+        </div>
+
+        <!-- The early renal gate. ONE question, asked before the free protein result,
+             because protein needs change with kidney function and the number is the
+             first thing this page shows. Deliberately not a medical questionnaire and
+             deliberately not phrased as "do you suspect" — we ask what a clinician has
+             already told them, never for a self-diagnosis. -->
+        <div class="field full" id="kidneyField">
+          <label>One quick safety check</label>
+          <p class="kidney-q">Have you been diagnosed with kidney disease, told that your kidney function is reduced, or are you on dialysis?</p>
+          <div class="chips" data-seg="kidney">
+            <button class="chip" data-val="no">No</button>
+            <button class="chip" data-val="yes">Yes</button>
+            <button class="chip" data-val="unsure">I'm not sure</button>
+          </div>
+          <p class="kidney-help">This helps us make sure we only show recommendations that are appropriate for your situation.</p>
         </div>
       </div>
 

@@ -191,9 +191,35 @@
     if(kcalEl) kcalEl.textContent=m.calories.toLocaleString();
     if(liveDot) liveDot.style.background='#2dd4bf';
     if(liveText) liveText.textContent='Results ready';
-    // Macro grams
+    // Macro grams. For a customer who told us about their kidney function we print a
+    // referral where the protein target would be — NOT a smaller number. Picking a
+    // gentler figure is the same clinical decision in a quieter voice, and protein
+    // needs with reduced kidney function depend on labs this page has never seen.
+    var suppress=proteinSuppressed();
     var gMap={fat:m.fatG+' g',protein:m.proteinG+' g',carbs:m.carbG+' g'};
-    Object.keys(gMap).forEach(function(k){var el=$('[data-g="'+k+'"]');if(el)el.textContent=gMap[k];});
+    Object.keys(gMap).forEach(function(k){
+      var el=$('[data-g="'+k+'"]'); if(!el) return;
+      if(k==='protein'&&suppress){
+        el.textContent='Ask your doctor or renal dietitian';
+        el.classList.add('protein-referral');
+      }else{
+        el.textContent=gMap[k];
+        el.classList.remove('protein-referral');
+      }
+    });
+    // The generic 70/25/5 keto split is static markup shown to everyone, but next to
+    // a referral a "25%" reads as this reader's protein target. Blank it.
+    var protPct=$('[data-g="protein"]')&&$('[data-g="protein"]').parentNode.querySelector('.pct');
+    if(protPct) protPct.textContent=suppress?'':'25%';
+    // One sentence of explanation, added once, removed if they change the answer.
+    var noteHost=$('[data-g="protein"]')&&$('[data-g="protein"]').closest('.macros');
+    var note=$('#proteinNote');
+    if(suppress&&!note&&noteHost){
+      note=document.createElement('p');
+      note.id='proteinNote'; note.className='protein-note';
+      note.textContent='Protein needs can vary with kidney function, so KetoDial won\u2019t set a personalized target for you.';
+      noteHost.appendChild(note);
+    }else if(!suppress&&note){ note.remove(); }
     // TDEE row
     var tdeeStats=$all('.tdee-stat .v');
     if(tdeeStats[0]) tdeeStats[0].innerHTML=m.tdee.toLocaleString()+' <small>kcal</small>';
@@ -202,17 +228,35 @@
     // Food equivalents (approximate)
     var feqAmts=$all('.feq .lead .amt');
     if(feqAmts[0]) feqAmts[0].textContent=m.fatG+'g';
-    if(feqAmts[1]) feqAmts[1].textContent=m.proteinG+'g';
+    if(feqAmts[1]) feqAmts[1].textContent=suppress?'—':m.proteinG+'g';
     if(feqAmts[2]) feqAmts[2].textContent=m.carbG+'g';
     // Food descriptions based on actual amounts
     var feqDescs=$all('.feq .desc');
     if(feqDescs[0]) feqDescs[0].textContent='≈ '+Math.round(m.fatG/14)+' tbsp olive oil worth of fat across the day, or avocado + eggs + nuts.';
     if(feqDescs[1]){
-      var oz=Math.round(m.proteinG/7);
-      feqDescs[1].textContent='≈ '+oz+' oz of meat/fish across your meals (a '+Math.round(oz/2)+' oz portion at lunch and dinner).';
+      if(suppress){
+        // The same figure in ounces is still the figure. Route, do not restate.
+        feqDescs[1].textContent='Your doctor or a renal dietitian sets this one.';
+      }else{
+        var oz=Math.round(m.proteinG/7);
+        feqDescs[1].textContent='≈ '+oz+' oz of meat/fish across your meals (a '+Math.round(oz/2)+' oz portion at lunch and dinner).';
+      }
     }
     if(feqDescs[2]) feqDescs[2].textContent='≈ '+Math.round(m.carbG/5)+' cups of leafy greens plus a small handful of berries.';
   }
+
+  /**
+   * The early renal gate's answer: 'no' | 'yes' | 'unsure', or '' if not answered yet.
+   * Read from the DOM rather than kept in a variable so there is one place it lives
+   * on the client and no chance of a stale copy disagreeing with the chips.
+   */
+  function kidneyStatus(){
+    var b=$('[data-seg="kidney"] .on');
+    return b?b.dataset.val:'';
+  }
+
+  /** Anything that is not an explicit 'no' suppresses the personalized protein target. */
+  function proteinSuppressed(){ return kidneyStatus()!=='no'; }
 
   function validateStep1(){
     var d=getFormData();
@@ -236,6 +280,13 @@
       // Inches were unbounded — "5 ft 25 in" passed silently and skewed the math
       var inch=parseFloat($('#heightIn').value)||0;
       if(inch<0||inch>11){$('#heightIn').closest('.input').classList.add('invalid');valid=false;}
+    }
+    // One tap, and it decides what we are allowed to show and sell. Unanswered is
+    // not "no" — see deriveKdMedicalContext in the worker, which fails closed the
+    // same way.
+    if(!kidneyStatus()){
+      var kf=$('#kidneyField'); if(kf) kf.classList.add('invalid');
+      valid=false;
     }
     return valid;
   }
@@ -333,6 +384,10 @@
           // derive TDEE and then thrown away, so the report could only ever have shown
           // a value it made up. Store it or do not print it.
           lifestyle_activity:d.activity,
+          // The early renal gate travels with the very first save, so the
+          // authoritative record carries it from the moment the free result exists.
+          // The client never becomes a second source of truth for it.
+          kidney_status:kidneyStatus(),
           height_cm:Math.round(d.heightCm),weight_value:Math.round(d.weightLbs||d.weightKg*2.205),weight_unit:'lbs',
           email:(emailField&&emailField.value.trim())||null,
           newsletter_opt_in:!!(emailField&&emailField.value.trim()),
@@ -454,7 +509,29 @@
   };
   var selected=new Set();
 
+  /**
+   * The 7-Day Meal Plan's whole value is an individualized protein target: the worker
+   * picks eligible meals by protein density and scales every portion to hit the
+   * number. There is no version of it that is not a protein prescription, so when we
+   * are not setting a protein target we cannot build it — and must not sell it.
+   *
+   * Bundles containing it go too, because there is no Stripe price for half a bundle.
+   * That is not a worse deal: Doctor's Report + Starter Kit is $9.98 against $10.99
+   * for a Full Protocol they could not receive in full. Nobody pays more for less.
+   *
+   * Mirrors allowedProducts() in ketodial/worker/reports.js, which is the authority.
+   * This copy exists so the picker never OFFERS something checkout would decline;
+   * the worker still enforces it for a stale page.
+   */
+  var PROTEIN_ANCHORED=['meal'];
+  function productAvailable(key){
+    if(!proteinSuppressed()) return true;
+    var parts=(PRODUCTS[key].contains||[key]);
+    return !parts.some(function(part){return PROTEIN_ANCHORED.indexOf(part)>-1;});
+  }
+
   function toggleProduct(key){
+    if(!productAvailable(key)) return;
     if(selected.has(key)){ selected.delete(key); }
     else{
       selected.add(key);
@@ -473,6 +550,21 @@
   }
 
   function render(){
+    // SAFETY CHANGES THE OFFER, NOT THE ABILITY TO PURCHASE. Unavailable items are
+    // removed from the catalogue, not greyed out behind a warning. The customer sees
+    // a normal picker containing the things we can actually deliver to them; there is
+    // no disabled button, no scary banner, and no second health form to fill in.
+    $all('[data-product]').forEach(function(card){
+      var ok=productAvailable(card.dataset.product);
+      card.hidden=!ok;
+      if(!ok) selected.delete(card.dataset.product);
+    });
+    var bundlesWrap=$('.bundles');
+    if(bundlesWrap){
+      var anyBundle=$all('.bundles [data-product]').some(function(c){return !c.hidden;});
+      bundlesWrap.hidden=!anyBundle;
+    }
+
     $all('[data-product]').forEach(function(card){
       card.classList.toggle('on',selected.has(card.dataset.product));
       var p=PRODUCTS[card.dataset.product];
@@ -509,6 +601,15 @@
 
   $all('[data-product]').forEach(function(card){
     card.addEventListener('click',function(){toggleProduct(card.dataset.product);});
+  });
+  // The answer can change before checkout, so the offer follows it.
+  $all('[data-seg="kidney"] .chip').forEach(function(b){
+    b.addEventListener('click',function(){
+      var kf=$('#kidneyField'); if(kf) kf.classList.remove('invalid');
+      render();
+      if(lastMacros) animateGauge(lastMacros);
+      updateSession({kidney_status:kidneyStatus()});
+    });
   });
   render();
 
