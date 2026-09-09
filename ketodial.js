@@ -976,6 +976,76 @@
     }
   });
 
+  /* ---------- RESUME FROM THE FREE-RESULTS EMAIL ---------- */
+  /**
+   * The email's buy button used to land on /#calc, an empty form. Someone who had
+   * already given us their stats, read their numbers and decided to buy was asked to
+   * do the whole calculator again to find the checkout.
+   *
+   * The token arrives in the URL FRAGMENT, never the query string, so it is not sent
+   * to any server, never appears in a Referer header, and never reaches the Stripe
+   * or analytics scripts this page loads. It is scrubbed from history immediately,
+   * so a shared screen or a back button does not keep it around.
+   *
+   * THE PAGE DOES NOT DECIDE WHAT A RESUMED CUSTOMER MAY BUY. /resume returns the
+   * server's own allowedProducts() list and the authoritative kidney answer; the
+   * chip is set from that, so productAvailable() reaches the same conclusion the
+   * worker already reached. A hand-edited URL changes nothing: /checkout re-reads
+   * the row and re-derives eligibility no matter what happened here.
+   */
+  function resumeFromEmail(){
+    var hash=window.location.hash||'';
+    var mm=/^#resume=([A-Za-z0-9_-]{8,128})$/.exec(hash);
+    if(!mm) return;
+    var token=mm[1];
+    // Out of the address bar, out of history, before anything else runs.
+    try{ history.replaceState(null,'',window.location.pathname+window.location.search); }catch(e){}
+
+    fetch(API_BASE+'/resume/'+encodeURIComponent(token))
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(d){
+        if(!d||!d.macros||!d.macros.calories) return;
+        sessionToken=d.token;
+
+        // The kidney answer comes from the stored row, not from the link. Anything
+        // the server could not vouch for stays unanswered, which suppresses.
+        if(d.kidney_status){
+          var chip=$('[data-seg="kidney"] [data-val="'+d.kidney_status+'"]');
+          if(chip){
+            $all('[data-seg="kidney"] .chip').forEach(function(b){b.classList.remove('on');});
+            chip.classList.add('on');
+          }
+        }
+
+        lastMacros=d.macros;
+        animateGauge(d.macros);
+        freeResults.classList.add('show');
+        var picker=$('#reportPicker');
+        if(picker) picker.classList.add('show');
+        if(step2) step2.classList.add('show');
+
+        // Select the offer the SERVER says is allowed, so the total bar and the
+        // featured card agree with what checkout will accept.
+        // BOTH gates, not either. The server's list decides what is on offer, and
+        // productAvailable() re-checks it against the kidney answer we just set from
+        // that same response. render() would strip a blocked product anyway, but a
+        // selection should never be made and then withdrawn — and neither gate is
+        // load-bearing on its own, because /checkout re-derives eligibility from the
+        // stored row no matter what happened on this page.
+        selected.clear();
+        var allowed=Array.isArray(d.allowed)?d.allowed:[];
+        var take=function(k){ if(allowed.indexOf(k)>-1&&productAvailable(k)) selected.add(k); };
+        if(allowed.indexOf('protocol')>-1&&productAvailable('protocol')) take('protocol');
+        else { take('doctor'); take('starter'); }
+        render();
+
+        track('kd_email_resume',{offer:Array.from(selected).join(',')});
+        setTimeout(function(){ scrollToEl($('#kdUpgradeCard')||freeResults); },150);
+      })
+      .catch(function(e){ console.warn('KD resume failed:',e); });
+  }
+  resumeFromEmail();
+
   /* ---------- SUCCESS (return from Stripe embedded) ---------- */
   var successOverlay=$('#successOverlay');
   var urlParams=new URLSearchParams(window.location.search);
