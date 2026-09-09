@@ -1002,17 +1002,25 @@
    * already given us their stats, read their numbers and decided to buy was asked to
    * do the whole calculator again to find the checkout.
    *
-   * THE LINK CARRIES `?r=kdr_...`, WHICH CANNOT WRITE ANYTHING.
-   * The first version put the row's own session_token in the fragment, with a comment
-   * claiming a fragment never reaches a server or analytics. Both halves were false:
-   * gtag('config') and the Pinterest tag run in <head> and had already read
-   * window.location before this code could scrub it, and delivered email is rewritten
-   * through click tracking, which turns a `#calc` target into a tracking URL carrying
-   * `%23calc` in the redirect. The write credential now never appears in a URL at
-   * all; it comes back in the POST response body, which none of those can see.
+   * WHAT `kdr_...` ACTUALLY IS.
+   * A random, expiring resume credential. It cannot PATCH a session directly — that
+   * is refused on the prefix — but possession lets the holder POST /resume and
+   * exchange it for the authoritative session credential, which can write. So it is
+   * NOT read-only and it is NOT harmless for a third party to hold. Two earlier
+   * versions of this comment claimed otherwise and both were wrong.
    *
-   * THE EXCHANGE IS A POST on purpose. Link prefetchers, mail security scanners and
-   * click trackers issue GET, so following the link cannot spend the reference.
+   * WHAT THE DESIGN ACTUALLY BUYS, stated no more strongly than that:
+   *   1. the session_token itself never appears in the emailed URL, in browser
+   *      history, in a Referer header or in any analytics parameter; and
+   *   2. the resume credential is captured and stripped by a synchronous inline
+   *      script in <head>, above GA, Pinterest and Stripe, so unrelated page
+   *      analytics never receive it either.
+   * The residual is real: anyone who can read the email click-tracking logs holds an
+   * exchangeable credential until it expires. The 30-day reusable lifetime is a
+   * tracked hardening item, not a claim of safety.
+   *
+   * The exchange is POST because prefetchers, mail security scanners and click
+   * trackers issue GET, so merely following the link cannot spend it.
    *
    * THE PAGE DOES NOT DECIDE WHAT A RESUMED CUSTOMER MAY BUY. /resume returns the
    * server's own allowedProducts() list and the authoritative kidney answer; the chip
@@ -1021,17 +1029,10 @@
    * stored row regardless.
    */
   function resumeFromEmail(){
-    var ref=urlParams.get('r');
+    // Captured in <head> before any third-party tag ran, and consumed exactly once.
+    var ref=window.__kdResumeRef||null;
+    try{ delete window.__kdResumeRef; }catch(e){ window.__kdResumeRef=undefined; }
     if(!ref||!/^kdr_[0-9a-f]{16,96}$/.test(ref)) return;
-    // Out of the address bar and out of history. This is defence in depth, not the
-    // protection: the reference is read-only, and the analytics tags in <head> have
-    // already run by now. The protection is that this value cannot write.
-    try{
-      var keep=new URLSearchParams(window.location.search);
-      keep.delete('r');
-      var qs=keep.toString();
-      history.replaceState(null,'',window.location.pathname+(qs?'?'+qs:''));
-    }catch(e){}
 
     // A RESUMED SESSION IS A WRITABLE CONTINUATION OF THE ORIGINAL ROW.
     // updateSession() returns early unless sessionReady is set, so setting only
@@ -1051,6 +1052,7 @@
           // checkout rather than letting it race a row we never resolved.
           return null;
         }
+        // Held in a closure variable only. Never location, storage, DOM or analytics.
         sessionToken=d.session_token;
         resumedSession=true;
 

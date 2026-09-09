@@ -22,6 +22,44 @@
 <meta name="twitter:title" content="KetoDial — Free Keto Macro Calculator">
 <meta name="twitter:description" content="Free keto macro calculator. Personalized meal plans and doctor-ready reports.">
 <meta name="twitter:image" content="https://ketodial.com/images/og-image.jpg">
+<!-- RESUME REFERENCE CAPTURE. THIS MUST STAY THE FIRST EXECUTABLE SCRIPT ON THE
+     PAGE, ABOVE GA, PINTEREST AND STRIPE.
+
+     The free-results email links here with ?r=kdr_... . That value is an expiring
+     resume credential: it cannot PATCH a session directly, but whoever holds it can
+     POST /resume and exchange it for the authoritative session_token, which can.
+     So it is not read-only, and it does not belong in any third party's view of the
+     page.
+
+     GA4's gtag('config') sends page_location, which is the full URL including this
+     query string, and the Pinterest tag reports the page the same way. Both used to
+     run before ketodial.js could remove it, so both received the credential. This
+     block runs first and synchronously, so by the time either tag initializes the
+     reference is out of window.location entirely.
+
+     It is held in window.__kdResumeRef for this navigation only. ketodial.js reads
+     it once and clears it. It is never written to localStorage, sessionStorage, a
+     cookie, the DOM or any analytics parameter, and the session_token it is later
+     exchanged for never touches any of those either.
+
+     Only `r` is removed. The UTM parameters stay, because attribution for this email
+     is the point of the link. -->
+<script>
+(function(){
+  try{
+    var q=new URLSearchParams(window.location.search);
+    var ref=q.get('r');
+    if(!ref) return;
+    // Same shape check the worker applies. A malformed value is dropped rather than
+    // carried around.
+    if(!/^kdr_[0-9a-f]{16,96}$/.test(ref)){ q.delete('r'); }
+    else { window.__kdResumeRef=ref; q.delete('r'); }
+    var qs=q.toString();
+    window.history.replaceState(null,'',window.location.pathname+(qs?'?'+qs:'')+window.location.hash);
+  }catch(e){/* a resume that cannot be captured simply does not happen */}
+})();
+</script>
+
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Y79FB48EG"></script>
 <script>
