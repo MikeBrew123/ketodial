@@ -673,7 +673,7 @@
       // Deliberately does NOT name the report we cannot sell them. Explaining what
       // they are missing, in appetising terms, is still advertising it. The note at
       // the foot of the card carries the only explanation they need.
-      ? 'These are the reports we can put together for you without setting a personalized protein target. They are yours straight away.'
+      ? 'These are the reports we can put together for you without setting a personalized protein target.'
       : 'Turn these numbers into the things you actually use: what to eat, what to buy, and what to tell your doctor.';
     var ctaLabel=suppressed
       ? 'Get both reports for '+money(o.price)
@@ -702,7 +702,7 @@
       priceRow+
       '<button type="button" class="uc-cta" id="kdUpgradeCta">'+ctaLabel+'</button>'+
       '<div class="uc-trust"><span>'+tick()+'One-time purchase</span>'+
-        '<span>'+tick()+'Instant PDF delivery</span>'+
+        '<span>'+tick()+'Delivered after personalization</span>'+
         '<span>'+tick()+'No subscription</span></div>'+
       '<button type="button" class="uc-secondary" id="kdSeeAllReports">See individual reports &amp; other options</button>'+
       note;
@@ -741,8 +741,8 @@
   function renderPlanSentNote(){
     var el=$('#planSentDetail'); if(!el) return;
     el.textContent=proteinSuppressed()
-      ? ' The optional details below help us tailor the rest of your reports.'
-      : ' You told us your goal, that is how we set your protein floor. The optional details below tune the rest.';
+      ? ' The details below are what we use to tailor the rest of your reports.'
+      : ' You told us your goal, that is how we set your protein floor. The details below tune the rest.';
   }
 
   function toggleProduct(key){
@@ -859,6 +859,36 @@
    * the busy state. Step 1 already requires a valid email before results exist, so
    * buying straight from the card asks for nothing the customer has not given.
    */
+  /**
+   * Busy state for WHICHEVER control started a checkout.
+   *
+   * startCheckout() used to hardcode `checkoutBtn.disabled=false` on both its
+   * success and failure paths. That is the detailed picker's button. The featured
+   * card's CTA was left disabled and still reading "Loading checkout…" forever,
+   * because it is a different element and because renderUpgradeCard() deliberately
+   * skips repainting when the offer signature has not changed — so render() could
+   * not rescue it either. Opening checkout and closing it without paying killed the
+   * buy button. The picker path only appeared to work because render() happens to
+   * rewrite that one button's label and disabled state on every call.
+   *
+   * So the originating button travels with the operation. It captures the real
+   * previous label and disabled state rather than assuming them, and restore() is
+   * idempotent so a success path followed by a late failure cannot double-restore
+   * into a wrong state.
+   */
+  function busyButton(btn){
+    if(!btn) return { restore:function(){} };
+    var html=btn.innerHTML, wasDisabled=btn.disabled, done=false;
+    btn.disabled=true;
+    btn.textContent='Loading checkout…';
+    return { restore:function(){
+      if(done) return;
+      done=true;
+      btn.disabled=wasDisabled;
+      btn.innerHTML=html;
+    } };
+  }
+
   function beginCheckout(btn){
     if(selected.size===0) return;
     var items=Array.from(selected);
@@ -867,15 +897,14 @@
     track('kd_checkout_opened',{items:items.join(',')});
     updateSession({step_completed:3});
 
-    var label=btn?btn.innerHTML:null;
-    if(btn){ btn.disabled=true; btn.textContent='Loading checkout…'; }
+    var busy=busyButton(btn);
 
     // Await the saves the server is about to validate, and surface a failure
     // rather than letting checkout 409 on data that simply had not landed yet.
-    writesSettled().then(function(){ startCheckout(items,email,name); })
+    writesSettled().then(function(){ startCheckout(items,email,name,busy); })
       .catch(function(err){
         alert(err.message);
-        if(btn){ btn.disabled=false; if(label!==null) btn.innerHTML=label; }
+        busy.restore();
         render();
       });
   }
@@ -884,8 +913,11 @@
     checkoutBtn.addEventListener('click',function(){ beginCheckout(checkoutBtn); });
   }
 
-  function startCheckout(items,email,name){
+  function startCheckout(items,email,name,busy){
     {
+      // Never undefined in practice; a guard so a future caller cannot leave a
+      // button stuck by forgetting the argument.
+      busy = busy || { restore:function(){} };
 
       // Clean up previous checkout if any
       if(embeddedCheckout){ embeddedCheckout.destroy(); embeddedCheckout=null; }
@@ -916,14 +948,16 @@
       .then(function(checkout){
         embeddedCheckout=checkout;
         checkout.mount('#checkout-container');
-        checkoutBtn.disabled=false;
+        // Stripe is up. Give the button back straight away: the customer may close
+        // the overlay without paying, and that must leave them able to click again.
+        busy.restore();
         render();
       })
       .catch(function(err){
         console.error('Checkout error:',err);
         checkoutOverlay.classList.remove('show');
         alert('Checkout error: '+err.message);
-        checkoutBtn.disabled=false;
+        busy.restore();
         render();
       });
     }
