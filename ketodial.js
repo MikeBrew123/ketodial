@@ -450,6 +450,9 @@
         }
         picker.classList.add('show');
       }
+      // The card is inside #freeResults and gated on that .show class, so this is
+      // the first moment it can legitimately appear.
+      render();
       var optEmail=$('#emailOpt');
       if(optEmail&&optEmail.value.trim()&&$('#emailReq')){
         $('#emailReq').value=optEmail.value.trim();
@@ -488,7 +491,7 @@
   var continueBtn=$('#kdContinueBtn');
   if(continueBtn){
     continueBtn.addEventListener('click',function(){
-      track('kd_continue_step2',{});
+      track('kd_optional_profile_clicked',{kidney:kidneyStatus()});
       if(step2) scrollToEl(step2);
     });
   }
@@ -591,6 +594,157 @@
     return !parts.some(function(part){return PROTEIN_ANCHORED.indexOf(part)>-1;});
   }
 
+  /**
+   * THE FEATURED OFFER, DERIVED RATHER THAN DECLARED.
+   *
+   * This runs the same PRODUCTS map through the same productAvailable() the
+   * detailed picker uses, so the renal gate has exactly ONE implementation on this
+   * page. A hand-written "Full Protocol $10.99" card would be a second, silent copy
+   * of the medical rule that nobody updates when the rule changes, and advertising a
+   * product the worker then declines at /checkout is the precise failure this audit
+   * exists to prevent.
+   *
+   * Best available bundle if there is one; otherwise every individual report we can
+   * still deliver. For a customer who answered 'no' that is the Full Protocol at
+   * $10.99. For 'yes' or 'unsure' both bundles contain the protein-anchored Meal
+   * Plan, so it becomes Doctor's Report + Starter Kit at $9.98.
+   */
+  function featuredOffer(){
+    var bundles=['protocol','essentials'].filter(productAvailable);
+    var items=bundles.length?[bundles[0]]:['doctor','meal','starter'].filter(productAvailable);
+    var price=items.reduce(function(a,k){return a+PRODUCTS[k].price;},0);
+    var parts=[];
+    items.forEach(function(k){
+      (PRODUCTS[k].contains||[k]).forEach(function(part){
+        if(parts.indexOf(part)<0) parts.push(part);
+      });
+    });
+    var list=parts.reduce(function(a,k){return a+PRODUCTS[k].price;},0);
+    return {items:items,parts:parts,price:price,list:list,save:Math.round((list-price)*100)/100};
+  }
+
+  var UC_BULLETS={
+    doctor:["A Doctor&rsquo;s Report for your next appointment, with the labs to ask about and what to discuss"],
+    // The grocery list is part of the Meal Plan, so it appears and disappears with it
+    // rather than being promised separately.
+    meal:["A personalized 7-Day Meal Plan built around your macros","The grocery list for that week"],
+    starter:["The Keto Starter Kit for your first 14 days"]
+  };
+  var UC_ORDER=['meal','starter','doctor'];
+
+  function tick(){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
+  }
+
+  /**
+   * Paint the card. Called from render(), which is also what the kidney chips call,
+   * so changing the answer re-derives the offer instead of leaving a stale one up.
+   */
+  function renderUpgradeCard(){
+    var card=$('#kdUpgradeCard'); if(!card) return;
+    var fr=$('#freeResults');
+    // It lives inside #freeResults, but stays hidden until there are results to sit
+    // under, so it can never be the first thing on the page.
+    if(!fr||!fr.classList.contains('show')){ card.hidden=true; return; }
+    var o=featuredOffer();
+    if(!o.items.length){ card.hidden=true; return; }
+    var suppressed=proteinSuppressed();
+
+    var bullets='';
+    UC_ORDER.forEach(function(k){
+      if(o.parts.indexOf(k)<0) return;
+      UC_BULLETS[k].forEach(function(line){
+        bullets+='<li>'+tick()+'<span>'+line+'</span></li>';
+      });
+    });
+
+    // Repaint only when the OFFER changes. render() runs on every macro tweak and
+    // on every product tap, and the upgrade CTA itself calls render() to update the
+    // total bar before opening checkout — rebuilding innerHTML there would detach
+    // the button whose click handler is still executing.
+    var sig=o.items.join(',')+'|'+(suppressed?'renal':'full');
+    if(card.dataset.rendered===sig){ card.hidden=false; return; }
+    card.dataset.rendered=sig;
+
+    var head=suppressed
+      ? 'Get the reports we can personalize safely'
+      : 'Your macros are dialed in. Want the whole plan?';
+    var sub=suppressed
+      // Deliberately does NOT name the report we cannot sell them. Explaining what
+      // they are missing, in appetising terms, is still advertising it. The note at
+      // the foot of the card carries the only explanation they need.
+      ? 'These are the reports we can put together for you without setting a personalized protein target. They are yours straight away.'
+      : 'Turn these numbers into the things you actually use: what to eat, what to buy, and what to tell your doctor.';
+    var ctaLabel=suppressed
+      ? 'Get both reports for '+money(o.price)
+      : 'Get the Full Protocol for '+money(o.price);
+
+    var priceRow='<div class="uc-price-row"><span class="uc-price">'+money(o.price)+'</span>';
+    // Only claim a saving when the bundle actually creates one. Doctor + Starter is
+    // two full-price reports; inventing a discount there would be a lie.
+    if(o.save>0.001){
+      priceRow+='<span class="uc-was">'+money(o.list)+'</span>'
+             +  '<span class="uc-save">Save '+money(o.save)+'</span>';
+    }
+    priceRow+='</div>';
+
+    // The same neutral sentence the free result uses. It is true of 'yes' and of
+    // 'unsure' alike and diagnoses neither.
+    var note=suppressed
+      ? '<p class="uc-note">Protein needs can vary with kidney function, so KetoDial won’t set a personalized protein target for you. Ask your doctor or renal dietitian for that number.</p>'
+      : '';
+
+    card.innerHTML=
+      '<div class="uc-eyebrow">Your next step</div>'+
+      '<h3 class="uc-head">'+head+'</h3>'+
+      '<p class="uc-sub">'+sub+'</p>'+
+      '<ul class="uc-list">'+bullets+'</ul>'+
+      priceRow+
+      '<button type="button" class="uc-cta" id="kdUpgradeCta">'+ctaLabel+'</button>'+
+      '<div class="uc-trust"><span>'+tick()+'One-time purchase</span>'+
+        '<span>'+tick()+'Instant PDF delivery</span>'+
+        '<span>'+tick()+'No subscription</span></div>'+
+      '<button type="button" class="uc-secondary" id="kdSeeAllReports">See individual reports &amp; other options</button>'+
+      note;
+    card.hidden=false;
+
+    if(card.dataset.seen!==o.items.join(',')){
+      card.dataset.seen=o.items.join(',');
+      track('kd_upgrade_card_viewed',{offer:o.items.join(','),price:o.price,kidney:kidneyStatus()});
+    }
+
+    $('#kdUpgradeCta').addEventListener('click',function(){
+      track('kd_upgrade_cta_clicked',{offer:o.items.join(','),price:o.price,kidney:kidneyStatus()});
+      // Drive the REAL picker state. The card owns no selection of its own, so the
+      // order that reaches /checkout is the same object the picker would have built
+      // and the total bar agrees with what the customer was just shown.
+      selected.clear();
+      o.items.forEach(function(k){ if(productAvailable(k)) selected.add(k); });
+      render();
+      beginCheckout(this);
+    });
+    $('#kdSeeAllReports').addEventListener('click',function(){
+      track('kd_see_individual_reports',{kidney:kidneyStatus()});
+      var picker=$('#reportPicker');
+      if(picker){ picker.classList.add('show'); scrollToEl(picker); }
+    });
+  }
+
+  /**
+   * The confirmation under the results used to be static markup reading
+   * "You told us your goal, that's how we set your protein floor." For a customer
+   * who answered yes or I'm not sure that is flatly untrue: the page, the emailed
+   * plan and the paid reports all withhold the protein target, and this one line
+   * sat underneath them claiming we had set it. It also still pointed at a "Step 3"
+   * that no longer exists. Derived from the same gate as everything else.
+   */
+  function renderPlanSentNote(){
+    var el=$('#planSentDetail'); if(!el) return;
+    el.textContent=proteinSuppressed()
+      ? ' The optional details below help us tailor the rest of your reports.'
+      : ' You told us your goal, that is how we set your protein floor. The optional details below tune the rest.';
+  }
+
   function toggleProduct(key){
     if(!productAvailable(key)) return;
     if(selected.has(key)){ selected.delete(key); }
@@ -658,10 +812,17 @@
     }
     var freeLine=$('#freeOnlyNote');
     if(freeLine) freeLine.style.display = total<=0 ? 'block':'none';
+    renderUpgradeCard();
+    renderPlanSentNote();
   }
 
   $all('[data-product]').forEach(function(card){
-    card.addEventListener('click',function(){toggleProduct(card.dataset.product);});
+    card.addEventListener('click',function(){
+      var key=card.dataset.product;
+      if(!productAvailable(key)) return;
+      toggleProduct(key);
+      track('kd_report_selected',{product:key,selected:selected.has(key),kidney:kidneyStatus()});
+    });
   });
   // The answer can change before checkout, so the offer follows it.
   $all('[data-seg="kidney"] .chip').forEach(function(b){
@@ -688,26 +849,39 @@
   // Do not reintroduce it. Serializing the questionnaire into a 500-character
   // metadata field is what truncated real customers' medications and conditions.
 
+  /**
+   * ONE checkout entry point, used by the picker's total bar and by the upgrade
+   * card's primary CTA. Both send the same `selected` set through the same session
+   * checkpoint and the same writesSettled() guard, so the immediate offer cannot
+   * become a second, laxer path to payment.
+   *
+   * `btn` is whichever control the customer actually pressed; only its label needs
+   * the busy state. Step 1 already requires a valid email before results exist, so
+   * buying straight from the card asks for nothing the customer has not given.
+   */
+  function beginCheckout(btn){
+    if(selected.size===0) return;
+    var items=Array.from(selected);
+    var email=(emailReq&&emailReq.value.trim())||($('#emailOpt')&&$('#emailOpt').value.trim())||'';
+    var name=(nameReq&&nameReq.value.trim())||'';
+    track('kd_checkout_opened',{items:items.join(',')});
+    updateSession({step_completed:3});
+
+    var label=btn?btn.innerHTML:null;
+    if(btn){ btn.disabled=true; btn.textContent='Loading checkout…'; }
+
+    // Await the saves the server is about to validate, and surface a failure
+    // rather than letting checkout 409 on data that simply had not landed yet.
+    writesSettled().then(function(){ startCheckout(items,email,name); })
+      .catch(function(err){
+        alert(err.message);
+        if(btn){ btn.disabled=false; if(label!==null) btn.innerHTML=label; }
+        render();
+      });
+  }
+
   if(checkoutBtn){
-    checkoutBtn.addEventListener('click',function(){
-      if(selected.size===0) return;
-      var items=Array.from(selected);
-      var email=(emailReq&&emailReq.value.trim())||($('#emailOpt')&&$('#emailOpt').value.trim())||'';
-      var name=(nameReq&&nameReq.value.trim())||'';
-      track('kd_checkout_opened',{items:items.join(',')});
-      updateSession({step_completed:3});
-
-      checkoutBtn.disabled=true;
-      checkoutBtn.textContent='Loading checkout…';
-
-      // Await the saves the server is about to validate, and surface a failure
-      // rather than letting checkout 409 on data that simply had not landed yet.
-      writesSettled().then(function(){ startCheckout(items,email,name); })
-        .catch(function(err){
-          alert(err.message);
-          checkoutBtn.disabled=false; render();
-        });
-    });
+    checkoutBtn.addEventListener('click',function(){ beginCheckout(checkoutBtn); });
   }
 
   function startCheckout(items,email,name){
