@@ -22,6 +22,9 @@
   var API_BASE='https://ketodial-api.iambrew.workers.dev';
   var sessionToken=null;
   var sessionReady=null;
+  // Set once POST /resume has resolved the row an emailed link pointed at. It makes
+  // the results button CONTINUE that row instead of opening a second one.
+  var resumedSession=false;
   var urlParams=new URLSearchParams(window.location.search);
   var utmData={
     utm_source:urlParams.get('utm_source')||null,
@@ -412,6 +415,22 @@
       track('kd_free_results',{calories:lastMacros.calories,goal:d.goal,sex:d.sex});
       // Save session to Supabase via worker
       var emailField=$('#emailOpt');
+      // ONE ROW PER CUSTOMER. After an email resume we already hold the authoritative
+      // session, so pressing the results button again must rewrite THAT row. A second
+      // row would split the intake, and the half the Doctor's Report gets built from
+      // would be whichever half checkout happened to reference.
+      if(resumedSession&&sessionToken){
+        updateSession({
+          sex:d.sex,age:d.age,goal:d.goal,
+          lifestyle_activity:d.activity,
+          kidney_status:kidneyStatus(),
+          height_cm:Math.round(d.heightCm),
+          weight_value:Math.round(d.weightLbs||d.weightKg*2.205),
+          weight_unit:'lbs',
+          email:(emailField&&emailField.value.trim())||undefined,
+          macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee}
+        });
+      }else{
       // Email is now required to reach this point; giving it is the opt-in.
       sessionReady=fetch(API_BASE+'/session',{
         method:'POST',headers:{'Content-Type':'application/json'},
@@ -438,6 +457,7 @@
           utm_term:utmData.utm_term
         })
       }).then(function(r){return r.json();}).then(function(j){if(j.token)sessionToken=j.token;}).catch(function(e){console.warn('KD session create failed:',e);});
+      }
       freeResults.classList.add('show');
       step2.classList.add('show');
       // Reveal the priced report picker right after the free macros, moved above
@@ -982,33 +1002,58 @@
    * already given us their stats, read their numbers and decided to buy was asked to
    * do the whole calculator again to find the checkout.
    *
-   * The token arrives in the URL FRAGMENT, never the query string, so it is not sent
-   * to any server, never appears in a Referer header, and never reaches the Stripe
-   * or analytics scripts this page loads. It is scrubbed from history immediately,
-   * so a shared screen or a back button does not keep it around.
+   * THE LINK CARRIES `?r=kdr_...`, WHICH CANNOT WRITE ANYTHING.
+   * The first version put the row's own session_token in the fragment, with a comment
+   * claiming a fragment never reaches a server or analytics. Both halves were false:
+   * gtag('config') and the Pinterest tag run in <head> and had already read
+   * window.location before this code could scrub it, and delivered email is rewritten
+   * through click tracking, which turns a `#calc` target into a tracking URL carrying
+   * `%23calc` in the redirect. The write credential now never appears in a URL at
+   * all; it comes back in the POST response body, which none of those can see.
+   *
+   * THE EXCHANGE IS A POST on purpose. Link prefetchers, mail security scanners and
+   * click trackers issue GET, so following the link cannot spend the reference.
    *
    * THE PAGE DOES NOT DECIDE WHAT A RESUMED CUSTOMER MAY BUY. /resume returns the
-   * server's own allowedProducts() list and the authoritative kidney answer; the
-   * chip is set from that, so productAvailable() reaches the same conclusion the
-   * worker already reached. A hand-edited URL changes nothing: /checkout re-reads
-   * the row and re-derives eligibility no matter what happened here.
+   * server's own allowedProducts() list and the authoritative kidney answer; the chip
+   * is set from that and every product is re-checked through productAvailable().
+   * Neither gate is load-bearing alone: /checkout re-derives eligibility from the
+   * stored row regardless.
    */
   function resumeFromEmail(){
-    var hash=window.location.hash||'';
-    var mm=/^#resume=([A-Za-z0-9_-]{8,128})$/.exec(hash);
-    if(!mm) return;
-    var token=mm[1];
-    // Out of the address bar, out of history, before anything else runs.
-    try{ history.replaceState(null,'',window.location.pathname+window.location.search); }catch(e){}
+    var ref=urlParams.get('r');
+    if(!ref||!/^kdr_[0-9a-f]{16,96}$/.test(ref)) return;
+    // Out of the address bar and out of history. This is defence in depth, not the
+    // protection: the reference is read-only, and the analytics tags in <head> have
+    // already run by now. The protection is that this value cannot write.
+    try{
+      var keep=new URLSearchParams(window.location.search);
+      keep.delete('r');
+      var qs=keep.toString();
+      history.replaceState(null,'',window.location.pathname+(qs?'?'+qs:''));
+    }catch(e){}
 
-    fetch(API_BASE+'/resume/'+encodeURIComponent(token))
+    // A RESUMED SESSION IS A WRITABLE CONTINUATION OF THE ORIGINAL ROW.
+    // updateSession() returns early unless sessionReady is set, so setting only
+    // sessionToken made every later profile save a silent no-op: the customer filled
+    // in their conditions and medications, the page looked like it saved, and nothing
+    // reached the row the Doctor's Report is built from. sessionReady IS this
+    // exchange, so queued writes wait for it exactly as they wait for /session on the
+    // normal path, and they address the ORIGINAL row rather than creating a second one.
+    sessionReady=fetch(API_BASE+'/resume',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({resume_token:ref})
+    })
       .then(function(r){ return r.ok?r.json():null; })
       .then(function(d){
-        if(!d||!d.macros||!d.macros.calories) return;
-        sessionToken=d.token;
+        if(!d||!d.session_token||!d.macros||!d.macros.calories){
+          // Nothing to continue. Leave sessionToken null so writesSettled() refuses
+          // checkout rather than letting it race a row we never resolved.
+          return null;
+        }
+        sessionToken=d.session_token;
+        resumedSession=true;
 
-        // The kidney answer comes from the stored row, not from the link. Anything
-        // the server could not vouch for stays unanswered, which suppresses.
         if(d.kidney_status){
           var chip=$('[data-seg="kidney"] [data-val="'+d.kidney_status+'"]');
           if(chip){
@@ -1017,6 +1062,9 @@
           }
         }
 
+        // proteinG is ABSENT from the response for a suppressed reader, not zero and
+        // not a gentler number. animateGauge already routes to the clinician line
+        // when proteinSuppressed(), which the chip above has just made true.
         lastMacros=d.macros;
         animateGauge(d.macros);
         freeResults.classList.add('show');
@@ -1024,14 +1072,9 @@
         if(picker) picker.classList.add('show');
         if(step2) step2.classList.add('show');
 
-        // Select the offer the SERVER says is allowed, so the total bar and the
-        // featured card agree with what checkout will accept.
         // BOTH gates, not either. The server's list decides what is on offer, and
         // productAvailable() re-checks it against the kidney answer we just set from
-        // that same response. render() would strip a blocked product anyway, but a
-        // selection should never be made and then withdrawn — and neither gate is
-        // load-bearing on its own, because /checkout re-derives eligibility from the
-        // stored row no matter what happened on this page.
+        // that same response.
         selected.clear();
         var allowed=Array.isArray(d.allowed)?d.allowed:[];
         var take=function(k){ if(allowed.indexOf(k)>-1&&productAvailable(k)) selected.add(k); };
@@ -1041,8 +1084,9 @@
 
         track('kd_email_resume',{offer:Array.from(selected).join(',')});
         setTimeout(function(){ scrollToEl($('#kdUpgradeCard')||freeResults); },150);
+        return d;
       })
-      .catch(function(e){ console.warn('KD resume failed:',e); });
+      .catch(function(e){ console.warn('KD resume failed:',e); return null; });
   }
   resumeFromEmail();
 
