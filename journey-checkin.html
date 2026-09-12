@@ -260,6 +260,12 @@
         if (!(day >= 1 && day <= 28)) day = 1;
         var site = 'kd';
         var source = ['drip', 'calculator', 'blog'].indexOf(params.get('source')) >= 0 ? params.get('source') : 'drip';
+        // Opaque per-subscriber token from the emailed link. Recording only: the
+        // server resolves it to a subscriber id and never returns anything about
+        // them, so a forwarded link tells its recipient nothing. Absent or bad
+        // token just means the answer is recorded anonymously, as before.
+        var token = (params.get('t') || '').trim();
+        var answeredVia = params.has('a') ? 'one_tap' : 'page';
 
         // Anonymous fingerprint: random UUID in localStorage. Dedup only, never identity.
         var fp;
@@ -370,6 +376,7 @@
                 body: JSON.stringify({
                     site: site, day: day, option_ids: picked,
                     fingerprint: fp, source: source,
+                    token: token, answered_via: answeredVia,
                     website: document.querySelector('input[name="website"]').value
                 })
             })
