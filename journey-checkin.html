@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <meta name="description" content="A 30-second anonymous check-in for people on the 30-day keto starter. Answer one question and see what brought everyone else here.">
+    <meta name="description" content="A 30-second check-in for people on the 30-day keto starter. Answer one question and see what brought everyone else here.">
     <link rel="canonical" href="https://ketodial.com/journey-checkin.html">
     <title>Journey Check-In | KetoDial</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -205,15 +205,86 @@
             .bar-track { background: #334155; }
             .early-note { background: #172a3a; color: #e2e8f0; }
         }
+
+        /* ---- Day-5 goal horizon result ------------------------------------
+           ADJACENCY IS A CORRECTNESS REQUIREMENT, NOT A STYLE CHOICE.
+           .horizon-unit exists so the range and the explanation of what a range
+           IS cannot be separated. A reader who sees "31 to 41 weeks" with the
+           explanation pushed below the fold takes away a discouraging number and
+           nothing else. Never insert an element, image, divider or margin between
+           .horizon-range and .horizon-meaning, and never make .horizon-unit's
+           children separately positionable. */
+        .horizon-unit {
+            border: 2px solid var(--oxblood);
+            border-radius: 10px;
+            padding: 18px 16px;
+            margin-bottom: 18px;
+        }
+        .horizon-range {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.35rem;
+            line-height: 1.35;
+            margin: 0;
+            color: var(--oxblood);
+        }
+        .horizon-meaning {
+            margin: 12px 0 0 0;   /* the ONLY gap permitted inside the unit */
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .horizon-meaning p { margin: 0 0 10px 0; }
+        .horizon-meaning p:last-child { margin-bottom: 0; }
+        .horizon-meaning ul { margin: 0 0 10px 0; padding-left: 20px; }
+        .horizon-meaning li { margin-bottom: 6px; }
+        .horizon-note { font-size: 0.95rem; line-height: 1.6; margin: 0 0 14px 0; }
+        .horizon-disclaimer {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 16px 0 0 0;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+        /* ---- Change my answer ---------------------------------------------
+           Obvious and tappable without competing with the result itself. */
+        .change-answer {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 12px 18px;
+            min-height: 44px;
+            box-sizing: border-box;
+            border: 1.5px solid var(--oxblood);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--oxblood);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .change-answer:hover { background: #faf5f5; }
+        /* The privacy disclosure. Deliberately NOT #intro-text: that element is
+           overwritten by the question's own intro_text (22 of 78 active questions
+           carry one), which used to blank this wording at runtime. Nothing writes
+           to #privacy-disclosure. Keep it that way. */
+        .privacy-note {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
     <a href="#main-content" class="skip-nav" style="position:absolute;left:-9999px">Skip to main content</a>
     <header class="site-header"><a href="https://ketodial.com">KetoDial</a></header>
     <main class="wrap" id="main-content">
-        <span class="badge">Check-In</span>
+        <span class="badge">One question</span>
         <h1>Quick check-in</h1>
-        <p class="intro" id="intro-text">One question, and it's anonymous. No name, no email, nothing tied to you. Answer if you want to, or don't. Your answer becomes part of the picture for the next person standing where you are right now.</p>
+        <p class="privacy-note" id="privacy-disclosure">One question. Come here from our email and your answer is saved with your subscription, so we can remember what you said and stop asking you things you&#39;ve already told us. Come any other way and it&#39;s anonymous. Either way, this page only shows everyone&#39;s answers added together, never yours on its own. You can change your answer, and unsubscribing switches the link off.</p>
+        <!-- Question-specific context only, set from drip_survey_questions.intro_text.
+             Empty and hidden unless the API supplies one. It must never carry the
+             privacy disclosure again: that lives in #privacy-disclosure above. -->
+        <p class="intro hidden" id="intro-text"></p>
         <div class="trust-row">
             <span>No sales pitch</span>
             <span>No popup</span>
@@ -236,6 +307,15 @@
 
         <section id="results" class="hidden">
             <div class="card">
+            <div id="goal-horizon" class="hidden">
+                <!-- The range and its explanation are ONE unit. See .horizon-unit. -->
+                <div class="horizon-unit">
+                    <p class="horizon-range" id="horizon-range"></p>
+                    <div class="horizon-meaning" id="horizon-meaning"></div>
+                </div>
+                <div id="horizon-extra"></div>
+                <p class="horizon-disclaimer" id="horizon-disclaimer"></p>
+            </div>
                 <p class="thanks hidden" id="thanks-line">Thanks. Your answer just became part of the map.</p>
                 <h2 class="results-header">You're not doing this alone. Here's what brought everyone else here.</h2>
                 <div id="results-bars"></div>
@@ -244,6 +324,7 @@
                 <div class="bridge-stat" id="bridge-stat">
                     While the chart grows, keep the momentum going: the <a href="https://ketodial.com/recipes/">KetoDial recipe library</a> has 70+ keto recipes with the macros already worked out.
                 </div>
+                <p><button type="button" class="change-answer" id="change-answer">Change my answer</button></p>
             </div>
         </section>
         <p class="med-note">Worth saying: we're writers and researchers, not doctors. This page collects answers, it does not give advice, and nothing on KetoDial is medical advice. As always, check with your doctor before starting something new.</p>
@@ -286,7 +367,12 @@
         function hide(el) { el.classList.add('hidden'); }
 
         function renderQuestions(data) {
-            if (data.intro) $('intro-text').textContent = data.intro;
+            // Question-specific context only. Writes to its OWN element and
+            // reveals it; the privacy disclosure above is never touched.
+            if (data.intro) {
+                $('intro-text').textContent = data.intro;
+                show($('intro-text'));
+            }
             var host = $('questions');
             host.innerHTML = '';
             state.questions = data.questions;
@@ -310,6 +396,94 @@
             });
             hide($('loading'));
             show($('question-form'));
+        }
+
+
+        // ---- Day-5 goal horizon rendering --------------------------------------
+        // Copy by Sarah (2026-09-12 draft, states B/C/D/E). Content lives here rather
+        // than in the worker so the wording can change without a deploy.
+        //
+        // NOTHING PERSONAL IS RENDERED. The payback carries only derived fields; no
+        // age, weight, calorie target or deficit reaches this page, and none of these
+        // templates reference one.
+        var HORIZON = {
+            meaning: '<p><strong>Where you land in that range is mostly things you control.</strong></p>'
+                + '<ul>'
+                + '<li>Eating enough protein, consistently. Under-eating is the most common reason a timeline stretches.</li>'
+                + '<li>Sleep. It is unglamorous and it does more than any supplement in your cupboard.</li>'
+                + '<li>Not restarting. Four good days and a reset every Monday is slower than seven ordinary days.</li>'
+                + '<li>Salt and water, especially in the first few weeks.</li>'
+                + '</ul>'
+                + '<p>None of that is a trick. It is just what the range is actually made of.</p>',
+            curve: '<p class="horizon-note">Weight does not come off in a straight line. It comes off in steps, with flat stretches in between that feel like nothing is happening. A flat fortnight inside a range like this is not a stall. It is what the middle of the range looks like from the inside.</p>',
+            floor: '<p class="horizon-note"><strong>One note on your number.</strong> We cap how fast this range can go, because past a certain point faster only means eating less than I would ever tell you to eat. So this range is longer than some online calculators will hand you. That is deliberate. The shorter number is not a better plan, it is a plan you would abandon in March.</p>',
+            longHorizon: '<p class="horizon-note"><strong>That is a long horizon, and I would rather say so than dress it up.</strong> The stretch you will feel comes a long way before the number lands. Energy, sleep, joints and how your clothes fit usually shift early, and those are not consolation prizes. So do not plan in years. Plan in 12-week blocks, see what actually happens, then set the next 12 with better information than you have today.</p>',
+            disclaimer: 'This is a planning range based on general patterns, not medical advice about you. If you take medication or you are managing a diagnosed condition, that changes the picture in ways a calculator cannot see, and your doctor should be part of the plan. — Sarah'
+        };
+
+        function spokenMonths(m) {
+            if (m === null || m === undefined) return '';
+            var whole = Math.floor(m), frac = m - whole;
+            var half = frac >= 0.25 && frac < 0.75;
+            var rounded = frac >= 0.75 ? whole + 1 : whole;
+            if (half) return rounded + ' and a half';
+            return String(rounded);
+        }
+
+        function renderHorizon(h) {
+            if (!h) return;
+            var wrap = $('goal-horizon');
+            var range = $('horizon-range');
+            var meaning = $('horizon-meaning');
+            var extra = $('horizon-extra');
+            extra.innerHTML = '';
+
+            if (h.estimate_available && h.open_ended_band) {
+                // State D. min only: an upper bound to an unnamed finish line is a
+                // claim we cannot support, so max_weeks is never rendered here.
+                range.innerHTML = 'You picked more than 80 lb. Getting to the first 80 lb tends to take <strong>at least '
+                    + h.min_weeks + ' weeks</strong>, around ' + spokenMonths(h.min_months)
+                    + ' months, at a pace that is steady enough to hold. Whatever sits past 80 adds to that, so treat this as the earliest edge, not the answer.';
+                meaning.innerHTML = '<p><strong>Here is the part I would actually plan around.</strong> You do not have to reach the end of that number for it to be worth it. Set the next 12 weeks, not the next two years. Then set the 12 after that, with real numbers from your own body instead of an estimate from mine.</p>'
+                    + '<p>If you land on a specific target later, reply and tell me. I will run it properly.</p>';
+                if (h.floor_applied) extra.innerHTML += HORIZON.floor;
+            } else if (h.estimate_available) {
+                // State B.
+                range.innerHTML = 'A change that size usually takes somewhere between <strong>'
+                    + h.min_weeks + ' and ' + h.max_weeks + ' weeks</strong>, at a pace that is steady enough to hold. '
+                    + 'That is roughly ' + spokenMonths(h.min_months) + ' to ' + spokenMonths(h.max_months) + ' months.';
+                meaning.innerHTML = HORIZON.meaning
+                    + '<p>That range comes from the size of the goal you just picked and the numbers you already gave the calculator. Goal size plus a sustainable energy deficit gives a planning horizon. That is the whole mechanism. It is not a prediction about your body and it is not a deadline.</p>';
+                if (h.floor_applied) extra.innerHTML += HORIZON.floor;
+                if (h.long_horizon) extra.innerHTML += HORIZON.longHorizon;
+                extra.innerHTML += HORIZON.curve;
+            } else if (h.suppression_reason === 'no_specific_goal') {
+                // State E. NO NUMBER ANYWHERE. The reader said they have no target;
+                // handing them one is the exact failure this state exists to avoid.
+                range.innerHTML = 'Good. That is a real answer, and it is more common than you would think.';
+                meaning.innerHTML = '<p>I am not going to reverse-engineer a goal out of your calculator numbers and hand it back to you as though you had asked for it. You did not give me a target, so you do not get one invented. What I can give you is the thing a target is supposed to do.</p>'
+                    + '<p><strong>A goal weight is just a way of telling whether this is working.</strong> It is not a very good one either. It moves with water, salt, sleep and the time of day, and on a long plan it goes flat for weeks while real things are still changing underneath.</p>'
+                    + '<p><strong>Pick two markers and write down where they are today.</strong> Not five. Two, so you will actually check them.</p>'
+                    + '<ul>'
+                    + '<li>How a specific pair of trousers does up. Same pair, same day of the week.</li>'
+                    + '<li>Whether the afternoon has a hole in it around 3pm.</li>'
+                    + '<li>How you sleep, and whether you wake before the alarm.</li>'
+                    + '<li>Hunger between meals. Are you eating because it is time, or because you need to?</li>'
+                    + '<li>Stairs, or whatever your version of stairs is.</li>'
+                    + '</ul>'
+                    + '<p>Then do not look at them again for 12 weeks. That is the whole method. At the end you will have your own before and after, from your own body, which is better evidence than any number I could have given you today.</p>'
+                    + '<p>If a specific number turns up later, just reply to any of these emails and tell me. I will run the timeline properly then.</p>';
+            } else {
+                // State C: eligible, but no safe estimate. Invents nothing, and never
+                // tells the reader that a code path failed.
+                range.innerHTML = 'Thanks. That is recorded.';
+                meaning.innerHTML = '<p>I am not going to put a number on this one. I could generate something that looks confident, but it would not be built on anything, and a made-up timeline is worse than no timeline.</p>'
+                    + '<p><strong>The first four to six weeks are not about the scale.</strong> They are about whether this is something you can actually run. Energy through the afternoon, sleep, hunger between meals, joints, how your waistband fits. Those move first.</p>'
+                    + '<p><strong>Pick a 12-week block instead of an end date.</strong> At the end of it you will have your own data, which beats any estimate I could give you now.</p>'
+                    + '<p>If you want to ask me something specific, just reply to the email. A person reads those.</p>';
+            }
+            $('horizon-disclaimer').textContent = HORIZON.disclaimer;
+            show(wrap);
         }
 
         function renderResults(data, mine, answered) {
@@ -384,6 +558,7 @@
                 .then(function (data) {
                     if (window.gtag) gtag('event', 'checkin_submit', { day: day, site: site });
                     renderResults(data, picked, true);
+                    renderHorizon(data.goal_horizon);
                 })
                 .catch(function () {
                     $('submit-btn').disabled = false;
@@ -394,6 +569,27 @@
                 });
         });
 
+
+        // ---- Change my answer --------------------------------------------------
+        // Returns the reader to the same six choices with their previous pick still
+        // selected, so they can see what they are changing FROM. Resubmitting runs the
+        // ordinary submit path, and the server replaces this subscriber's answers for
+        // the day rather than adding to them, so changing your mind never creates a
+        // second research observation.
+        $('change-answer').addEventListener('click', function () {
+            hide($('results'));
+            hide($('goal-horizon'));
+            var err = $('form-error');
+            if (err) hide(err);
+            show($('question-form'));
+            var btn = $('submit-btn');
+            btn.disabled = document.querySelectorAll('#questions input:checked').length === 0;
+            btn.textContent = 'Count me in';
+            if (window.gtag) gtag('event', 'checkin_change_answer', { day: day, site: site });
+            var first = document.querySelector('#questions .opt');
+            if (first && first.scrollIntoView) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
         $('skip-link').addEventListener('click', function (e) {
             e.preventDefault();
             fetch(API + '?day=' + day + '&site=' + site)
@@ -401,6 +597,7 @@
                 .then(function (data) {
                     if (window.gtag) gtag('event', 'checkin_view_results', { day: day, site: site });
                     renderResults(data, [], false);
+                    hide($('goal-horizon'));
                 });
         });
     })();
