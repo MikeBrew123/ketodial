@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <meta name="description" content="A 30-second check-in for people on the 30-day keto starter. Answer one question and see what brought everyone else here.">
+    <meta name="description" content="A 30-second check-in for people on the 30-day keto starter. One question, and the page tells you exactly what happens to your answer.">
     <link rel="canonical" href="https://ketodial.com/journey-checkin.html">
     <title>Journey Check-In | KetoDial</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -20,7 +20,20 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-0Y79FB48EG');
+        // The emailed link carries ?t=<per-subscriber token>. GA4's automatic
+        // page_view sends the whole URL, so without this override a stable
+        // per-person id reaches Google on every open. Send a cleaned URL.
+        // The body script still reads the real token from location.search,
+        // which is never rewritten.
+        (function () {
+            var loc = window.location.href;
+            try {
+                var u = new URL(loc);
+                u.searchParams.delete('t');
+                loc = u.href;
+            } catch (e) {}
+            gtag('config', 'G-0Y79FB48EG', { page_location: loc });
+        })();
     </script>
     <style>
         :root {
@@ -198,7 +211,7 @@
             .card { background: #1e293b; border-color: #334155; }
             .opt { border-color: #334155; }
             .opt.checked { background: #0c2436; }
-            .intro, .q-sub, .skip-link, .bridge-stat, .thanks, .respondents, .bar-label, .trust-row, .med-note { color: #94a3b8; }
+            .privacy-note, .intro, .q-sub, .skip-link, .bridge-stat, .thanks, .respondents, .bar-label, .trust-row, .med-note { color: #94a3b8; }
             .trust-row span::before { color: #38bdf8; }
             .q-text, h1, .results-header { color: #e2e8f0; }
             .bar-label .pct, .skip-link a, .bridge-stat a { color: #38bdf8; }
@@ -267,7 +280,7 @@
            carry one), which used to blank this wording at runtime. Nothing writes
            to #privacy-disclosure. Keep it that way. */
         .privacy-note {
-            color: var(--text-secondary);
+            color: var(--ink-soft);
             margin-bottom: 16px;
             font-size: 0.98rem;
             line-height: 1.6;
@@ -280,7 +293,7 @@
     <main class="wrap" id="main-content">
         <span class="badge">One question</span>
         <h1>Quick check-in</h1>
-        <p class="privacy-note" id="privacy-disclosure">One question. Come here from our email and your answer is saved with your subscription, so we can remember what you said and stop asking you things you&#39;ve already told us. Come any other way and it&#39;s anonymous. Either way, this page only shows everyone&#39;s answers added together, never yours on its own. You can change your answer, and unsubscribing switches the link off.</p>
+        <p class="privacy-note" id="privacy-disclosure">One question, and here is exactly what happens to your answer. Come here from our email and the link carries a code that tells us which subscriber you are, so your answer is saved with your subscription rather than anonymously. We keep that code out of our analytics. We store your IP address and a random id kept in your browser. We use all of it to count answers, never to publish yours on its own and never to put your name beside one. You can change your answer any time. Unsubscribing stops the emails, though a link from an email you already have will still work.</p>
         <!-- Question-specific context only, set from drip_survey_questions.intro_text.
              Empty and hidden unless the API supplies one. It must never carry the
              privacy disclosure again: that lives in #privacy-disclosure above. -->
