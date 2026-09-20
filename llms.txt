@@ -4,7 +4,7 @@
 
 ## Calculator
 
-- [Keto Macro Calculator](https://ketodial.com/#calc): Free tool. Enter sex, age, height, weight, activity level, and goal (imperial or metric). Returns TDEE, daily calorie target, and fat/protein/net-carb grams using Mifflin-St Jeor BMR x activity multiplier, adjusted for a keto-safe deficit or surplus.
+- [Keto Macro Calculator](https://ketodial.com/calculator): Free tool. Enter sex, age, height, weight, activity level, and goal (imperial or metric). Returns TDEE, daily calorie target, and fat/protein/net-carb grams using Mifflin-St Jeor BMR x activity multiplier, adjusted for a keto-safe deficit or surplus.
 - [How It Works](https://ketodial.com/#how): Plain-language explanation of the 3-step process (enter stats, engine computes TDEE and ratio, get PDF plan).
 
 ## Guides

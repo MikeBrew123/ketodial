@@ -498,7 +498,11 @@
       if(lastMacros){
         var m=lastMacros;
         var txt='Free keto macro calculator — get your personalized targets in 30 seconds. No signup needed.';
-        var u=encodeURIComponent('https://ketodial.com/#calc');
+        // Share the page the sharer is actually on. /calculator became a real
+        // indexable page on 2026-09-20; a share from it that points at the
+        // homepage anchor sends the link equity to the wrong URL.
+        var shareUrl=/^\/calculator/.test(location.pathname)?'https://ketodial.com/calculator':'https://ketodial.com/#calc';
+        var u=encodeURIComponent(shareUrl);
         var t=encodeURIComponent(txt);
         var fb=$('#calcShareFb'),xb=$('#calcShareX'),pb=$('#calcSharePin');
         if(fb)fb.href='https://www.facebook.com/sharer/sharer.php?u='+u+'&quote='+t;
