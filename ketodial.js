@@ -597,6 +597,18 @@
   };
   var selected=new Set();
 
+  // GIFT (2026-10-11): someone paid for this reader's Full Protocol. The code comes
+  // from /gift/redeem/ as ?gift=KD-XXXXXXXX and is claimed by the worker at checkout,
+  // after the same purchase checks as a paid order. Kept for the tab so a reload
+  // halfway through the questions does not lose it.
+  var giftCode=(function(){
+    var q='';
+    try{ q=(new URLSearchParams(window.location.search).get('gift')||'').trim().toUpperCase(); }catch(e){}
+    try{ if(q) sessionStorage.setItem('kdGift',q); return q||(sessionStorage.getItem('kdGift')||''); }
+    catch(e){ return q; }
+  })();
+  if(!/^KD-?[A-Z0-9]{8}$/.test(giftCode)) giftCode='';
+
   /**
    * The 7-Day Meal Plan's whole value is an individualized protein target: the worker
    * picks eligible meals by protein density and scales every portion to hit the
@@ -795,13 +807,13 @@
     // no disabled button, no scary banner, and no second health form to fill in.
     $all('[data-product]').forEach(function(card){
       var ok=productAvailable(card.dataset.product);
-      card.hidden=!ok;
+      card.hidden=!ok||!!giftCode;
       if(!ok) selected.delete(card.dataset.product);
     });
     var bundlesWrap=$('.bundles');
     if(bundlesWrap){
       var anyBundle=$all('.bundles [data-product]').some(function(c){return !c.hidden;});
-      bundlesWrap.hidden=!anyBundle;
+      bundlesWrap.hidden=!anyBundle||!!giftCode;
     }
 
     $all('[data-product]').forEach(function(card){
@@ -836,8 +848,28 @@
     }
     var freeLine=$('#freeOnlyNote');
     if(freeLine) freeLine.style.display = total<=0 ? 'block':'none';
+    if(giftCode){
+      if(co){ co.disabled=false; co.textContent='Get my gift reports'; }
+      if(amtEl) amtEl.textContent='Gift';
+      if(freeLine) freeLine.style.display='none';
+    }
     renderUpgradeCard();
     renderPlanSentNote();
+  }
+
+  if(giftCode){
+    var giftBar=$('.total-bar');
+    if(giftBar){
+      var gn=document.createElement('div');
+      gn.className='kd-gift-note';
+      gn.setAttribute('role','note');
+      gn.style.cssText='border:2px dashed var(--accent,#38bdf8);border-radius:12px;padding:16px 18px;margin:0 0 14px;background:#fff;line-height:1.55;font-size:15px';
+      var h=document.createElement('strong'); h.textContent='Your gift is ready. ';
+      var t=document.createElement('span'); t.textContent='Someone gave you the KetoDial Full Protocol: a Doctor\u2019s Report, a 7-day meal plan and a starter kit, all built on your answers. Fill in the questions above, add your email, then press \u201cGet my gift reports\u201d. Your code: ';
+      var c=document.createElement('code'); c.textContent=giftCode; c.style.fontWeight='700';
+      gn.appendChild(h); gn.appendChild(t); gn.appendChild(c);
+      giftBar.parentNode.insertBefore(gn,giftBar);
+    }
   }
 
   $all('[data-product]').forEach(function(card){
@@ -914,8 +946,8 @@
   }
 
   function beginCheckout(btn){
-    if(selected.size===0) return;
-    var items=Array.from(selected);
+    if(selected.size===0 && !giftCode) return;
+    var items=giftCode?['protocol']:Array.from(selected);
     var email=(emailReq&&emailReq.value.trim())||($('#emailOpt')&&$('#emailOpt').value.trim())||'';
     var name=(nameReq&&nameReq.value.trim())||'';
     track('kd_checkout_opened',{items:items.join(',')});
@@ -958,10 +990,16 @@
         // authoritative questionnaire from calculator_sessions_v2 via this token.
         // It used to be serialized into Stripe metadata, where a 500-character cap
         // silently truncated it and the report was written from the wreckage.
-        body:JSON.stringify({items:items,email:email,name:name,token:sessionToken})
+        body:JSON.stringify({items:items,email:email,name:name,token:sessionToken,gift_code:giftCode||undefined})
       })
       .then(function(r){return r.json();})
       .then(function(data){
+        if(data.gift && data.return_url){
+          try{ sessionStorage.removeItem('kdGift'); }catch(e){}
+          track('kd_gift_redeemed',{});
+          window.location.assign(data.return_url);
+          return null;
+        }
         if(data.clientSecret){
           checkoutOverlay.classList.add('show');
           return stripeInstance.initEmbeddedCheckout({clientSecret:data.clientSecret});
@@ -970,6 +1008,7 @@
         }
       })
       .then(function(checkout){
+        if(!checkout) return;
         embeddedCheckout=checkout;
         checkout.mount('#checkout-container');
         // Stripe is up. Give the button back straight away: the customer may close
