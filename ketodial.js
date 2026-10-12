@@ -994,6 +994,12 @@
       })
       .then(function(r){return r.json();})
       .then(function(data){
+        if(data.error==='profile_needed'){
+          busy.restore(); render();
+          alert(data.message);
+          if(step2){ step2.classList.add('show'); scrollToEl(step2); }
+          return null;
+        }
         if(data.gift && data.return_url){
           try{ sessionStorage.removeItem('kdGift'); }catch(e){}
           track('kd_gift_redeemed',{});
