@@ -1075,6 +1075,15 @@ pintrk('page');
       v.focus();
       if(window.gtag)gtag('event','plan_video_play',{video:name,page:location.pathname});
     });
+    var seen=false,half=false;
+    v.addEventListener('playing',function(){
+      if(seen)return;seen=true;
+      if(window.gtag)gtag('event','plan_video_view',{video:name,page:location.pathname,sound:sound?'on':'off'});
+    });
+    v.addEventListener('timeupdate',function(){
+      if(half||!v.duration||v.currentTime<v.duration/2)return;half=true;
+      if(window.gtag)gtag('event','plan_video_half',{video:name,page:location.pathname,sound:sound?'on':'off'});
+    });
     v.addEventListener('ended',function(){if(sound&&window.gtag)gtag('event','plan_video_complete',{video:name,page:location.pathname});});
   });
 })();
