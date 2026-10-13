@@ -1002,11 +1002,11 @@ pintrk('page');
     .planvid-panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:28px;box-shadow:var(--shadow-lg);display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:center;padding:44px 56px}
     .planvid-frame{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#000;border:1px solid var(--panel-line)}
     .planvid-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-    .planvid-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:10px;padding:0 0 26px;border:0;cursor:pointer;color:#fff;font:600 15px var(--sans);background:linear-gradient(rgba(11,22,32,0) 55%,rgba(11,22,32,.85))}
-    .planvid-play span:first-child{width:74px;height:74px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(56,189,248,.35);transition:transform .15s}
-    .planvid-play:hover span:first-child{transform:scale(1.05)}
+    .planvid-play{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:0 0 22px;border:0;cursor:pointer;background:linear-gradient(rgba(11,22,32,0) 72%,rgba(11,22,32,.55))}
+    .planvid-pill{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--panel);font:700 16px var(--sans);padding:12px 20px 12px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(56,189,248,.35);transition:transform .15s}
+    .planvid-play:hover .planvid-pill{transform:scale(1.04)}
     .planvid-play:focus-visible{outline:3px solid var(--accent);outline-offset:-6px}
-    .planvid-play svg{width:28px;height:28px;margin-left:5px;fill:var(--panel)}
+    .planvid-pill svg{width:22px;height:22px;fill:var(--panel);stroke:var(--panel);stroke-width:2;stroke-linecap:round}
     .planvid .eyebrow{color:var(--accent)}
     .planvid-copy h2{color:#f1f5f9;font-size:clamp(28px,3.2vw,38px);line-height:1.12;letter-spacing:-.02em;margin:0 0 14px}
     .planvid-copy p{color:#cbd5e1;font-size:17px;line-height:1.6;max-width:46ch;margin:0 0 22px}
@@ -1027,13 +1027,12 @@ pintrk('page');
   </style>
   <div class="wrap">
     <div class="planvid-panel">
-      <div class="planvid-frame">
-        <video id="planvid-video" preload="none" playsinline poster="/video/kd-plan.jpg" aria-label="A 24-second look inside the KetoDial Full Protocol Bundle">
+      <div class="planvid-frame" data-plan-video="kd-plan">
+        <video id="planvid-video" muted loop preload="none" playsinline poster="/video/kd-plan.jpg" aria-label="A 24-second look inside the KetoDial Full Protocol Bundle">
           <source src="/video/kd-plan.mp4" type="video/mp4">
         </video>
-        <button type="button" class="planvid-play" id="planvid-play" aria-label="Play the 24-second video">
-          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></span>
-          <span>Watch, 24 seconds</span>
+        <button type="button" class="planvid-play" id="planvid-play" aria-label="Play the 24-second video with sound">
+          <span class="planvid-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z" stroke="none"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none"/></svg><span data-label>Tap for sound</span></span>
         </button>
       </div>
       <div class="planvid-copy">
@@ -1056,16 +1055,29 @@ pintrk('page');
     </div>
   </div>
   <script>
-  (function(){
-    var v=document.getElementById('planvid-video'),b=document.getElementById('planvid-play');
+(function(){
+  var calm=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||(navigator.connection&&navigator.connection.saveData);
+  document.querySelectorAll('[data-plan-video]').forEach(function(box){
+    var v=box.querySelector('video'),b=box.querySelector('button'),lab=box.querySelector('[data-label]');
     if(!v||!b)return;
+    var name=box.getAttribute('data-plan-video'),sound=false;
+    v.muted=true;
+    if(calm||!('IntersectionObserver' in window)){ if(lab)lab.textContent='Play with sound'; }
+    else{
+      new IntersectionObserver(function(es){es.forEach(function(e){
+        if(sound)return;
+        if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else{v.pause();}
+      });},{threshold:.4}).observe(v);
+    }
     b.addEventListener('click',function(){
-      b.hidden=true;v.controls=true;var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true;});
+      sound=true;b.hidden=true;v.muted=false;v.loop=false;v.currentTime=0;v.controls=true;
+      var p=v.play();if(p&&p.catch)p.catch(function(){});
       v.focus();
-      if(window.gtag)gtag('event','plan_video_play',{video:'kd-plan',page:location.pathname});
+      if(window.gtag)gtag('event','plan_video_play',{video:name,page:location.pathname});
     });
-    v.addEventListener('ended',function(){if(window.gtag)gtag('event','plan_video_complete',{video:'kd-plan',page:location.pathname});});
-  })();
+    v.addEventListener('ended',function(){if(sound&&window.gtag)gtag('event','plan_video_complete',{video:name,page:location.pathname});});
+  });
+})();
   </script>
 </section>
 
