@@ -994,6 +994,81 @@ pintrk('page');
   </div>
 </section>
 
+<!-- PLAN VIDEO (2026-10-13): a 24-second look inside the paid plans. Real report pages,
+     rendered for a sample reader. Loads nothing until the reader taps play. -->
+<section class="planvid" id="see-the-plan" aria-labelledby="planvid-title">
+  <style>
+    .planvid{padding:24px 0 72px}
+    .planvid-panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:28px;box-shadow:var(--shadow-lg);display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:center;padding:44px 56px}
+    .planvid-frame{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#000;border:1px solid var(--panel-line)}
+    .planvid-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+    .planvid-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:10px;padding:0 0 26px;border:0;cursor:pointer;color:#fff;font:600 15px var(--sans);background:linear-gradient(rgba(11,22,32,0) 55%,rgba(11,22,32,.85))}
+    .planvid-play span:first-child{width:74px;height:74px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(56,189,248,.35);transition:transform .15s}
+    .planvid-play:hover span:first-child{transform:scale(1.05)}
+    .planvid-play:focus-visible{outline:3px solid var(--accent);outline-offset:-6px}
+    .planvid-play svg{width:28px;height:28px;margin-left:5px;fill:var(--panel)}
+    .planvid .eyebrow{color:var(--accent)}
+    .planvid-copy h2{color:#f1f5f9;font-size:clamp(28px,3.2vw,38px);line-height:1.12;letter-spacing:-.02em;margin:0 0 14px}
+    .planvid-copy p{color:#cbd5e1;font-size:17px;line-height:1.6;max-width:46ch;margin:0 0 22px}
+    .planvid-list{list-style:none;margin:0 0 26px;padding:0;border-top:1px solid var(--panel-line)}
+    .planvid-list li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--panel-line);color:#e2e8f0;font-size:16px}
+    .planvid-list li b{font-family:var(--mono);font-weight:500;color:var(--accent)}
+    .planvid-list li.all{color:#fff;font-weight:700}
+    .planvid-cta{display:inline-block;background:var(--accent);color:var(--panel);font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px}
+    .planvid-cta:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    .planvid-note{display:block;margin-top:14px;color:#94a3b8;font-size:14px}
+    .planvid details{margin-top:18px;color:#94a3b8;font-size:14px}
+    .planvid summary{cursor:pointer;color:#cbd5e1}
+    .planvid details p{font-size:14px;margin:10px 0 0;color:#94a3b8}
+    @media(max-width:860px){
+      .planvid-panel{grid-template-columns:1fr;gap:30px;padding:28px 20px 30px;border-radius:22px}
+      .planvid-frame{width:min(100%,340px);margin:0 auto}
+    }
+  </style>
+  <div class="wrap">
+    <div class="planvid-panel">
+      <div class="planvid-frame">
+        <video id="planvid-video" preload="none" playsinline poster="/video/kd-plan.jpg" aria-label="A 24-second look inside the KetoDial Full Protocol Bundle">
+          <source src="/video/kd-plan.mp4" type="video/mp4">
+        </video>
+        <button type="button" class="planvid-play" id="planvid-play" aria-label="Play the 24-second video">
+          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+          <span>Watch, 24 seconds</span>
+        </button>
+      </div>
+      <div class="planvid-copy">
+        <span class="eyebrow">Inside the PDF plans</span>
+        <h2 id="planvid-title">See what you get before you pay.</h2>
+        <p>Every plan is built from the numbers the calculator gives you. This is a real one, made for a sample reader.</p>
+        <ul class="planvid-list">
+          <li>7-Day Meal Plan <b>$5.99</b></li>
+          <li>Keto Starter Kit <b>$3.99</b></li>
+          <li>Doctor's Report <b>$5.99</b></li>
+          <li class="all">All three, the Full Protocol Bundle <b>$10.99</b></li>
+        </ul>
+        <a class="planvid-cta" href="#calc">Get my free macros first</a>
+        <span class="planvid-note">You pick plans after your free results. No subscription.</span>
+        <details>
+          <summary>What the video says</summary>
+          <p>You've got your keto macros. Now what do you actually eat? And how do you explain it to your doctor? It then shows the Full Protocol Bundle: a 7-day meal plan built around your macros, a keto starter kit for your first two weeks, and a doctor's report for your next appointment. $10.99 for all three. Personalized PDF plans, no subscription. Your macros are always free. Not medical advice.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var v=document.getElementById('planvid-video'),b=document.getElementById('planvid-play');
+    if(!v||!b)return;
+    b.addEventListener('click',function(){
+      b.hidden=true;v.controls=true;var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true;});
+      v.focus();
+      if(window.gtag)gtag('event','plan_video_play',{video:'kd-plan',page:location.pathname});
+    });
+    v.addEventListener('ended',function(){if(window.gtag)gtag('event','plan_video_complete',{video:'kd-plan',page:location.pathname});});
+  })();
+  </script>
+</section>
+
 <!-- FAQ -->
 <section class="how" id="faq">
   <div class="wrap" style="max-width:820px">
