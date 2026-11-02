@@ -497,7 +497,7 @@
       // Wire share buttons with actual results
       if(lastMacros){
         var m=lastMacros;
-        var txt='Free keto macro calculator — get your personalized targets in 30 seconds. No signup needed.';
+        var txt='Free keto macro calculator: get your personalized targets in 30 seconds. Your email comes first, and your free plan is sent there.';
         // Share the page the sharer is actually on. /calculator became a real
         // indexable page on 2026-09-20; a share from it that points at the
         // homepage anchor sends the link equity to the wrong URL.
