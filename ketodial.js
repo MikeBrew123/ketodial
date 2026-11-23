@@ -449,6 +449,8 @@
           newsletter_opt_in:!!(emailField&&emailField.value.trim()),
           macros:{calories:lastMacros.calories,fatG:lastMacros.fatG,proteinG:lastMacros.proteinG,carbG:lastMacros.carbG,tdee:lastMacros.tdee},
           referrer:document.referrer||null,
+          landing_page:(typeof location!=='undefined'&&location.pathname)||'/',
+          ga_client_id:(function(){try{var m=String(document.cookie||'').match(/(?:^|;\s*)_ga=GA\d\.\d\.(\d+\.\d+)/);return m?m[1]:null;}catch(e){return null;}})(),
           device_type:window.innerWidth<768?'mobile':(window.innerWidth<1024?'tablet':'desktop'),
           utm_source:utmData.utm_source,
           utm_medium:utmData.utm_medium,
@@ -1259,6 +1261,7 @@
       .then(function(r){return r.json();})
       .then(function(status){
         if(status.error) return;
+        countSaleOnce(status);
         renderSuccess(status);
         successOverlay.classList.add('show');
         if(!status.profileComplete && status.recoverable!==false) armPostPaymentProfile();
@@ -1270,14 +1273,19 @@
     var successEmail=$('#successEmail');
     if(successEmail) successEmail.textContent='the email you provided';
     loadPurchaseStatus();
-    // Fire once per purchase — the success URL survives reloads and bookmarks.
+  }
+
+  // Count a sale once, and only one the server confirms (2026-11-23). This used to
+  // fire on any ?success=true URL before checking anything: 12 events against 1
+  // real sale in 90 days. Now: a paid Stripe checkout, not a gift, landed on within
+  // hours of paying, once per browser, with the order id and amount.
+  function countSaleOnce(status){
+    if(urlParams.get('success')!=='true'||!status||!status.paid||status.gift||!status.fresh) return;
     var payKey='kd_purchase_fired_'+paidSessionId;
-    var alreadyFired=false;
-    try{alreadyFired=!!localStorage.getItem(payKey);}catch(e){}
-    if(!alreadyFired&&urlParams.get('success')==='true'){
-      track('kd_payment_complete',{session_id:paidSessionId});
-      try{localStorage.setItem(payKey,'1');}catch(e){}
-    }
+    try{if(localStorage.getItem(payKey)) return;}catch(e){}
+    track('kd_payment_complete',{session_id:paidSessionId,transaction_id:paidSessionId,
+      value:(status.amount_cents||0)/100,currency:status.currency||'USD'});
+    try{localStorage.setItem(payKey,'1');}catch(e){}
   }
 
   var successClose=$('#successClose'), successDone=$('#successDone');
