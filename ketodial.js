@@ -33,6 +33,13 @@
     utm_content:urlParams.get('utm_content')||null,
     utm_term:urlParams.get('utm_term')||null
   };
+  // Pre-applied promo from a printed link (?promo=ETSY25). Kept in sessionStorage
+  // (kd_promo) so it survives the #calc hash and navigation, and sent to /checkout,
+  // where the worker honours only codes on its own allowlist. Nothing is displayed.
+  try{
+    var promoParam=urlParams.get('promo');
+    if(promoParam) sessionStorage.setItem('kd_promo',promoParam.trim().toUpperCase().slice(0,32));
+  }catch(e){}
   // Writes that checkout depends on. Checkout AWAITS this chain instead of racing
   // it: the kidney answer decides which products we are allowed to sell, and the
   // session row has to exist before /checkout can validate it at all. Fire-and-
@@ -992,7 +999,8 @@
         // authoritative questionnaire from calculator_sessions_v2 via this token.
         // It used to be serialized into Stripe metadata, where a 500-character cap
         // silently truncated it and the report was written from the wreckage.
-        body:JSON.stringify({items:items,email:email,name:name,token:sessionToken,gift_code:giftCode||undefined})
+        body:JSON.stringify({items:items,email:email,name:name,token:sessionToken,gift_code:giftCode||undefined,
+          promo:(function(){try{return sessionStorage.getItem('kd_promo')||undefined;}catch(e){return undefined;}})()})
       })
       .then(function(r){return r.json();})
       .then(function(data){
